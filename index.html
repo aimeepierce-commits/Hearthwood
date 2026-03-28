@@ -3,202 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hearthwood Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<title>Hearthwood v2.5</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --midnight: #0d120e; --forest: #1a2318; --gold: #c9a96e; --parchment: #e8dcc8;
-    --safe: #6b7f55; --warn: #a64444; --border: rgba(201, 169, 110, 0.2);
+    --bg: #0d120e; --card: #161d17; --gold: #c9a96e; --text: #e8dcc8;
+    --accent: #4a5e3a; --danger: #a64444; --success: #6b7f55;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body { background-color: var(--midnight); color: var(--parchment); font-family: 'Lato', sans-serif; min-height: 100vh; line-height: 1.5; }
-  
-  /* Texture Overlay */
-  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
-
-  /* Header */
-  .header { height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, #0d120e 0%, #1a2318 100%); border-bottom: 1px solid var(--border); }
-  .app-title { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 7px; color: var(--gold); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; }
   
   .main { padding: 20px 16px 120px; max-width: 450px; margin: 0 auto; }
-  .section-label { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin: 25px 0 12px; text-transform: uppercase; opacity: 0.8; }
+  .header { text-align: center; padding: 30px 0; border-bottom: 1px solid rgba(201, 169, 110, 0.1); }
+  .header h1 { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 5px; color: var(--gold); }
 
-  /* --- ARCHED HUB NAVIGATION --- */
-  .arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-  .arch-tile { 
-    background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-    border-radius: 100px 100px 15px 15px; height: 160px; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    cursor: pointer; transition: transform 0.2s;
+  /* --- SAVINGS JAR --- */
+  .jar-section { text-align: center; margin: 20px 0; }
+  .jar-container { 
+    width: 140px; height: 180px; margin: 0 auto; border: 3px solid var(--gold); 
+    border-radius: 20px 20px 40px 40px; position: relative; overflow: hidden;
+    background: rgba(255,255,255,0.02);
   }
-  .arch-tile:active { transform: scale(0.96); }
-  .arch-icon { width: 45px; height: 45px; margin-bottom: 10px; fill: none; stroke: var(--gold); stroke-width: 1.2; }
-  .arch-title { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: var(--gold); }
+  .jar-fill { 
+    position: absolute; bottom: 0; left: 0; width: 100%; 
+    background: linear-gradient(to top, var(--gold), #e8c98a); 
+    transition: height 1s ease-out; height: 30%; 
+  }
+  .jar-label { margin-top: 10px; font-family: 'Cinzel'; font-size: 12px; color: var(--gold); }
 
-  /* --- PIE CHART BUDGET --- */
-  .budget-card { background: rgba(26, 35, 24, 0.8); border: 1px solid var(--border); border-radius: 15px; padding: 20px; text-align: center; }
-  .pie-container { position: relative; width: 120px; height: 120px; margin: 15px auto; }
-  .pie-svg { transform: rotate(-90deg); border-radius: 50%; }
-  .pie-circle { fill: none; stroke-width: 32; stroke: var(--safe); stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
-  .pie-bg { fill: none; stroke-width: 32; stroke: rgba(255,255,255,0.05); }
-  .pie-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Cinzel'; font-size: 14px; color: var(--gold); }
+  /* --- PIE CHART --- */
+  .chart-card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+  .pie-chart {
+    width: 150px; height: 150px; border-radius: 50%; margin: 0 auto;
+    background: conic-gradient(
+      var(--success) 0% 40%, 
+      var(--accent) 40% 70%, 
+      var(--danger) 70% 100%
+    );
+  }
+  .chart-legend { display: flex; justify-content: space-around; margin-top: 15px; font-size: 10px; font-family: 'Cinzel'; }
 
-  /* --- MEAL GALLERY --- */
-  .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .meal-item { background: rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-  .meal-img { height: 90px; background-size: cover; background-position: center; filter: sepia(0.3) brightness(0.8); }
-  .meal-label { padding: 10px; font-family: 'Cormorant Garamond'; font-size: 14px; font-style: italic; text-align: center; }
+  /* --- COACH ADVICE --- */
+  .coach-box { background: rgba(201, 169, 110, 0.05); border-left: 3px solid var(--gold); padding: 15px; margin-bottom: 20px; }
+  .coach-title { font-family: 'Cinzel'; font-size: 10px; color: var(--gold); margin-bottom: 8px; letter-spacing: 1px; }
+  .coach-text { font-family: 'Cormorant Garamond'; font-size: 16px; font-style: italic; line-height: 1.4; }
 
-  /* --- TASK LISTS --- */
-  .task-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-  .check-box { width: 16px; height: 16px; border: 1px solid var(--gold); border-radius: 4px; position: relative; }
-  .done .check-box::after { content: '✦'; position: absolute; top: -4px; left: 1px; font-size: 12px; color: var(--gold); }
-  .done span { opacity: 0.3; text-decoration: line-through; }
+  /* --- FORMS --- */
+  .input-group { margin-bottom: 15px; }
+  .input-group label { display: block; font-family: 'Cinzel'; font-size: 9px; color: var(--gold); margin-bottom: 5px; }
+  input { background: none; border: none; border-bottom: 1px solid var(--accent); color: white; width: 100%; padding: 8px 0; font-size: 16px; outline: none; }
 
-  /* Nav Pills */
-  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(13, 21, 16, 0.98); padding: 20px; display: flex; justify-content: space-around; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 1000; }
-  .nav-btn { font-family: 'Cinzel', serif; font-size: 9px; color: var(--gold); letter-spacing: 2px; }
+  /* --- NAV --- */
+  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--bg); display: flex; justify-content: space-around; padding: 20px; border-top: 1px solid rgba(201, 169, 110, 0.2); }
+  .nav-item { font-family: 'Cinzel'; font-size: 10px; color: var(--gold); cursor: pointer; text-decoration: none; }
   .hidden { display: none; }
-  .btn-gold { background: var(--forest); border: 1px solid var(--gold); color: var(--gold); padding: 12px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-top: 15px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="app-title">HEARTHWOOD</div>
-  <div style="color: var(--gold); font-size: 18px; margin-top: 5px;">✦</div>
+  <h1>HEARTHWOOD</h1>
 </div>
 
 <div class="main">
   <div id="home-page">
-    <div class="section-label">✦ The Four Pillars</div>
-    <div class="arch-grid">
-      <div class="arch-tile" onclick="showPage('planning')">
-        <svg class="arch-icon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm0 14a5 5 0 1 1 5-5 5 5 0 0 1-5 5z"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42m12.72-12.72l1.42-1.42"/></svg>
-        <div class="arch-title">RHYTHM</div>
-      </div>
-      <div class="arch-tile" onclick="showPage('budget')">
-        <svg class="arch-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <div class="arch-title">TREASURY</div>
-      </div>
-      <div class="arch-tile" onclick="showPage('meals')">
-        <svg class="arch-icon" viewBox="0 0 24 24"><path d="M4 10a8 8 0 0 0 16 0V9H4v1zm3 11l1-3h8l1 3M12 3v3m-4-2l1 2m6-2l-1 2"/></svg>
-        <div class="arch-title">NOURISH</div>
-      </div>
-      <div class="arch-tile" onclick="showPage('garden')">
-        <svg class="arch-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8m-3-5l3-3 3 3"/></svg>
-        <div class="arch-title">ESTATE</div>
-      </div>
+    <div class="jar-section">
+      <div class="jar-container"><div id="jarFill" class="jar-fill"></div></div>
+      <div class="jar-label">Total Avoided Spend: <span id="jarAmount">$0</span></div>
     </div>
 
-    <div class="section-label">✦ Treasury Status</div>
-    <div class="budget-card">
-        <div class="pie-container">
-            <svg class="pie-svg" viewBox="0 0 32 32">
-                <circle class="pie-bg" r="16" cx="16" cy="16"></circle>
-                <circle id="pieFill" class="pie-circle" r="16" cx="16" cy="16"></circle>
-            </svg>
-            <div class="pie-text" id="piePercent">100%</div>
-        </div>
-        <div class="label-sm" id="budgetRemainingText">$900.00 Remaining</div>
+    <div class="coach-box">
+      <div class="coach-title">Weekly Coach Analysis</div>
+      <div class="coach-text" id="coachAdvice">Add receipts to begin your 14-day learning phase.</div>
+    </div>
+
+    <div class="chart-card">
+      <div class="pie-chart"></div>
+      <div class="chart-legend">
+        <span>● Groceries</span>
+        <span>● Household</span>
+        <span>● Subs</span>
+      </div>
     </div>
   </div>
 
-  <div id="planning-page" class="hidden">
-    <div class="section-label">✦ Daily Tendings</div>
-    <div id="routineList"></div>
-    <button class="btn-gold" onclick="showPage('home')">Back to Hearth</button>
-  </div>
-
-  <div id="budget-page" class="hidden">
-    <div class="section-label">✦ Update Treasury</div>
-    <div class="budget-card" style="text-align: left;">
-        <div class="label-sm">COLES SPEND</div>
-        <input type="number" id="inColes" style="background:none; border:none; border-bottom:1px dashed var(--gold); color:white; width:100%; font-size:18px; padding:10px 0;" oninput="calcBudget()">
-        <div class="label-sm" style="margin-top:20px;">WOOLIES SPEND</div>
-        <input type="number" id="inWoolies" style="background:none; border:none; border-bottom:1px dashed var(--gold); color:white; width:100%; font-size:18px; padding:10px 0;" oninput="calcBudget()">
+  <div id="finance-page" class="hidden">
+    <div class="chart-card">
+      <div class="input-group">
+        <label>Upload Receipt Photo / Screenshot</label>
+        <input type="file" accept="image/*" id="receiptFile">
+      </div>
+      <div class="input-group">
+        <label>Store Name (e.g. Coles, Netflix)</label>
+        <input type="text" id="storeName" placeholder="Where did you spend?">
+      </div>
+      <div class="input-group">
+        <label>Amount ($)</label>
+        <input type="number" id="spendAmount" placeholder="0.00">
+      </div>
+      <button class="btn-gold" style="background:var(--gold); color:var(--bg); border:none; padding:12px; width:100%; font-family:'Cinzel'; font-size:10px; border-radius:5px;" onclick="addReceipt()">Log Transaction</button>
     </div>
-    <button class="btn-gold" onclick="showPage('home')">Apply Changes</button>
-  </div>
 
-  <div id="meals-page" class="hidden">
-    <div class="section-label">✦ Nourishment Gallery</div>
-    <div class="gallery-grid" id="mealGallery"></div>
-    <button class="btn-gold" onclick="showPage('home')">Return</button>
+    <div class="section-label" style="font-family:'Cinzel'; font-size:10px; color:var(--gold); margin: 20px 0 10px;">Australian Subscription Deals</div>
+    <div class="coach-box" style="border-left-color: var(--success);">
+        <div class="coach-text" style="font-size:14px;">Paramount+: 60% OFF deal detected. Switch to annual or new email to save.</div>
+    </div>
   </div>
 </div>
 
 <div class="bottom-nav">
-  <div class="nav-btn" onclick="showPage('home')">HOME</div>
-  <div class="nav-btn" onclick="showPage('planning')">RHYTHM</div>
-  <div class="nav-btn" onclick="showPage('meals')">NOURISH</div>
+  <div class="nav-item" onclick="showPage('home')">Dashboard</div>
+  <div class="nav-item" onclick="showPage('finance')">Finances</div>
+  <div class="nav-item" onclick="showPage('routine')">Routine</div>
 </div>
 
 <script>
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const routines = {
-    'Monday': ['Vacuum all floors', 'Mop kitchen', 'Dust library'],
-    'Tuesday': ['Deep clean bathrooms', 'Polish mirrors', 'Scrub ensuite'],
-    'Wednesday': ['Wash all windows', 'Wipe skirting boards', 'Pantry reset'],
-    'Thursday': ['Clean oven & stove', 'Fridge declutter', 'Laundry Day'],
-    'Friday': ['Fresh linens on beds', 'Sanitize touchpoints', 'Living room reset'],
-    'Saturday': ['Garden weeding', 'Mow lawn', 'Outdoor sweeping'],
-    'Sunday': ['Meal prep', 'Budget review', 'Self-care ritual']
-  };
-
-  const mealImages = [
-    'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=200&q=80',
-    'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=200&q=80',
-    'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=200&q=80',
-    'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=200&q=80'
-  ];
-
-  window.onload = () => {
-    renderRhythm();
-    renderMealGallery();
-    calcBudget();
-  };
+  let totalSaved = localStorage.getItem('totalSaved') || 0;
 
   function showPage(id) {
     document.querySelectorAll('.main > div').forEach(p => p.classList.add('hidden'));
     document.getElementById(id + '-page').classList.remove('hidden');
-    window.scrollTo(0,0);
+    updateJar();
   }
 
-  function renderRhythm() {
-    const day = days[new Date().getDay()];
-    const list = document.getElementById('routineList');
-    list.innerHTML = routines[day].map(task => `
-      <div class="task-row" onclick="this.classList.toggle('done')">
-        <div class="check-box"></div>
-        <span>${task}</span>
-      </div>
-    `).join('');
-  }
-
-  function renderMealGallery() {
-    const container = document.getElementById('mealGallery');
-    container.innerHTML = days.map((day, i) => `
-      <div class="meal-item">
-        <div class="meal-img" style="background-image: url('${mealImages[i % 4]}')"></div>
-        <div class="meal-label">${day}</div>
-      </div>
-    `).join('');
-  }
-
-  function calcBudget() {
-    const c = parseFloat(document.getElementById('inColes').value) || 0;
-    const w = parseFloat(document.getElementById('inWoolies').value) || 0;
-    const remaining = 900 - (c + w);
-    const percent = Math.max(0, (remaining / 900) * 100);
+  function addReceipt() {
+    const store = document.getElementById('storeName').value.toLowerCase();
+    const amount = parseFloat(document.getElementById('spendAmount').value);
     
-    const pieFill = document.getElementById('pieFill');
-    pieFill.style.strokeDasharray = `${percent} 100`;
-    pieFill.style.stroke = percent < 20 ? 'var(--warn)' : 'var(--safe)';
+    // Simple logic for the "Coach"
+    if (store.includes('paramount') && amount > 5) {
+        alert("Coach Tip: You're paying full price for Paramount. Check the 60% off deal online!");
+    }
     
-    document.getElementById('piePercent').textContent = Math.round(percent) + '%';
-    document.getElementById('budgetRemainingText').textContent = `$${remaining.toFixed(2)} Remaining`;
+    // Visual feedback
+    alert("Receipt logged for analysis.");
+    document.getElementById('storeName').value = '';
+    document.getElementById('spendAmount').value = '';
   }
+
+  function updateJar() {
+    const fill = document.getElementById('jarFill');
+    const display = document.getElementById('jarAmount');
+    // Simple visual simulation
+    let height = Math.min(100, (totalSaved / 500) * 100); 
+    fill.style.height = height + '%';
+    display.textContent = '$' + totalSaved;
+  }
+
+  window.onload = updateJar;
 </script>
 </body>
 </html>
