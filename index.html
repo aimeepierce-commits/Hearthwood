@@ -20,33 +20,30 @@
 
         /* --- HOME SCREEN --- */
         #home-screen { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
-        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; border-left-width: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); position: relative; overflow: hidden; }
+        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; border-left-width: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
         .briefing-title { font-family: 'Cinzel'; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
         /* --- NAV GRID --- */
         .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 100px; display: flex; align-items: flex-end; padding: 12px; cursor: pointer; transition: 0.3s; }
-        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 1; filter: sepia(50%) contrast(130%) brightness(0.7); }
-        .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; text-shadow: 2px 2px 4px #000; }
-        .nav-card:active { transform: scale(0.97); }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 105px; display: flex; align-items: flex-end; padding: 12px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: 1; filter: sepia(40%) contrast(120%) brightness(0.8); }
+        .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; text-shadow: 2px 2px 4px #000; font-weight: 500; }
 
         /* --- PAGES --- */
-        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: slideUp 0.4s ease-out; padding-bottom: 100px; }
+        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: fadeIn 0.4s ease; padding-bottom: 100px; }
         .page.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 25px; cursor: pointer; display: inline-block; }
-        .hero-img { width: 100%; height: 240px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 30px; opacity: 0.7; filter: sepia(30%) contrast(110%); box-shadow: 0 10px 30px #000; }
-        .section-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 5px; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 12px; text-transform: uppercase; }
+        .hero-img { width: 100%; height: 240px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 30px; opacity: 0.7; filter: sepia(30%); box-shadow: 0 10px 30px #000; }
+        .section-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 5px; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
 
-        /* --- LISTS --- */
+        /* --- LIST ROWS --- */
         .row { display: flex; align-items: center; gap: 15px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-        .checkbox { width: 22px; height: 22px; border: 1.5px solid var(--gold); border-radius: 5px; position: relative; flex-shrink: 0; background: rgba(0,0,0,0.4); }
+        .checkbox { width: 22px; height: 22px; border: 1.5px solid var(--gold); border-radius: 5px; position: relative; flex-shrink: 0; background: rgba(0,0,0,0.3); }
         .done .checkbox { background: var(--gold); }
         .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 5px; top: 0; font-weight: bold; font-size: 14px; }
         .done span { opacity: 0.3; text-decoration: line-through; }
         .list-text { font-size: 16px; font-weight: 300; color: rgba(232, 220, 200, 0.9); }
-
-        textarea { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--text); padding: 20px; border-radius: 12px; font-family: 'Cormorant Garamond'; font-size: 20px; outline: none; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -68,13 +65,13 @@
 
         <div class="nav-grid">
             <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1517646331032-9e8563c520a1?w=500"><span>1. Daily Rhythm</span></div>
-            <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1516979185617-3821a9d7019c?w=500"><span>2. Home Records</span></div>
-            <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?w=500"><span>3. Gardening</span></div>
-            <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"><span>4. Meal Planning</span></div>
-            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1533234438333-e18e69882200?w=500"><span>5. Spirituality</span></div>
+            <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500"><span>2. Home Records</span></div>
+            <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500"><span>3. Gardening</span></div>
+            <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1505935428862-770b6f24f629?w=500"><span>4. Meal Planning</span></div>
+            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1502333333333-333333333333?w=500"><span>5. Spirituality</span></div>
             <div class="nav-card" onclick="showPage('p6')"><img src="https://images.unsplash.com/photo-1554224155-1696413565d3?w=500"><span>6. Finance</span></div>
-            <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1590479773265-7464e5d48118?w=500"><span>7. Maintenance</span></div>
-            <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1518131348450-4286105f9393?w=500"><span>8. Personal Reset</span></div>
+            <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=500"><span>7. Maintenance</span></div>
+            <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1516533075015-a3838414c3ca?w=500"><span>8. Personal Reset</span></div>
             <div class="nav-card" onclick="showPage('p9')"><img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500"><span>9. Social</span></div>
             <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500"><span>10. Family Flow</span></div>
             <div class="nav-card" onclick="showPage('p11')"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500"><span>11. Learning</span></div>
@@ -83,41 +80,25 @@
         </div>
     </div>
 
-    <div id="p7" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1590479773265-7464e5d48118?w=800">
-        <h2 class="section-title">7. Maintenance</h2>
-        <textarea placeholder="Inventory of brass tools and repairs..."></textarea>
-        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Seasonal check of the hearth</span></div>
-    </div>
-
-    <div id="p8" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1518131348450-4286105f9393?w=800">
-        <h2 class="section-title">8. Personal Reset</h2>
-        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Candlelit reading hour</span></div>
-        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Herbal tea ritual</span></div>
-    </div>
-
-    <div id="p10" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800">
-        <h2 class="section-title">10. Family Flow</h2>
-        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Pack satchels and uniforms</span></div>
-    </div>
-
-    <div id="p11" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800">
-        <h2 class="section-title">11. Learning</h2>
-        <textarea placeholder="Studies in history and the arcane..." rows="10"></textarea>
-    </div>
-
     <div id="p1" class="page">
         <div class="back-btn" onclick="showHome()">← BACK HOME</div>
         <img class="hero-img" src="https://images.unsplash.com/photo-1517646331032-9e8563c520a1?w=800">
         <h2 class="section-title">1. Daily Rhythm</h2>
         <div id="full-daily-list"></div>
+    </div>
+
+    <div id="p2" class="page">
+        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800">
+        <h2 class="section-title">2. Home Records</h2>
+        <p>Your Weekly Trace and Consistency Log.</p>
+    </div>
+
+    <div id="p5" class="page">
+        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1502333333333-333333333333?w=800">
+        <h2 class="section-title">5. Spirituality</h2>
+        <p>Rituals and reflections.</p>
     </div>
 
     <script>
@@ -167,7 +148,7 @@
                     container.appendChild(el);
                 }
             });
-            if(!container.innerHTML) container.innerHTML = '<p style="font-size:12px; opacity:0.5;">The shift is concluded. Peace be upon the house.</p>';
+            if(!container.innerHTML) container.innerHTML = '<p style="font-size:12px; opacity:0.5;">Shift complete. Rest well.</p>';
         }
 
         function renderFullList() {
