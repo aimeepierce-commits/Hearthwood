@@ -11,7 +11,6 @@
         body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; min-height: 100vh; overflow-x: hidden; }
         body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; }
         
-        /* Headers */
         .header { height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
         .app-title { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 7px; color: var(--gold); text-transform: uppercase; }
         .celestial-sub { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); margin-top: 8px; opacity: 0.6; letter-spacing: 2px; }
@@ -20,26 +19,20 @@
         .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin: 25px 0 10px; text-transform: uppercase; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 15px; position: relative; }
         
-        /* Tasks */
         .task-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
         .checkbox { width: 18px; height: 18px; border: 1px solid var(--gold); border-radius: 4px; flex-shrink: 0; }
         .completed { opacity: 0.3; text-decoration: line-through; }
         
-        /* Photo Bingo Grid */
         .bingo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .bingo-square { aspect-ratio: 1/1; background: var(--card); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; overflow: hidden; position: relative; padding: 10px; font-family: 'Cormorant Garamond'; }
         .captured-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
 
-        /* Garden Sidebar Style */
-        .garden-layout { display: flex; gap: 15px; }
-        .sidebar { width: 80px; border-right: 1px solid var(--border); font-family: 'Cinzel'; font-size: 9px; padding-right: 10px; color: var(--gold); }
-        
-        /* Nav */
         .nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 14, 10, 0.98); display: flex; justify-content: space-around; padding: 20px; border-top: 1px solid var(--border); z-index: 2000; }
         .nav-item { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); text-decoration: none; cursor: pointer; letter-spacing: 1px; }
         
         .hidden { display: none !important; }
-        textarea { width: 100%; background: none; border: 1px solid var(--border); color: var(--text); font-family: 'Cormorant Garamond'; padding: 10px; border-radius: 8px; outline: none; }
+        input[type="text"], textarea { width: 100%; background: none; border: 1px solid var(--border); color: var(--text); font-family: 'Cormorant Garamond'; padding: 10px; border-radius: 8px; outline: none; margin-bottom: 10px; }
+        .btn-gold { background: none; border: 1px solid var(--gold); color: var(--gold); font-family: 'Cinzel'; font-size: 10px; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -52,87 +45,66 @@
 <div class="main">
     
     <div id="for-you-page">
-        <div class="section-label">✦ Weekly Self-Care</div>
+        <div class="section-label">✦ Aussie Finance Coach</div>
+        <div class="card" style="text-align:center;">
+            <p style="font-family:'Cinzel'; font-size:10px; color:var(--gold); margin-bottom:5px;">SAVED FROM REFUSED SPENDS</p>
+            <div style="font-family:'Cinzel'; font-size:28px; color:var(--gold);">$<span id="savingsAmt">0.00</span></div>
+            <button class="btn-gold" style="margin-top:10px;" onclick="logSpend()">Log Refused Spend</button>
+            <p id="coachTip" style="font-size:11px; margin-top:10px; opacity:0.7; font-style:italic;">"Checking for Paramount deals..."</p>
+        </div>
+
+        <div class="section-label">✦ Weekly Self-Care Checklist</div>
         <div class="card">
             <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🌿 Skin: Cleanse & Hydrate</span></div>
-            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>💧 Body: Gentle Movement</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>💧 Body: Gentle Stretch</span></div>
             <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🕯️ Rest: No phone 30m before sleep</span></div>
         </div>
 
         <div class="section-label">✦ Oxenford Daytime Scout</div>
         <div class="card" style="border-left: 3px solid var(--gold);">
-            <p style="font-family:'Cinzel'; font-size:10px; color:var(--gold);">WEEKLY OUTING</p>
-            <p style="font-family:'Cormorant Garamond'; font-size:16px; margin-top:5px;">
-                <b>Damian Leeding Memorial Park:</b> Walk the water loop. It's quiet, flat, and peaceful. Just breathe.
-            </p>
-        </div>
-
-        <div class="section-label">✦ Moment Gallery</div>
-        <div class="bingo-grid">
-            <div class="bingo-square" onclick="up('nature')">
-                <div id="img-nature">🌱</div><span>Nature Find</span>
-                <input type="file" id="f-nature" class="hidden" accept="image/*" onchange="pv(this, 'img-nature')">
-            </div>
-            <div class="bingo-square" onclick="up('joy')">
-                <div id="img-joy">✨</div><span>Joy Moment</span>
-                <input type="file" id="f-joy" class="hidden" accept="image/*" onchange="pv(this, 'img-joy')">
-            </div>
+            <p style="font-family:'Cinzel'; font-size:10px; color:var(--gold);">THIS WEEK'S OUTING</p>
+            <p style="font-family:'Cormorant Garamond'; font-size:16px;"><b>Damian Leeding Park Walk:</b> 20 mins of peace by the water loop.</p>
         </div>
     </div>
 
     <div id="tending-page" class="hidden">
-        <div class="section-label">✦ Daily Rhythms</div>
+        <div class="section-label">✦ Daily Domestic Rhythms</div>
         <div class="card">
-            <div class="task-row" onclick="t(this)"><span>🛌 <b>The Rest:</b> Air & Make Bed</span></div>
-            <div class="task-row" onclick="t(this)"><span>🧺 <b>Threads:</b> Start Laundry Load</span></div>
-            <div class="task-row" onclick="t(this)"><span>🧹 <b>Path:</b> Clear Clutter & Trash</span></div>
-            <div class="task-row" onclick="t(this)"><span>💧 <b>Waters:</b> Swish Sink & Toilet</span></div>
-            <div class="task-row" onclick="t(this)"><span>🍽️ <b>Table:</b> Dishes after Every Meal</span></div>
-            <div class="task-row" onclick="t(this)"><span>🧼 <b>Surfaces:</b> Wipe Counters</span></div>
-            <div class="task-row" onclick="t(this)"><span>🧹 <b>Foundation:</b> Sweep Living Spaces</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🛌 <b>The Rest:</b> Air & Make Bed</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🧺 <b>Threads:</b> Laundry Load</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🧹 <b>Path:</b> Clear Clutter</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>💧 <b>Waters:</b> Swish Sink & Toilet</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🍽️ <b>Table:</b> Clear Dishes Every Meal</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🧼 <b>Surfaces:</b> Wipe Counters</span></div>
+            <div class="task-row" onclick="t(this)"><div class="checkbox"></div><span>🧹 <b>Foundation:</b> Sweep Living Area</span></div>
         </div>
-
         <div class="section-label">✦ Seasonal Reset (4x Year)</div>
         <div class="card" onclick="this.children[1].classList.toggle('hidden')">
-            <p style="font-family:'Cinzel'; font-size:10px; color:var(--gold);">VIEW MARCH (AUTUMN) LIST</p>
-            <div class="hidden" style="margin-top:15px; font-size:13px; opacity:0.8;">
-                • Deep clean window frames<br>• Vacuum behind fridge/oven<br>• Scrub grout lines<br>• Clean ceiling fans
-            </div>
-        </div>
-    </div>
-
-    <div id="garden-page" class="hidden">
-        <div class="section-label">✦ Ostara Witchery</div>
-        <div class="card" style="background:rgba(61,79,53,0.1);">
-            <p style="font-size:14px; font-style:italic;">"Light a yellow candle for those passed. Spring returns to the hearth."</p>
-        </div>
-
-        <div class="section-label">✦ Potted Grimoire</div>
-        <div class="garden-layout">
-            <div class="sidebar">GROWING:<br>🌿 Basil<br><br>MARCH:<br>🌱 Fertilise</div>
-            <div class="bingo-grid" style="flex:1;">
-                <div class="bingo-square" onclick="alert('Basil Witchery: Brings harmony and peace to the kitchen.')">
-                    <div>🌿</div><span>Basil</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-label">✦ Garden Journal</div>
-        <div class="card">
-            <textarea id="gNote" placeholder="Notes for today..."></textarea>
-            <button onclick="sNote()" style="background:none; border:1px solid var(--gold); color:var(--gold); font-size:9px; margin-top:10px; padding:5px 10px;">LOG ENTRY</button>
-            <div id="nDisp" style="margin-top:15px; font-size:12px;"></div>
+            <p style="font-family:'Cinzel'; font-size:10px; color:var(--gold);">VIEW AUTUMN (MARCH) LIST</p>
+            <div class="hidden" style="margin-top:10px; font-size:13px; opacity:0.8;">• Fans • Behind Fridge • Grout • Windows</div>
         </div>
     </div>
 
     <div id="nourish-page" class="hidden">
         <div class="section-label">✦ Digital Pantry</div>
         <div class="card">
-            <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <input type="text" id="pIn" placeholder="Add Staple...">
-                <button onclick="addP()" style="background:var(--gold); color:var(--bg); border:none; padding:5px 10px; font-family:'Cinzel'; font-size:10px;">STOCK</button>
-            </div>
-            <div id="pList"></div>
+            <input type="text" id="pIn" placeholder="Add (e.g. Pasta, Honey)">
+            <button class="btn-gold" style="width:100%;" onclick="addP()">Stock Item</button>
+            <div id="pList" style="margin-top:15px;"></div>
+        </div>
+    </div>
+
+    <div id="garden-page" class="hidden">
+        <div class="section-label">✦ Ostara Witchery</div>
+        <div class="card" style="background:rgba(61,79,53,0.1);">
+            <p style="font-family:'Cinzel'; font-size:10px; color:var(--gold);">OSTARA</p>
+            <p style="font-family:'Cormorant Garamond';">Light a candle for spirits passed. Spring returns to the pots.</p>
+        </div>
+        <div class="section-label">✦ Garden Journal</div>
+        <div class="card">
+            <textarea id="gNote" placeholder="Notes for today..."></textarea>
+            <button class="btn-gold" style="width:100%;" onclick="sNote()">Log Entry</button>
+            <div id="nDisp" style="margin-top:15px; font-size:12px;"></div>
         </div>
     </div>
 
@@ -141,11 +113,12 @@
 <div class="nav">
     <div class="nav-item" onclick="show('for-you')">For You</div>
     <div class="nav-item" onclick="show('tending')">Tending</div>
-    <div class="nav-item" onclick="show('garden')">Garden</div>
     <div class="nav-item" onclick="show('nourish')">Nourish</div>
+    <div class="nav-item" onclick="show('garden')">Garden</div>
 </div>
 
 <script>
+    let savings = parseFloat(localStorage.getItem('h_savings') || 0);
     let pantry = JSON.parse(localStorage.getItem('h_pantry') || '[]');
 
     function show(id) {
@@ -156,45 +129,51 @@
 
     function t(el) { el.classList.toggle('completed'); }
 
+    /* Finance Logic */
+    function logSpend() {
+        let amt = prompt("Amount you Refused to spend?");
+        if(amt) {
+            savings += parseFloat(amt);
+            localStorage.setItem('h_savings', savings);
+            updateS();
+        }
+    }
+    function updateS() { document.getElementById('savingsAmt').innerText = savings.toFixed(2); }
+
+    /* Pantry Logic */
     function addP() {
         let i = document.getElementById('pIn').value;
-        if(i) { pantry.push({name: i, id: Date.now()}); localStorage.setItem('h_pantry', JSON.stringify(pantry)); renderP(); document.getElementById('pIn').value=''; }
+        if(i) {
+            pantry.push({name: i, id: Date.now()});
+            localStorage.setItem('h_pantry', JSON.stringify(pantry));
+            renderP();
+            document.getElementById('pIn').value='';
+        }
     }
     function renderP() {
         document.getElementById('pList').innerHTML = pantry.map(item => `
-            <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
-                <span>✦ ${item.name}</span><button onclick="dep(${item.id})" style="background:none; border:1px solid var(--gold); color:var(--gold); font-size:8px; padding:2px 6px;">USE</button>
+            <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                <span>✦ ${item.name}</span>
+                <button onclick="dep(${item.id})" style="background:none; border:1px solid var(--gold); color:var(--gold); font-size:8px; padding:2px 6px; border-radius:3px;">USE</button>
             </div>`).join('');
     }
-    function dep(id) { pantry = pantry.filter(i => i.id !== id); localStorage.setItem('h_pantry', JSON.stringify(pantry)); renderP(); }
+    function dep(id) {
+        pantry = pantry.filter(i => i.id !== id);
+        localStorage.setItem('h_pantry', JSON.stringify(pantry));
+        renderP();
+    }
 
+    /* Garden Journal */
     function sNote() {
         let n = document.getElementById('gNote').value;
         if(n) {
-            let entry = `<p style="margin-bottom:8px;"><b>${new Date().toLocaleDateString('en-AU')}:</b> ${n}</p>`;
+            let entry = `<p style="margin-bottom:8px; border-bottom:1px solid var(--border); padding-bottom:4px;"><b>${new Date().toLocaleDateString('en-AU')}:</b> ${n}</p>`;
             document.getElementById('nDisp').innerHTML = entry + document.getElementById('nDisp').innerHTML;
             document.getElementById('gNote').value = '';
         }
     }
 
-    function up(id) { document.getElementById('f-'+id).click(); }
-    function pv(input, id) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = e => { 
-                document.getElementById(id).innerHTML = `<img src="${e.target.result}" class="captured-img">`; 
-                localStorage.setItem(id, e.target.result); 
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    window.onload = () => {
-        ['img-nature', 'img-joy'].forEach(id => {
-            let s = localStorage.getItem(id);
-            if(s) document.getElementById(id).innerHTML = `<img src="${s}" class="captured-img">`;
-        });
-    };
+    window.onload = updateS;
 </script>
 </body>
 </html>
