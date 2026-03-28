@@ -1,163 +1,163 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hearthwood Hub 2.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hearthwood Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --forest: #1a2318; --moss: #2d3d28; --sage: #4a5e3a; --fern: #6b7f55;
-    --gold: #c9a96e; --gold-light: #e8c98a; --cream: #f2ead8;
-    --parchment: #e8dcc8; --bark: #3d2e1e; --midnight: #0d1510;
+    --midnight: #0d120e; --forest: #1a2318; --gold: #c9a96e; --parchment: #e8dcc8;
+    --safe: #6b7f55; --warn: #a64444; --border: rgba(201, 169, 110, 0.2);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background-color: var(--midnight); color: var(--parchment); font-family: 'Lato', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
-  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; opacity: 0.4; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { background-color: var(--midnight); color: var(--parchment); font-family: 'Lato', sans-serif; min-height: 100vh; line-height: 1.5; }
   
-  /* Layout */
-  .header { height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, #0d1510 0%, #1a2318 100%); border-bottom: 1px solid rgba(201,169,110,0.1); }
-  .app-title { font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 5px; color: var(--gold); }
-  .season-bar { background: var(--forest); border-bottom: 1px solid rgba(201,169,110,0.2); padding: 8px 20px; display: flex; justify-content: space-between; font-family: 'Cormorant Garamond', serif; font-size: 11px; color: var(--gold); }
+  /* Texture Overlay */
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
 
-  .main { padding: 15px 16px 120px; max-width: 480px; margin: 0 auto; }
-  .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin: 25px 0 10px; text-transform: uppercase; }
-
-  /* Generic Card Style */
-  .card { background: rgba(26,35,24,0.9); border: 1px solid rgba(201,169,110,0.2); border-radius: 16px; padding: 18px; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-  .label-sm { font-family: 'Cinzel', serif; font-size: 9px; color: var(--gold); margin-bottom: 4px; opacity: 0.8; }
+  /* Header */
+  .header { height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, #0d120e 0%, #1a2318 100%); border-bottom: 1px solid var(--border); }
+  .app-title { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 7px; color: var(--gold); }
   
-  /* Inputs */
-  input, textarea { background: transparent; border: none; border-bottom: 1px dashed rgba(201,169,110,0.3); color: white; padding: 5px; font-family: 'Cormorant Garamond'; font-size: 16px; width: 100%; outline: none; }
-  
-  /* Automatic detailed checklists (like inspiration) */
-  .detail-task-item { display: flex; align-items: start; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-  .task-sub { font-size: 11px; opacity: 0.6; font-style: italic; margin-top: 2px;}
-  .check-ring { width: 14px; height: 14px; border: 1px solid var(--gold); border-radius: 3px; margin-top: 5px; }
-  .done .check-ring { background: var(--safe); border-color: var(--safe); }
-  .done span { text-decoration: line-through; opacity: 0.4; }
+  .main { padding: 20px 16px 120px; max-width: 450px; margin: 0 auto; }
+  .section-label { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin: 25px 0 12px; text-transform: uppercase; opacity: 0.8; }
 
-  /* Gallery Meals (Like your inspiration) */
-  .meal-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-  .meal-card { background: rgba(255,255,255,0.02); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-  .meal-img { height: 80px; background-size: cover; background-position: center; }
-  .meal-info { padding: 10px; font-family: 'Lato'; font-size: 12px; }
+  /* --- ARCHED HUB NAVIGATION --- */
+  .arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .arch-tile { 
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+    border-radius: 100px 100px 15px 15px; height: 160px; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform 0.2s;
+  }
+  .arch-tile:active { transform: scale(0.96); }
+  .arch-icon { width: 45px; height: 45px; margin-bottom: 10px; fill: none; stroke: var(--gold); stroke-width: 1.2; }
+  .arch-title { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: var(--gold); }
 
-  /* Visual Pie Chart Stub */
-  .budget-pie { margin: 10px 0;}
+  /* --- PIE CHART BUDGET --- */
+  .budget-card { background: rgba(26, 35, 24, 0.8); border: 1px solid var(--border); border-radius: 15px; padding: 20px; text-align: center; }
+  .pie-container { position: relative; width: 120px; height: 120px; margin: 15px auto; }
+  .pie-svg { transform: rotate(-90deg); border-radius: 50%; }
+  .pie-circle { fill: none; stroke-width: 32; stroke: var(--safe); stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
+  .pie-bg { fill: none; stroke-width: 32; stroke: rgba(255,255,255,0.05); }
+  .pie-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Cinzel'; font-size: 14px; color: var(--gold); }
 
-  /* Navigation Tiles */
-  .nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .nav-tile { height: 90px; border: 1px solid rgba(201,169,110,0.15); border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); cursor: pointer; }
-  .nav-label { font-size: 8px; font-family: 'Cinzel'; color: var(--gold); margin-top: 8px; }
+  /* --- MEAL GALLERY --- */
+  .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .meal-item { background: rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  .meal-img { height: 90px; background-size: cover; background-position: center; filter: sepia(0.3) brightness(0.8); }
+  .meal-label { padding: 10px; font-family: 'Cormorant Garamond'; font-size: 14px; font-style: italic; text-align: center; }
+
+  /* --- TASK LISTS --- */
+  .task-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+  .check-box { width: 16px; height: 16px; border: 1px solid var(--gold); border-radius: 4px; position: relative; }
+  .done .check-box::after { content: '✦'; position: absolute; top: -4px; left: 1px; font-size: 12px; color: var(--gold); }
+  .done span { opacity: 0.3; text-decoration: line-through; }
 
   /* Nav Pills */
-  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(13,21,16,0.95); padding: 15px; display: flex; justify-content: space-around; border-top: 1px solid rgba(201,169,110,0.2); backdrop-filter: blur(10px); }
-  .nav-btn { font-family: 'Cinzel'; font-size: 9px; color: var(--gold); cursor: pointer; text-decoration: none;}
-
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(13, 21, 16, 0.98); padding: 20px; display: flex; justify-content: space-around; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 1000; }
+  .nav-btn { font-family: 'Cinzel', serif; font-size: 9px; color: var(--gold); letter-spacing: 2px; }
   .hidden { display: none; }
-  .btn-action { background: var(--forest); border: 1px solid var(--gold); color: var(--gold); padding: 10px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-size: 9px; cursor: pointer; margin-top: 10px; }
+  .btn-gold { background: var(--forest); border: 1px solid var(--gold); color: var(--gold); padding: 12px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-top: 15px; }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="app-title">HEARTHWOOD</div>
-  <div id="moonDisplay" style="font-size: 20px; margin-top: 5px;">🌒</div>
-</div>
-
-<div class="season-bar">
-  <div id="dateText"></div>
-  <div id="cleanHeadSummary">✨ floors</div>
+  <div style="color: var(--gold); font-size: 18px; margin-top: 5px;">✦</div>
 </div>
 
 <div class="main">
-
   <div id="home-page">
-    <div class="section-label">✦ Rhythms</div>
-    <div class="card">
-        <div class="label-sm" id="todayCleanTitle">TODAY'S RHYTHM</div>
-        <div id="homeCleanMain" style="font-family: 'Cormorant Garamond'; font-size: 20px; font-style: italic; color: var(--cream); margin-bottom: 10px;">Plan Tasks...</div>
-        <a id="homeCleanLink" href="#" target="_blank" class="btn-action" style="text-decoration:none; display:block; text-align:center;">Sync to Google Calendar</a>
+    <div class="section-label">✦ The Four Pillars</div>
+    <div class="arch-grid">
+      <div class="arch-tile" onclick="showPage('planning')">
+        <svg class="arch-icon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm0 14a5 5 0 1 1 5-5 5 5 0 0 1-5 5z"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42m12.72-12.72l1.42-1.42"/></svg>
+        <div class="arch-title">RHYTHM</div>
+      </div>
+      <div class="arch-tile" onclick="showPage('budget')">
+        <svg class="arch-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <div class="arch-title">TREASURY</div>
+      </div>
+      <div class="arch-tile" onclick="showPage('meals')">
+        <svg class="arch-icon" viewBox="0 0 24 24"><path d="M4 10a8 8 0 0 0 16 0V9H4v1zm3 11l1-3h8l1 3M12 3v3m-4-2l1 2m6-2l-1 2"/></svg>
+        <div class="arch-title">NOURISH</div>
+      </div>
+      <div class="arch-tile" onclick="showPage('garden')">
+        <svg class="arch-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8m-3-5l3-3 3 3"/></svg>
+        <div class="arch-title">ESTATE</div>
+      </div>
     </div>
 
-    <div class="section-label">✦ Treasury</div>
-    <div class="card budget-pie-container">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="label-sm">TREASURY LEFT</div>
-            <div id="budgetLeftHome" style="font-size: 22px; color: var(--gold-light);">$900.00</div>
+    <div class="section-label">✦ Treasury Status</div>
+    <div class="budget-card">
+        <div class="pie-container">
+            <svg class="pie-svg" viewBox="0 0 32 32">
+                <circle class="pie-bg" r="16" cx="16" cy="16"></circle>
+                <circle id="pieFill" class="pie-circle" r="16" cx="16" cy="16"></circle>
+            </svg>
+            <div class="pie-text" id="piePercent">100%</div>
         </div>
-        <div class="budget-pie" id="budgetMessageHome" style="font-size: 11px; font-style: italic; opacity: 0.7;">Within means.</div>
-    </div>
-
-    <div class="nav-grid">
-      <div class="nav-tile" onclick="showPage('budget')"><span>💰</span><div class="nav-label">BUDGET</div></div>
-      <div class="nav-tile" onclick="showPage('cleaning')"><span>🧹</span><div class="nav-label">RHYTHM</div></div>
-      <div class="nav-tile" onclick="showPage('meals')"><span>🍽</span><div class="nav-label">NOURISH</div></div>
-      <div class="nav-tile" onclick="showPage('shopping')"><span>🛒</span><div class="nav-label">SHOP</div></div>
-      <div class="nav-tile" onclick="showPage('garden')"><span>🌿</span><div class="nav-label">GARDEN</div></div>
-      <div class="nav-tile" onclick="showPage('home')"><span>🫶</span><div class="nav-label">YOU</div></div>
+        <div class="label-sm" id="budgetRemainingText">$900.00 Remaining</div>
     </div>
   </div>
 
-  <div id="cleaning-page" class="hidden">
-    <div class="section-label">✦ the deep clean rhythm</div>
-    <div class="card" id="routineContent"></div>
-    <button class="btn-action" onclick="showPage('home')">Save & Return</button>
+  <div id="planning-page" class="hidden">
+    <div class="section-label">✦ Daily Tendings</div>
+    <div id="routineList"></div>
+    <button class="btn-gold" onclick="showPage('home')">Back to Hearth</button>
+  </div>
+
+  <div id="budget-page" class="hidden">
+    <div class="section-label">✦ Update Treasury</div>
+    <div class="budget-card" style="text-align: left;">
+        <div class="label-sm">COLES SPEND</div>
+        <input type="number" id="inColes" style="background:none; border:none; border-bottom:1px dashed var(--gold); color:white; width:100%; font-size:18px; padding:10px 0;" oninput="calcBudget()">
+        <div class="label-sm" style="margin-top:20px;">WOOLIES SPEND</div>
+        <input type="number" id="inWoolies" style="background:none; border:none; border-bottom:1px dashed var(--gold); color:white; width:100%; font-size:18px; padding:10px 0;" oninput="calcBudget()">
+    </div>
+    <button class="btn-gold" onclick="showPage('home')">Apply Changes</button>
   </div>
 
   <div id="meals-page" class="hidden">
     <div class="section-label">✦ Nourishment Gallery</div>
-    <div class="card" id="mealsGalleryContent"></div>
-    <button class="btn-action" onclick="showPage('home')">Save & Return</button>
+    <div class="gallery-grid" id="mealGallery"></div>
+    <button class="btn-gold" onclick="showPage('home')">Return</button>
   </div>
-
-  <div id="shopping-page" class="hidden"><div class="section-label">✦ Shop</div><div class="card" id="shopContent"></div><button class="btn-action" onclick="showPage('home')">Back</button></div>
-  <div id="budget-page" class="hidden"><div class="section-label">✦ Budget</div><div class="card" id="budgetContent"></div><button class="btn-action" onclick="showPage('home')">Back</button></div>
 </div>
 
 <div class="bottom-nav">
   <div class="nav-btn" onclick="showPage('home')">HOME</div>
-  <div class="nav-btn" onclick="showPage('cleaning')">PLAN</div>
-  <div class="nav-btn" onclick="showPage('meals')">EAT</div>
+  <div class="nav-btn" onclick="showPage('planning')">RHYTHM</div>
+  <div class="nav-btn" onclick="showPage('meals')">NOURISH</div>
 </div>
 
 <script>
   const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const routines = {
-    'Monday': ['Vacuum all Floors', 'Mop Hard Surfaces', 'Wipe Pet Areas'],
-    'Tuesday': ['Kids Bath', 'Ensuite Deep Scrub', 'Toilets', 'Polish Mirrors'],
-    'Wednesday': ['Dust all Surfaces', 'Wipe Skirting Boards', 'Organize Pantry'],
-    'Thursday': ['Clean Cooktop/Oven', 'Wipe Fridge', 'Deep Clean Kitchen Bin'],
-    'Friday': ['Laundry apparel', ' laundry Linens', 'Fold & Put away'],
-    'Saturday': ['Garden Tend/Weed', 'Water Plants', 'Outdoor Reset'],
-    'Sunday': ['Meal Prep', 'Treasury Check', 'Rest & Reset']
+    'Monday': ['Vacuum all floors', 'Mop kitchen', 'Dust library'],
+    'Tuesday': ['Deep clean bathrooms', 'Polish mirrors', 'Scrub ensuite'],
+    'Wednesday': ['Wash all windows', 'Wipe skirting boards', 'Pantry reset'],
+    'Thursday': ['Clean oven & stove', 'Fridge declutter', 'Laundry Day'],
+    'Friday': ['Fresh linens on beds', 'Sanitize touchpoints', 'Living room reset'],
+    'Saturday': ['Garden weeding', 'Mow lawn', 'Outdoor sweeping'],
+    'Sunday': ['Meal prep', 'Budget review', 'Self-care ritual']
   };
 
-  // Gallery Data
-  const galleryMeals = {
-    'Sunday': {img: 'https://images.unsplash.com/photo-1598511757337-fe2cafc31ba0?q=80', text: 'Roast Chicken'},
-    'Monday': {img: 'https://images.unsplash.com/photo-1512132411229-c30391241dd8?q=80', text: 'Stir-Fry'},
-    'Tuesday': {img: 'https://images.unsplash.com/photo-1601924582970-9238bcb495d9?q=80', text: 'Taco Night'},
-    'Wednesday': {img: 'https://images.unsplash.com/photo-1593560704563-f176a2eb61db?q=80', text: 'Leftovers'},
-    'Thursday': {img: 'https://images.unsplash.com/photo-1606854426291-c96802f1832f?q=80', text: 'Pasta'},
-    'Friday': {img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80', text: 'Pizza'},
-    'Saturday': {img: 'https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?q=80', text: 'BBQ'}
-  };
+  const mealImages = [
+    'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=200&q=80',
+    'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=200&q=80',
+    'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=200&q=80',
+    'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=200&q=80'
+  ];
 
   window.onload = () => {
-    updateCommon();
-    loadRhythm();
-    loadMealsGallery();
-    loadBudgetStub();
-    saveBudgetStub(); // Init calculation
+    renderRhythm();
+    renderMealGallery();
+    calcBudget();
   };
-
-  function updateCommon() {
-    const today = new Date();
-    document.getElementById('dateText').textContent = today.toLocaleDateString('en-AU', {day:'numeric', month:'short'});
-  }
 
   function showPage(id) {
     document.querySelectorAll('.main > div').forEach(p => p.classList.add('hidden'));
@@ -165,63 +165,40 @@
     window.scrollTo(0,0);
   }
 
-  // DETAILED RHYTHM LOGIC
-  function loadRhythm() {
-    const today = new Date();
-    const dayName = days[today.getDay()];
-    const tasks = routines[dayName];
+  function renderRhythm() {
+    const day = days[new Date().getDay()];
+    const list = document.getElementById('routineList');
+    list.innerHTML = routines[day].map(task => `
+      <div class="task-row" onclick="this.classList.toggle('done')">
+        <div class="check-box"></div>
+        <span>${task}</span>
+      </div>
+    `).join('');
+  }
+
+  function renderMealGallery() {
+    const container = document.getElementById('mealGallery');
+    container.innerHTML = days.map((day, i) => `
+      <div class="meal-item">
+        <div class="meal-img" style="background-image: url('${mealImages[i % 4]}')"></div>
+        <div class="meal-label">${day}</div>
+      </div>
+    `).join('');
+  }
+
+  function calcBudget() {
+    const c = parseFloat(document.getElementById('inColes').value) || 0;
+    const w = parseFloat(document.getElementById('inWoolies').value) || 0;
+    const remaining = 900 - (c + w);
+    const percent = Math.max(0, (remaining / 900) * 100);
     
-    // Set Home Snapshot
-    document.getElementById('homeCleanMain').textContent = tasks.join(' · ');
-    document.getElementById('cleanHeadSummary').textContent = '✨ ' + tasks[0];
-
-    // Build Detailed Rhythm List
-    const container = document.getElementById('routineContent');
-    container.innerHTML = tasks.map(t => `<div class="detail-task-item" onclick="this.classList.toggle('done')"><div class="check-ring"></div><div><span>${t}</span><div class="task-sub">Hearth rhythm...</div></div></div>`).join('');
+    const pieFill = document.getElementById('pieFill');
+    pieFill.style.strokeDasharray = `${percent} 100`;
+    pieFill.style.stroke = percent < 20 ? 'var(--warn)' : 'var(--safe)';
     
-    // Simple Google Calendar Link
-    const gCalUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Hearthwood: ' + tasks[0])}&details=${encodeURIComponent(tasks.join('\n'))}&sf=true&output=xml`;
-    document.getElementById('homeCleanLink').href = gCalUrl;
+    document.getElementById('piePercent').textContent = Math.round(percent) + '%';
+    document.getElementById('budgetRemainingText').textContent = `$${remaining.toFixed(2)} Remaining`;
   }
-
-  // MEALS GALLERY LOGIC
-  function loadMealsGallery() {
-    const today = days[new Date().getDay()];
-    const gallery = document.getElementById('mealsGalleryContent');
-    const saved = JSON.parse(localStorage.getItem('hGalleryMeals') || '{}');
-    
-    gallery.innerHTML = days.map(d => {
-      const gMeal = galleryMeals[d];
-      return `
-        <div class="detail-task-item ${d===today ? 'active-day' : ''}">
-            <b class="label-sm">${d.substring(0,3)}</b>
-            <input type="text" placeholder="Log meal..." 
-                value="${saved[d]||''}" 
-                oninput="saveGMeal('${d}', this.value)"
-                style="border:none; border-bottom:1px dashed var(--gold); padding:0; font-size:14px;">
-        </div>
-      `;
-    }).join('');
-  }
-
-  function saveGMeal(day, val) {
-    const saved = JSON.parse(localStorage.getItem('hGalleryMeals') || '{}');
-    saved[day] = val;
-    localStorage.setItem('hGalleryMeals', JSON.stringify(saved));
-  }
-
-  // BUDGET STUB (Reusing for continuity)
-  function loadBudgetStub() {
-    const budgetHtml = `<div class="card">Allowance Left: <span id="budgetRem" style="font-size:20px; color:var(--gold-light)">$900</span><div class="item-row">Spend:<input type="number" id="budgetIn" oninput="saveBudgetStub()"></div></div>`;
-    document.getElementById('budgetContent').innerHTML = budgetHtml;
-  }
-  function saveBudgetStub() {
-    const spend = parseFloat(document.getElementById('budgetIn') ? document.getElementById('budgetIn').value : 0) || 0;
-    const rem = 900 - spend;
-    if(document.getElementById('budgetRem')) document.getElementById('budgetRem').textContent = '$' + rem.toFixed(2);
-    if(document.getElementById('budgetLeftHome')) document.getElementById('budgetLeftHome').textContent = '$' + rem.toFixed(2);
-  }
-
 </script>
 </body>
 </html>
