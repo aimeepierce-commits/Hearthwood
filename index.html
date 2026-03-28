@@ -8,51 +8,57 @@
     <style>
         :root { --bg: #0a0e0a; --card: #121812; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; padding-bottom: 100px; overflow-x: hidden; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; padding-bottom: 100px; }
         
-        /* IDENTITY HEADER */
-        .header { padding: 40px 10px 20px; border-bottom: 1px solid var(--border); text-align: center; background: linear-gradient(to bottom, #121812, #0a0e0a); }
-        .app-title { font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 8px; color: var(--gold); margin-bottom: 20px; }
-        .med-row { display: flex; justify-content: center; gap: 8px; }
-        .med { flex: 1; border: 1px solid var(--border); padding: 10px 5px; border-radius: 40px 40px 10px 10px; background: rgba(201,169,110,0.02); }
+        /* HEADER */
+        .header { padding: 40px 10px 30px; border-bottom: 1px solid var(--border); text-align: center; background: linear-gradient(to bottom, #121812, #0a0e0a); }
+        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; }
+        .med-row { display: flex; justify-content: center; gap: 10px; }
+        .med { flex: 1; max-width: 90px; border: 1px solid var(--border); padding: 12px 5px; border-radius: 40px 40px 10px 10px; background: rgba(201,169,110,0.03); }
         .med div:first-child { font-family: 'Cinzel'; font-size: 7px; color: var(--gold); opacity: 0.7; }
-        .med div:last-child { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); font-weight: 500; }
+        .med div:last-child { font-family: 'Cinzel'; font-size: 9px; color: var(--gold); font-weight: 500; }
 
-        .main { padding: 15px; max-width: 500px; margin: 0 auto; }
-        .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: var(--gold); margin: 35px 0 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .main { padding: 20px 16px; max-width: 500px; margin: 0 auto; }
+        .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin: 30px 0 15px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
         
-        /* CARDS */
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card-img { height: 90px; width: 100%; background-size: cover; background-position: center; opacity: 0.4; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border); filter: sepia(40%); }
+        /* THE ARCHED PILLARS */
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+        .pillar { 
+            background: var(--card); border: 1px solid var(--border); 
+            border-radius: 100px 100px 20px 20px; height: 160px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            cursor: pointer; position: relative; overflow: hidden;
+        }
+        .pillar span { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); letter-spacing: 2px; z-index: 2; margin-top: 10px; }
+        .pillar svg { width: 30px; height: 30px; stroke: var(--gold); fill: none; stroke-width: 1.2; z-index: 2; }
+        .pillar-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; background-size: cover; z-index: 1; filter: grayscale(1); }
 
-        /* BUDGET BAR */
-        .bar-bg { height: 10px; background: #000; border-radius: 5px; overflow: hidden; margin: 10px 0; border: 1px solid var(--border); }
-        .bar-fill { height: 100%; background: var(--gold); transition: width 0.8s ease; }
-        
-        /* TABLES */
-        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; color: var(--text); }
+        /* CONTENT CARDS */
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+        .task-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
+        .checkbox { width: 18px; height: 18px; border: 1px solid var(--gold); border-radius: 4px; }
+        .done { opacity: 0.3; text-decoration: line-through; }
+
+        /* WATER DROPS */
+        .water-row { display: flex; gap: 8px; justify-content: center; margin: 15px 0; }
+        .drop { width: 16px; height: 22px; border: 1px solid var(--gold); border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; cursor: pointer; opacity: 0.3; }
+        .drop.active { opacity: 1; background: var(--gold); }
+
+        /* FINANCE BAR */
+        .bar-bg { height: 8px; background: #000; border-radius: 4px; overflow: hidden; margin: 10px 0; border: 1px solid var(--border); }
+        .bar-fill { height: 100%; background: var(--gold); transition: width 0.5s; }
+
+        /* TABLES & INPUTS */
+        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
         th { font-family: 'Cinzel'; color: var(--gold); padding: 8px; text-align: left; border-bottom: 1px solid var(--border); font-size: 8px; }
-        td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        input { width: 100%; background: #000; border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 5px; font-family: 'Cormorant Garamond'; font-size: 16px; margin-top: 5px; }
+        .btn { width: 100%; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 10px; font-family: 'Cinzel'; font-size: 9px; margin-top: 10px; border-radius: 5px; cursor: pointer; }
 
-        /* STATUS BUTTONS */
-        .tag { font-size: 8px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--gold); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
-        .tag.low { background: #4a3a1e; border-color: #e8c98a; }
-        .tag.overdue { border-color: #ff4444; color: #ff4444; }
-
-        /* INPUTS */
-        input, select, textarea { width: 100%; background: #000; border: 1px solid var(--border); color: var(--text); padding: 12px; border-radius: 8px; margin-top: 8px; font-family: 'Cormorant Garamond'; font-size: 15px; }
-        .btn { width: 100%; margin-top: 15px; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 12px; font-family: 'Cinzel'; font-size: 9px; cursor: pointer; border-radius: 8px; letter-spacing: 2px; }
-
-        /* NAV */
-        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0e0a; display: flex; justify-content: space-around; padding: 20px; border-top: 1px solid var(--border); z-index: 1000; }
-        .nav-item { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); cursor: pointer; opacity: 0.6; }
-        .nav-item.active { opacity: 1; text-decoration: underline; }
-        .hidden { display: none; }
-
-        /* WHEEL OF THE YEAR */
-        .wheel-box { text-align: center; padding: 10px; }
-        .current-sabbat { font-family: 'Cinzel'; font-size: 18px; color: var(--gold); letter-spacing: 4px; margin: 10px 0; }
-        .sabbat-info { font-family: 'Cormorant Garamond'; font-style: italic; font-size: 14px; opacity: 0.8; }
+        /* SUB-PAGES */
+        .view-page { display: none; }
+        .view-page.active { display: block; }
+        .back-btn { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); cursor: pointer; margin-bottom: 20px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -68,150 +74,144 @@
 
 <div class="main">
     
-    <div id="view-hub">
-        <div class="section-label">✦ Finance: $900 Weekly <span id="reset-money" style="opacity:0.5;"></span></div>
-        <div class="card">
-            <div class="bar-bg"><div id="budget-bar" class="bar-fill" style="width: 0%;"></div></div>
-            <p style="text-align:center; font-size:11px; margin-bottom:10px;">REMAINING: $<span id="budget-rem">900.00</span></p>
-            <input type="number" id="spend-val" placeholder="Amount ($)">
-            <select id="spend-cat">
-                <option value="Coles">Coles (Groceries)</option>
-                <option value="Bunnings">Bunnings (Household)</option>
-                <option value="Paramount">Paramount+ (Subscription)</option>
-                <option value="Joy">Joy / Self Care</option>
-            </select>
-            <button class="btn" onclick="logSpend()">LOG TRANSACTION</button>
-            <div id="coach" style="font-size:10px; color:var(--gold); margin-top:12px; font-style:italic; text-align:center;"></div>
+    <div id="dashboard" class="view-page active">
+        <div class="nav-grid">
+            <div class="pillar" onclick="nav('cleaning')">
+                <div class="pillar-img" style="background-image: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=300')"></div>
+                <svg viewBox="0 0 100 100"><path d="M20 80 L80 80 M50 20 L50 80"/></svg>
+                <span>CLEANING</span>
+            </div>
+            <div class="pillar" onclick="nav('money')">
+                <div class="pillar-img" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=300')"></div>
+                <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="30"/><path d="M50 35 V65"/></svg>
+                <span>FINANCE</span>
+            </div>
+            <div class="pillar" onclick="nav('kitchen')">
+                <div class="pillar-img" style="background-image: url('https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=300')"></div>
+                <svg viewBox="0 0 100 100"><path d="M30 20 V80 M70 20 V80"/></svg>
+                <span>KITCHEN</span>
+            </div>
+            <div class="pillar" onclick="nav('spirit')">
+                <div class="pillar-img" style="background-image: url('https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=300')"></div>
+                <svg viewBox="0 0 100 100"><path d="M70 30 A30 30 0 1 0 70 70"/></svg>
+                <span>SPIRIT</span>
+            </div>
         </div>
 
-        <div class="section-label">✦ Cleaning Zone: <span id="zone-name">...</span></div>
+        <div class="section-label">✦ Daily Sanctuary Ritual</div>
         <div class="card">
-            <div id="zone-tasks" style="font-family:'Cormorant Garamond'; font-size:16px;"></div>
-            <button class="btn" style="border-style:dashed;" onclick="show('cleaning')">VIEW INTELLIGENCE & HISTORY</button>
+            <div id="daily-list"></div>
+            <div class="water-row" id="water-tracker">
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+                <div class="drop" onclick="this.classList.toggle('active')"></div>
+            </div>
         </div>
     </div>
 
-    <div id="view-cleaning" class="hidden">
+    <div id="view-cleaning" class="view-page">
+        <div class="back-btn" onclick="nav('dashboard')">← RETURN</div>
+        <div class="section-label">✦ 4-Week Zone: <span id="current-zone">...</span></div>
+        <div class="card" id="zone-tasks"></div>
         <div class="section-label">✦ Maintenance Intelligence</div>
         <div class="card">
-            <p style="font-family:'Cinzel'; font-size:9px; color:var(--gold); text-align:center;">House Health Score</p>
-            <div style="font-size:32px; text-align:center; font-family:'Cinzel'; color:var(--gold);">85%</div>
-        </div>
-        <div class="section-label">✦ "Last Done" Archive</div>
-        <div class="card">
-            <table id="history-table">
-                <tr><th>Task</th><th>Last Done</th><th>Status</th></tr>
-                </table>
-            <input type="text" id="new-hist" placeholder="e.g. Ceiling Fans">
-            <button class="btn" onclick="addHistoryItem()">+ ADD TRACKED TASK</button>
-        </div>
-    </div>
-
-    <div id="view-meals" class="hidden">
-        <div class="section-label">✦ Weekly Meal Grid</div>
-        <div class="card">
             <table>
-                <tr><th>Day</th><th>Dinner Plan</th></tr>
-                <tr><td>Sun</td><td><input type="text" id="sun-d"></td></tr>
-                <tr><td>Mon</td><td><input type="text" id="mon-d" placeholder="School Lunch?"></td></tr>
-                <tr><td>Tue</td><td><input type="text" id="tue-d"></td></tr>
-                <tr><td>Wed</td><td><input type="text" id="wed-d"></td></tr>
-                <tr><td>Thu</td><td><input type="text" id="thu-d"></td></tr>
-                <tr><td>Fri</td><td><input type="text" id="fri-d"></td></tr>
-                <tr><td>Sat</td><td><input type="text" id="sat-d"></td></tr>
+                <tr><th>Task</th><th>Last Done</th></tr>
+                <tr><td>Ceiling Fans</td><td>--/--/--</td></tr>
+                <tr><td>Windows</td><td>--/--/--</td></tr>
             </table>
         </div>
-        <div class="section-label">✦ Pantry Low Stock</div>
-        <div class="card" id="pantry-list">
-            </div>
     </div>
 
-    <div id="view-spirit" class="hidden">
-        <div class="section-label">✦ Southern Wheel of the Year</div>
-        <div class="card wheel-box">
-            <div class="current-sabbat" id="sabbat-name">SAMHAIN</div>
-            <p class="sabbat-info" id="sabbat-desc">The veil thins. A time for honoring ancestors and inner reflection.</p>
-            <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:15px; font-size:12px;">
-                <p><b>Energy:</b> Release & Rest</p>
-                <p><b>Altar:</b> Apples, Dark Stones, Candles</p>
-            </div>
-        </div>
-        <div class="section-label">✦ Oxenford Joy Challenge</div>
+    <div id="view-money" class="view-page">
+        <div class="back-btn" onclick="nav('dashboard')">← RETURN</div>
+        <div class="section-label">✦ $900 Weekly Budget</div>
         <div class="card">
-            <p style="font-style:italic;">"Walk the Damian Leeding Park loop at sunrise."</p>
+            <div class="bar-bg"><div id="budget-bar" class="bar-fill" style="width: 100%;"></div></div>
+            <p style="font-size:11px; text-align:center;">Remaining: $<span id="budget-rem">900.00</span></p>
+            <input type="number" id="spend-amt" placeholder="Spend Amount ($)">
+            <select id="spend-loc" style="width:100%; background:#000; color:#fff; padding:10px; margin-top:10px; border:1px solid var(--border);">
+                <option value="Coles">Coles</option>
+                <option value="Bunnings">Bunnings</option>
+                <option value="Paramount">Paramount+</option>
+            </select>
+            <button class="btn" onclick="logSpend()">LOG TRANSACTION</button>
         </div>
     </div>
 
-</div>
+    <div id="view-kitchen" class="view-page">
+        <div class="back-btn" onclick="nav('dashboard')">← RETURN</div>
+        <div class="section-label">✦ Weekly Meal Plan</div>
+        <div class="card">
+            <table>
+                <tr><th>Day</th><th>Plan</th></tr>
+                <tr><td>Sun</td><td><input type="text"></td></tr>
+                <tr><td>Mon</td><td><input type="text" placeholder="School Lunch"></td></tr>
+                <tr><td>Tue</td><td><input type="text"></td></tr>
+            </table>
+        </div>
+        <div class="section-label">✦ Pantry Inventory</div>
+        <div class="card" id="pantry-list">
+            <div class="task-row"><span>Olive Oil</span><span style="font-size:8px; border:1px solid var(--gold); padding:2px 5px; margin-left:auto;">IN STOCK</span></div>
+        </div>
+    </div>
 
-<div class="nav">
-    <div class="nav-item" onclick="show('hub')">HUB</div>
-    <div class="nav-item" onclick="show('cleaning')">CLEAN</div>
-    <div class="nav-item" onclick="show('meals')">KITCHEN</div>
-    <div class="nav-item" onclick="show('spirit')">SPIRIT</div>
+    <div id="view-spirit" class="view-page">
+        <div class="back-btn" onclick="nav('dashboard')">← RETURN</div>
+        <div class="section-label">✦ Southern Wheel</div>
+        <div class="card" style="text-align:center;">
+            <p style="font-family:'Cinzel'; font-size:18px; color:var(--gold);">SAMHAIN</p>
+            <p style="font-family:'Cormorant Garamond'; font-size:14px; margin-top:10px;">The final harvest. Honor your ancestors in this QLD autumn.</p>
+        </div>
+        <div class="section-label">✦ Oxenford Joy</div>
+        <div class="card">
+            <p style="font-size:13px; font-style:italic;">"Loop Damian Leeding Park and feel the morning mist."</p>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    // 1. DATA STORAGE
-    let budget = parseFloat(localStorage.getItem('hw_budget') || 900);
     const zones = [
-        { name: "Kitchen", tasks: ["◻ Oven & Rangehood", "◻ Pantry Wipe", "◻ Kickboards"] },
-        { name: "Bathrooms", tasks: ["◻ Scrub Grout", "◻ Vanity Sort", "◻ Drain Flush"] },
-        { name: "Floors/Windows", tasks: ["◻ Steam Mopping", "◻ Window Tracks", "◻ Skirtings"] },
-        { name: "Laundry/Linen", tasks: ["◻ Machine Maintenance", "◻ Linen Sort", "◻ Filters"] }
+        { name: "Kitchen", tasks: ["◻ Oven Deep Clean", "◻ Degrease Hood", "◻ Wipe Cabinets"] },
+        { name: "Bathrooms", tasks: ["◻ Scrub Grout", "◻ Polish Glass", "◻ Vanity Cull"] },
+        { name: "Floors", tasks: ["◻ Steam Mop", "◻ Skirting Boards", "◻ Rug Shake"] },
+        { name: "Laundry", tasks: ["◻ Filter Clean", "◻ Linen Sort", "◻ Wipe Washer"] }
     ];
+    const daily = ["🛌 Make Bed", "🧺 Laundry Load", "🧹 Sweep High-Traffic", "🍽️ Clear Kitchen Sink"];
 
-    function show(id) {
-        document.querySelectorAll('.main > div').forEach(v => v.classList.add('hidden'));
-        document.getElementById('view-' + id).classList.remove('hidden');
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    let budget = 900;
+
+    function nav(id) {
+        document.querySelectorAll('.view-page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id === 'dashboard' ? 'dashboard' : 'view-' + id).classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function init() {
         const d = new Date();
-        const day = d.getDay(); // 0=Sun, 4=Thu
-        
-        // Setup Cleaning Zone (Resets Sunday)
         const weekIdx = Math.floor(d.getDate() / 7) % 4;
-        document.getElementById('zone-name').innerText = zones[weekIdx].name;
-        document.getElementById('zone-tasks').innerHTML = zones[weekIdx].tasks.map(t => `<p style="padding:5px 0;">${t}</p>`).join('');
-
-        // Setup Wheel (Southern Hemisphere)
-        const month = d.getMonth();
-        if(month === 2 || month === 3) { // March/April
-            document.getElementById('sabbat-name').innerText = "SAMHAIN";
-            document.getElementById('sabbat-desc').innerText = "Southern Samhain: The Great Harvest. Honor the ancestors as the cold sets in.";
-        }
-
-        updateUI();
+        
+        // Setup Cleaning
+        document.getElementById('current-zone').innerText = zones[weekIdx].name;
+        document.getElementById('zone-tasks').innerHTML = zones[weekIdx].tasks.map(t => `<div class="task-row"><span>${t}</span></div>`).join('');
+        
+        // Setup Daily
+        document.getElementById('daily-list').innerHTML = daily.map(t => `<div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>${t}</span></div>`).join('');
     }
 
     function logSpend() {
-        const amt = document.getElementById('spend-val').value;
-        const cat = document.getElementById('spend-cat').value;
-        if(amt) {
-            budget -= parseFloat(amt);
-            localStorage.setItem('hw_budget', budget);
-            if(cat === "Paramount") {
-                document.getElementById('coach').innerText = "Coach Tip: Paramount+ is currently 60% off for returners. Deal confirmed!";
-            }
-            document.getElementById('spend-val').value = '';
-            updateUI();
-        }
-    }
-
-    function updateUI() {
-        document.getElementById('budget-rem').innerText = budget.toFixed(2);
-        document.getElementById('budget-bar').style.width = Math.max(0, (budget/900)*100) + '%';
-    }
-
-    function addHistoryItem() {
-        const val = document.getElementById('new-hist').value;
+        const val = document.getElementById('spend-amt').value;
         if(val) {
-            const table = document.getElementById('history-table');
-            const row = table.insertRow(-1);
-            row.innerHTML = `<td>${val}</td><td>--/--/--</td><td><span class="tag">LOG NOW</span></td>`;
-            document.getElementById('new-hist').value = '';
+            budget -= parseFloat(val);
+            document.getElementById('budget-rem').innerText = budget.toFixed(2);
+            document.getElementById('budget-bar').style.width = (budget/900*100) + '%';
+            document.getElementById('spend-amt').value = '';
         }
     }
 
