@@ -1,143 +1,287 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hearthwood Master Sanctuary</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hearthwood Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --bg: #0a0e0a; 
+            --card: #121812; 
+            --gold: #c9a96e; 
+            --text: #e8dcc8; 
+            --border: rgba(201, 169, 110, 0.2); 
+        }
 
-<style>
-body { font-family: Arial; background:#0a0e0a; color:#e8dcc8; }
-.row { display:flex; gap:10px; padding:10px; cursor:pointer; }
-.done span { text-decoration: line-through; opacity:0.4; }
-.checkbox { width:20px; height:20px; border:1px solid gold; }
-.done .checkbox { background:gold; }
-</style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            font-family: 'Lato', sans-serif; 
+            padding: 40px 20px 100px;
+        }
+
+        /* --- HEADER --- */
+        .header { text-align: center; margin-bottom: 50px; }
+        .app-title { 
+            font-family: 'Cinzel', serif; 
+            font-size: 24px; 
+            letter-spacing: 10px; 
+            color: var(--gold); 
+        }
+
+        /* --- NAVIGATION LINKS --- */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        .nav-link {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-decoration: none;
+            color: var(--gold);
+            font-family: 'Cinzel';
+            font-size: 9px;
+            text-align: center;
+            border-radius: 8px;
+            letter-spacing: 1px;
+            background: rgba(201,169,110,0.05);
+        }
+
+        /* --- SECTION CARDS --- */
+        .section-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            scroll-margin-top: 20px;
+        }
+
+        .section-header {
+            padding: 18px 25px;
+            border-bottom: 1px solid var(--border);
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-body { padding: 20px 25px; }
+
+        /* --- LIST STYLES --- */
+        .task-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            cursor: pointer;
+        }
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .done .checkbox { background: var(--gold); position: relative; }
+        .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 3px; top: -1px; font-size: 14px; }
+        .done span { opacity: 0.3; text-decoration: line-through; }
+
+        .list-text { font-family: 'Lato'; font-size: 15px; font-weight: 300; }
+
+        /* --- CALENDAR BUTTON & INTENTIONS --- */
+        .cal-btn {
+            display: block;
+            text-align: center;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Cinzel';
+            font-size: 10px;
+            padding: 15px;
+            border-radius: 40px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .intentions-box {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Cormorant Garamond';
+            font-size: 20px;
+            outline: none;
+            resize: none;
+        }
+
+        /* --- FINANCE LOG --- */
+        .finance-row { display: flex; gap: 10px; margin-top: 15px; }
+        input[type="number"] {
+            flex: 1; background: #000; border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 8px;
+        }
+    </style>
 </head>
-
 <body>
 
-<h2>Hearthwood</h2>
+    <div class="header">
+        <div class="app-title">HEARTHWOOD</div>
+    </div>
 
-<h3>Cleaning</h3>
-<div id="cleaning-checklist"></div>
+    <div class="nav-grid">
+        <a href="#daily" class="nav-link">Daily Rhythm</a>
+        <a href="#weekly" class="nav-link">Weekly Reset</a>
+        <a href="#garden" class="nav-link">Gardening</a>
+        <a href="#meal" class="nav-link">Meal Planning</a>
+        <a href="#spirit" class="nav-link">Spirituality</a>
+        <a href="#finance" class="nav-link">Finance</a>
+        <a href="#family" class="nav-link">Family Flow</a>
+        <a href="#personal" class="nav-link">Personal Reset</a>
+    </div>
 
-<h3>Notes</h3>
-<textarea id="daily-notes"></textarea>
+    <div id="daily" class="section-card">
+        <div class="section-header">1. Daily Rhythm</div>
+        <div class="section-body">
+            <a href="https://calendar.google.com" target="_blank" class="cal-btn">GOOGLE CALENDAR</a>
+            <textarea class="intentions-box" rows="4" placeholder="Focus points..."></textarea>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Kitchen reset</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Tidy spaces</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Laundry flow</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Pet care</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Quick reset</span></div>
+        </div>
+    </div>
 
-<h3>Budget</h3>
-<p>$<span id="budget-num"></span></p>
-<input type="number" id="spend-amount">
-<button onclick="logSpend()">Spend</button>
+    <div id="weekly" class="section-card">
+        <div class="section-header">2. Weekly Home Reset</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Bathrooms</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Bedrooms</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Kitchen deep clean</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Floors</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Catch-up day / Decluttering</span></div>
+        </div>
+    </div>
 
-<h3>Saved</h3>
-<p>$<span id="saved-num"></span></p>
-<button onclick="logRefused()">Refused Spend</button>
+    <div id="garden" class="section-card">
+        <div class="section-header">3. Gardening</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Planting schedule</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Watering routine</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Harvest tracking</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Seasonal crops</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Garden projects</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Seed saving</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Tool maintenance</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Compost turning</span></div>
+        </div>
+    </div>
 
-<h3>Mood</h3>
-<div>
-<span class="mood-btn" onclick="setMood(this)">😊</span>
-<span class="mood-btn" onclick="setMood(this)">😴</span>
-<span class="mood-btn" onclick="setMood(this)">🔥</span>
-</div>
+    <div id="meal" class="section-card">
+        <div class="section-header">4. Meal Planning</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Weekly meals</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Prep tasks</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Freezer meals</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Pantry awareness</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Shopping list</span></div>
+        </div>
+    </div>
 
-<script>
-const cleaningTasks = [
-"Make bed",
-"Laundry",
-"Sweep",
-"Dishes"
-];
+    <div id="spirit" class="section-card">
+        <div class="section-header">5. Spirituality / Slow Living</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Getting out</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Wheel of the year</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Gratitude practice</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Rest practices</span></div>
+        </div>
+    </div>
 
-let state = JSON.parse(localStorage.getItem('hw_state')) || {
-budget: 900,
-savings: 0,
-lastReset: Date.now(),
-mood: null
-};
+    <div id="finance" class="section-card">
+        <div class="section-header">6. Finance</div>
+        <div class="section-body">
+            <p style="font-size:12px; margin-bottom:10px;">Budget: $<span id="budget">900.00</span></p>
+            <div class="finance-row">
+                <input type="number" id="spend" placeholder="$0.00">
+                <button onclick="logSpend()" style="background:var(--gold); border:none; padding:10px; border-radius:8px;">LOG</button>
+            </div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Subscriptions check</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Expense tracking</span></div>
+        </div>
+    </div>
 
-function init() {
+    <div class="section-card">
+        <div class="section-header">7. Home Maintenance</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Repairs list</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Seasonal checks</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Upkeep tasks</span></div>
+        </div>
+    </div>
 
-const now = new Date();
-const last = new Date(state.lastReset);
+    <div id="personal" class="section-card">
+        <div class="section-header">8. Personal Reset</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Hobbies / Alone time</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Weekly reset/planning</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Self care ritual</span></div>
+        </div>
+    </div>
 
-// Weekly reset Sunday
-if (now.getDay() === 0 && now - last > 86400000) {
-state.budget = 900;
-state.lastReset = Date.now();
-saveState();
-}
+    <div id="family" class="section-card">
+        <div class="section-header">10. Family Flow</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>School prep</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Activities & Uniforms</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Weekly coordination</span></div>
+        </div>
+    </div>
 
-// Load checklist
-document.getElementById('cleaning-checklist').innerHTML =
-cleaningTasks.map((t,i)=>{
-const saved = localStorage.getItem('task_'+i)==='true';
-return `
-<div class="row ${saved?'done':''}" onclick="toggleTask(this,'task_${i}')">
-<div class="checkbox"></div>
-<span>${t}</span>
-</div>`;
-}).join('');
+    <div class="section-card">
+        <div class="section-header">11. Learning & Growth</div>
+        <div class="section-body">
+            <textarea class="intentions-box" rows="3" placeholder="Books to read / Podcasts..."></textarea>
+        </div>
+    </div>
 
-// Load notes
-const notes = document.getElementById('daily-notes');
-notes.value = localStorage.getItem('notes') || '';
-notes.oninput = e => localStorage.setItem('notes', e.target.value);
+    <div class="section-card">
+        <div class="section-header">12. Pet Health</div>
+        <div class="section-body">
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Vet appointments</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Flea/tick treatments</span></div>
+            <div class="task-row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>Grooming schedule</span></div>
+        </div>
+    </div>
 
-// Restore mood
-if(state.mood){
-document.querySelectorAll('.mood-btn').forEach(b=>{
-if(b.innerText===state.mood) b.style.opacity=1;
-});
-}
+    <div class="section-card">
+        <div class="section-header">13. Celebrations & Gifting</div>
+        <div class="section-body">
+            <textarea class="intentions-box" rows="3" placeholder="Birthdays / Gift ideas..."></textarea>
+        </div>
+    </div>
 
-updateUI();
-}
-
-function toggleTask(el,key){
-el.classList.toggle('done');
-localStorage.setItem(key, el.classList.contains('done'));
-}
-
-function logSpend(){
-let amt = parseFloat(document.getElementById('spend-amount').value);
-if(!amt) return;
-
-if(state.budget - amt < 0){
-alert("Over budget!");
-return;
-}
-
-state.budget -= amt;
-saveState();
-updateUI();
-}
-
-function logRefused(){
-let amt = prompt("Amount?");
-if(!amt) return;
-state.savings += parseFloat(amt);
-saveState();
-updateUI();
-}
-
-function setMood(el){
-document.querySelectorAll('.mood-btn').forEach(b=>b.style.opacity=0.3);
-el.style.opacity=1;
-state.mood = el.innerText;
-saveState();
-}
-
-function updateUI(){
-document.getElementById('budget-num').innerText = state.budget.toFixed(2);
-document.getElementById('saved-num').innerText = state.savings.toFixed(2);
-}
-
-function saveState(){
-localStorage.setItem('hw_state', JSON.stringify(state));
-}
-
-init();
-</script>
-
+    <script>
+        let budget = 900;
+        function logSpend() {
+            const val = document.getElementById('spend').value;
+            if(val) {
+                budget -= parseFloat(val);
+                document.getElementById('budget').innerText = budget.toFixed(2);
+                document.getElementById('spend').value = '';
+            }
+        }
+    </script>
 </body>
 </html>
