@@ -12,7 +12,7 @@
 
         /* --- HEADER --- */
         .header { padding: 40px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
-        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; cursor: pointer; text-shadow: 0 0 15px rgba(201,169,110,0.3); }
+        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; cursor: pointer; }
         .medallion-row { display: flex; justify-content: center; gap: 10px; }
         .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 30px 30px 10px 10px; background: rgba(201,169,110,0.03); text-align: center; }
         .medallion svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; margin-bottom: 5px; }
@@ -25,8 +25,8 @@
 
         /* --- NAV GRID --- */
         .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 105px; display: flex; align-items: flex-end; padding: 12px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; z-index: 1; filter: sepia(40%) contrast(120%) brightness(0.8); }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 105px; display: flex; align-items: flex-end; padding: 12px; cursor: pointer; transition: 0.3s; }
+        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; z-index: 1; filter: sepia(40%) contrast(120%) brightness(0.8); }
         .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; text-shadow: 2px 2px 4px #000; font-weight: 500; }
 
         /* --- PAGES --- */
@@ -34,8 +34,8 @@
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 25px; cursor: pointer; display: inline-block; }
-        .hero-img { width: 100%; height: 240px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 30px; opacity: 0.7; filter: sepia(30%); box-shadow: 0 10px 30px #000; }
-        .section-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 5px; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .hero-img { width: 100%; height: 240px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 30px; opacity: 0.8; filter: sepia(20%); box-shadow: 0 10px 30px #000; }
+        .section-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 5px; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 12px; text-transform: uppercase; }
 
         /* --- LIST ROWS --- */
         .row { display: flex; align-items: center; gap: 15px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
@@ -68,7 +68,7 @@
             <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500"><span>2. Home Records</span></div>
             <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500"><span>3. Gardening</span></div>
             <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1505935428862-770b6f24f629?w=500"><span>4. Meal Planning</span></div>
-            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1502333333333-333333333333?w=500"><span>5. Spirituality</span></div>
+            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=500"><span>5. Spirituality</span></div>
             <div class="nav-card" onclick="showPage('p6')"><img src="https://images.unsplash.com/photo-1554224155-1696413565d3?w=500"><span>6. Finance</span></div>
             <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=500"><span>7. Maintenance</span></div>
             <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1516533075015-a3838414c3ca?w=500"><span>8. Personal Reset</span></div>
@@ -80,33 +80,24 @@
         </div>
     </div>
 
-    <div id="p1" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1517646331032-9e8563c520a1?w=800">
-        <h2 class="section-title">1. Daily Rhythm</h2>
-        <div id="full-daily-list"></div>
-    </div>
+    <div id="p1" class="page"><div class="back-btn" onclick="showHome()">← BACK</div><img class="hero-img" src="https://images.unsplash.com/photo-1517646331032-9e8563c520a1?w=800"><h2 class="section-title">1. Daily Rhythm</h2><div id="full-daily-list"></div></div>
+    
+    <div id="p2" class="page"><div class="back-btn" onclick="showHome()">← BACK</div><img class="hero-img" src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800"><h2 class="section-title">2. Home Records</h2><p>Weekly history and archives.</p></div>
+    
+    <div id="p5" class="page"><div class="back-btn" onclick="showHome()">← BACK</div><img class="hero-img" src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=800"><h2 class="section-title">5. Spirituality</h2><p>Daily ritual and reflection.</p></div>
+    
+    <div id="p7" class="page"><div class="back-btn" onclick="showHome()">← BACK</div><img class="hero-img" src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=800"><h2 class="section-title">7. Maintenance</h2><p>Hearth and home repairs.</p></div>
+    
+    <div id="p8" class="page"><div class="back-btn" onclick="showHome()">← BACK</div><img class="hero-img" src="https://images.unsplash.com/photo-1516533075015-a3838414c3ca?w=800"><h2 class="section-title">8. Personal Reset</h2><p>Rest and rejuvenation.</p></div>
 
-    <div id="p2" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800">
-        <h2 class="section-title">2. Home Records</h2>
-        <p>Your Weekly Trace and Consistency Log.</p>
-    </div>
-
-    <div id="p5" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1502333333333-333333333333?w=800">
-        <h2 class="section-title">5. Spirituality</h2>
-        <p>Rituals and reflections.</p>
-    </div>
+    <div id="p10" class="page"><div class="back-btn" onclick="showHome()">← BACK</div><img class="hero-img" src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800"><h2 class="section-title">10. Family Flow</h2><div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Prep school satchels</span></div></div>
 
     <script>
         const SHIFTS = {
-            "Morning": ["Make Bed", "Feed Pet", "Water Pets", "One load of laundry (start)", "Empty Dish Rack"],
-            "After Breakfast": ["Wash Dishes", "Load dishwasher", "Clean kitchen countertops", "Clean Stovetop", "Wash sink", "Sweep kitchen floor"],
-            "Midday": ["Transfer laundry to dryer", "Fold clean Laundry", "Scrub Toilet", "Wipe bathroom sink"],
-            "Night": ["Final kitchen wipe", "Empty trash cans", "Vacuum/Sweep Living room", "Mop Floor"]
+            "Morning": ["Make Bed", "Feed Pet", "Water Pets", "Laundry Start", "Empty Dish Rack"],
+            "After Breakfast": ["Wash Dishes", "Clean Countertops", "Clean Stovetop", "Wash Sink", "Sweep Kitchen"],
+            "Midday": ["Laundry Dryer", "Fold Laundry", "Scrub Toilet", "Wipe Bathroom Sink"],
+            "Night": ["Final Wipe", "Empty Trash", "Vacuum/Sweep", "Mop Floor"]
         };
 
         let completedToday = JSON.parse(localStorage.getItem('hw_done_today')) || [];
@@ -141,24 +132,21 @@
             container.innerHTML = '';
             SHIFTS[shift].forEach(task => {
                 if(!completedToday.includes(task)) {
-                    const el = document.createElement('div');
-                    el.className = 'row';
+                    const el = document.createElement('div'); el.className = 'row';
                     el.innerHTML = `<div class="checkbox"></div><span class="list-text">${task}</span>`;
                     el.onclick = () => { completedToday.push(task); localStorage.setItem('hw_done_today', JSON.stringify(completedToday)); updateBriefing(); };
                     container.appendChild(el);
                 }
             });
-            if(!container.innerHTML) container.innerHTML = '<p style="font-size:12px; opacity:0.5;">Shift complete. Rest well.</p>';
+            if(!container.innerHTML) container.innerHTML = '<p style="font-size:12px; opacity:0.5;">Rest well, the shift is done.</p>';
         }
 
         function renderFullList() {
-            const container = document.getElementById('full-daily-list');
-            container.innerHTML = '';
+            const container = document.getElementById('full-daily-list'); container.innerHTML = '';
             Object.keys(SHIFTS).forEach(s => {
                 const title = document.createElement('div');
                 title.style = "font-family:'Cinzel'; font-size:10px; color:var(--gold); margin-top:20px; border-bottom:1px solid var(--border);";
-                title.innerText = s;
-                container.appendChild(title);
+                title.innerText = s; container.appendChild(title);
                 SHIFTS[s].forEach(task => {
                     const row = document.createElement('div');
                     row.className = `row ${completedToday.includes(task) ? 'done' : ''}`;
@@ -167,7 +155,6 @@
                 });
             });
         }
-
         showHome();
     </script>
 </body>
