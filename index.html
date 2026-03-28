@@ -1,454 +1,143 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hearthwood Master Sanctuary</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --bg: #0a0e0a; 
-            --card: #121812; 
-            --gold: #c9a96e; 
-            --text: #e8dcc8; 
-            --border: rgba(201, 169, 110, 0.2); 
-            --glass: rgba(201, 169, 110, 0.05);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hearthwood Master Sanctuary</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            font-family: 'Lato', sans-serif; 
-            min-height: 100vh;
-            padding-bottom: 100px;
-            background-attachment: fixed;
-        }
-
-        /* --- IDENTITY HEADER & ASTRO MEDALLIONS --- */
-        .identity-header { 
-            background: linear-gradient(180deg, #121812 0%, #0a0e0a 100%); 
-            padding: 50px 10px 35px; 
-            border-bottom: 1px solid var(--border); 
-            text-align: center; 
-        }
-
-        .app-title { 
-            font-family: 'Cinzel', serif; 
-            font-size: 26px; 
-            letter-spacing: 12px; 
-            color: var(--gold); 
-            margin-bottom: 35px;
-            text-shadow: 0 0 15px rgba(201, 169, 110, 0.3);
-        }
-
-        .medallion-row { 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-        }
-
-        .medallion { 
-            flex: 1; 
-            max-width: 100px; 
-            border: 1px solid var(--border); 
-            padding: 15px 5px; 
-            border-radius: 50px 50px 15px 15px; 
-            background: var(--glass);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .medallion svg { 
-            width: 26px; 
-            height: 26px; 
-            stroke: var(--gold); 
-            margin-bottom: 10px; 
-            stroke-width: 1.2; 
-            fill: none; 
-        }
-
-        .medallion .label { 
-            font-family: 'Cinzel'; 
-            font-size: 7px; 
-            color: var(--gold); 
-            letter-spacing: 2px; 
-            display: block; 
-            opacity: 0.7; 
-            margin-bottom: 4px;
-        }
-
-        .medallion .sign { 
-            font-family: 'Cinzel'; 
-            font-size: 9px; 
-            color: var(--gold); 
-            font-weight: 500; 
-            letter-spacing: 1px;
-        }
-
-        /* --- MAIN LAYOUT --- */
-        .main { padding: 25px 20px; max-width: 550px; margin: 0 auto; }
-
-        .section-label { 
-            font-family: 'Cinzel', serif; 
-            font-size: 10px; 
-            letter-spacing: 4px; 
-            color: var(--gold); 
-            margin: 40px 0 15px; 
-            text-transform: uppercase; 
-            border-bottom: 1px solid var(--border); 
-            padding-bottom: 10px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-        }
-
-        /* --- VISUAL CARDS --- */
-        .visual-card { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 25px; 
-            overflow: hidden; 
-            margin-bottom: 30px; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        .card-img { 
-            height: 130px; 
-            width: 100%; 
-            background-size: cover; 
-            background-position: center; 
-            opacity: 0.4; 
-            filter: sepia(40%) grayscale(10%); 
-            border-bottom: 1px solid var(--border);
-            transition: 0.5s;
-        }
-
-        .card-content { padding: 25px; }
-
-        /* --- GOOGLE CALENDAR BUTTON --- */
-        .cal-launch-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            background: linear-gradient(45deg, rgba(201,169,110,0.1), rgba(201,169,110,0.02));
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            font-family: 'Cinzel';
-            font-size: 11px;
-            letter-spacing: 3px;
-            padding: 16px;
-            border-radius: 50px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .cal-launch-btn:active { transform: scale(0.98); background: var(--gold); color: #000; }
-
-        /* --- INPUTS & ROWS --- */
-        textarea, input[type="text"], input[type="number"] { 
-            width: 100%; 
-            background: rgba(0,0,0,0.5); 
-            border: 1px solid var(--border); 
-            color: var(--text); 
-            padding: 15px; 
-            border-radius: 12px; 
-            font-family: 'Cormorant Garamond'; 
-            font-size: 18px; 
-            margin-top: 10px; 
-            outline: none; 
-            transition: 0.3s;
-        }
-        textarea:focus { border-color: var(--gold); background: rgba(0,0,0,0.7); }
-
-        .row { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            padding: 15px 0; 
-            border-bottom: 1px solid rgba(255,255,255,0.03); 
-            cursor: pointer; 
-        }
-        .checkbox { 
-            width: 20px; 
-            height: 20px; 
-            border: 1px solid var(--gold); 
-            border-radius: 6px; 
-            flex-shrink: 0; 
-            transition: 0.2s;
-        }
-        .done .checkbox { background: var(--gold); position: relative; }
-        .done .checkbox::after { content: '✓'; color: #000; position: absolute; font-size: 14px; left: 3px; top: -2px; }
-        .done span { opacity: 0.3; text-decoration: line-through; }
-
-        /* --- FINANCE PROGRESS --- */
-        .finance-grid { display: flex; align-items: center; gap: 30px; }
-        .jar-wrap { text-align: center; }
-        .jar { 
-            width: 45px; 
-            height: 75px; 
-            border: 2px solid var(--gold); 
-            border-radius: 8px 8px 20px 20px; 
-            position: relative; 
-            overflow: hidden; 
-            background: rgba(0,0,0,0.4); 
-            box-shadow: 0 0 15px rgba(201,169,110,0.1);
-        }
-        .jar-fill { 
-            position: absolute; 
-            bottom: 0; 
-            width: 100%; 
-            background: linear-gradient(to top, #c9a96e, #f2e1c2); 
-            transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        .budget-bar-container { flex: 1; }
-        .progress-bg { 
-            height: 8px; 
-            background: #000; 
-            border-radius: 10px; 
-            margin: 12px 0; 
-            border: 1px solid var(--border); 
-            overflow: hidden; 
-        }
-        .progress-fill { height: 100%; background: var(--gold); transition: width 1s ease-in-out; }
-
-        /* --- SELF CARE --- */
-        .water-container { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
-        .drop { 
-            width: 16px; 
-            height: 24px; 
-            border: 1.5px solid var(--gold); 
-            border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; 
-            cursor: pointer; 
-            opacity: 0.2; 
-            transition: 0.5s; 
-        }
-        .drop.active { opacity: 1; background: var(--gold); box-shadow: 0 0 15px var(--gold); }
-        .mood-box { display: flex; justify-content: space-around; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
-        .mood-btn { font-size: 22px; cursor: pointer; opacity: 0.2; transition: 0.3s; padding: 10px; border-radius: 50%; }
-        .mood-btn.active { opacity: 1; background: var(--glass); transform: scale(1.2); }
-
-        .hidden { display: none; }
-        .gold-label { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); letter-spacing: 2px; }
-
-    </style>
+<style>
+body { font-family: Arial; background:#0a0e0a; color:#e8dcc8; }
+.row { display:flex; gap:10px; padding:10px; cursor:pointer; }
+.done span { text-decoration: line-through; opacity:0.4; }
+.checkbox { width:20px; height:20px; border:1px solid gold; }
+.done .checkbox { background:gold; }
+</style>
 </head>
+
 <body>
 
-    <div class="identity-header">
-        <div class="app-title">HEARTHWOOD</div>
-        <div class="medallion-row">
-            <div class="medallion">
-                <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18"/><path d="M50 10v10m0 60v10M10 50h10m60 0h10M22 22l7 7m42 42l7 7"/></svg>
-                <span class="label">SUN</span><span class="sign">GEMINI</span>
-            </div>
-            <div class="medallion">
-                <svg viewBox="0 0 100 100"><path d="M35 50 Q50 30 65 50 Q50 70 35 50"/><path d="M50 15v70M25 35h50M25 65h50"/></svg>
-                <span class="label">ASC</span><span class="sign">CANCER</span>
-            </div>
-            <div class="medallion">
-                <svg viewBox="0 0 100 100"><path d="M70 30 A30 30 0 1 0 70 70 A25 25 0 1 1 70 30"/></svg>
-                <span class="label">MOON</span><span class="sign">AQUARIUS</span>
-            </div>
-        </div>
-    </div>
+<h2>Hearthwood</h2>
 
-    <div class="main">
+<h3>Cleaning</h3>
+<div id="cleaning-checklist"></div>
 
-        <div class="section-label">✦ Today's Rhythm</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=600')"></div>
-            <div class="card-content">
-                <a href="https://calendar.google.com" target="_blank" class="cal-launch-btn">LAUNCH GOOGLE CALENDAR</a>
-                <textarea id="daily-notes" placeholder="Focus points, appointments, and intentions..." rows="3"></textarea>
-            </div>
-        </div>
+<h3>Notes</h3>
+<textarea id="daily-notes"></textarea>
 
-        <div class="section-label">✦ Cleaning & Upkeep <span id="zone-display" class="gold-label"></span></div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600')"></div>
-            <div class="card-content" id="cleaning-checklist"></div>
-        </div>
+<h3>Budget</h3>
+<p>$<span id="budget-num"></span></p>
+<input type="number" id="spend-amount">
+<button onclick="logSpend()">Spend</button>
 
-        <div class="section-label">✦ Nourishment</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=600')"></div>
-            <div class="card-content">
-                <div id="school-lunch-row" class="hidden">
-                    <span class="gold-label">SCHOOL LUNCHBOX</span>
-                    <input type="text" id="lunch-input" placeholder="What fresh joy are we packing?">
-                    <div style="height:20px;"></div>
-                </div>
-                <span class="gold-label">DINNER INTENTION</span>
-                <input type="text" id="dinner-input" placeholder="Planned evening meal...">
-            </div>
-        </div>
+<h3>Saved</h3>
+<p>$<span id="saved-num"></span></p>
+<button onclick="logRefused()">Refused Spend</button>
 
-        <div class="section-label">✦ Finance & Refused Spends</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600')"></div>
-            <div class="card-content">
-                <div class="finance-grid">
-                    <div class="jar-wrap">
-                        <div class="jar"><div id="jar-level" class="jar-fill"></div></div>
-                        <p style="font-size:8px; color:var(--gold); margin-top:8px; font-family:'Cinzel';">SAVED</p>
-                    </div>
-                    <div class="budget-bar-container">
-                        <span class="gold-label">REMAINING WEEKLY BUDGET ($900)</span>
-                        <div class="progress-bg"><div id="budget-fill" class="progress-fill"></div></div>
-                        <p style="font-size:12px; margin-bottom:10px;">Balance: $<span id="budget-num">900.00</span></p>
-                        <div style="display:flex; gap:10px;">
-                            <input type="number" id="spend-amount" placeholder="$0.00" style="margin:0; font-size:14px;">
-                            <button onclick="logSpend()" style="background:var(--gold); color:#000; border:none; padding:0 20px; border-radius:10px; font-family:'Cinzel'; font-size:10px; font-weight:bold;">LOG</button>
-                        </div>
-                    </div>
-                </div>
-                <button onclick="logRefused()" style="width:100%; background:none; border:1px dashed var(--gold); color:var(--gold); padding:10px; border-radius:10px; font-family:'Cinzel'; font-size:8px; margin-top:20px;">+ RECORD REFUSED SPEND</button>
-            </div>
-        </div>
+<h3>Mood</h3>
+<div>
+<span class="mood-btn" onclick="setMood(this)">😊</span>
+<span class="mood-btn" onclick="setMood(this)">😴</span>
+<span class="mood-btn" onclick="setMood(this)">🔥</span>
+</div>
 
-        <div class="section-label">✦ The Green Sanctuary</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600')"></div>
-            <div class="card-content">
-                <div id="garden-checklist"></div>
-                <div style="margin-top:20px; padding-top:15px; border-top:1px solid var(--border); font-style:italic; font-size:14px; color:rgba(232,220,200,0.7); text-align:center;">
-                    "Listen to the rustle of the Oxenford leaves; prep for the Samhain planting."
-                </div>
-            </div>
-        </div>
+<script>
+const cleaningTasks = [
+"Make bed",
+"Laundry",
+"Sweep",
+"Dishes"
+];
 
-        <div class="section-label">✦ Spirit & Southern Wheel</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=600')"></div>
-            <div class="card-content" style="text-align:center;">
-                <p style="font-family:'Cinzel'; font-size:20px; color:var(--gold); letter-spacing:6px; margin-bottom:10px;">SAMHAIN</p>
-                <p id="sabbat-text" style="font-family:'Cormorant Garamond'; font-size:16px; font-style:italic; line-height:1.4;">
-                    The veil thins in the Southern Hemisphere. A time of harvest and ancestral honor.
-                </p>
-            </div>
-        </div>
+let state = JSON.parse(localStorage.getItem('hw_state')) || {
+budget: 900,
+savings: 0,
+lastReset: Date.now(),
+mood: null
+};
 
-        <div class="section-label">✦ Self Care Ritual</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600')"></div>
-            <div class="card-content">
-                <span class="gold-label">HYDRATION TRACKER</span>
-                <div class="water-container">
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                    <div class="drop" onclick="this.classList.toggle('active')"></div>
-                </div>
-                <div class="mood-box">
-                    <span class="mood-btn" onclick="setMood(this)">✨</span>
-                    <span class="mood-btn" onclick="setMood(this)">🌿</span>
-                    <span class="mood-btn" onclick="setMood(this)">☁️</span>
-                    <span class="mood-btn" onclick="setMood(this)">🔥</span>
-                    <span class="mood-btn" onclick="setMood(this)">🌙</span>
-                </div>
-            </div>
-        </div>
+function init() {
 
-    </div>
+const now = new Date();
+const last = new Date(state.lastReset);
 
-    <script>
-        // --- DATA ARCHITECTURE ---
-        const cleaningZones = [
-            { name: "Kitchen", tasks: ["◻ Oven Deep Clean", "◻ Degrease Rangehood", "◻ Wipe Upper Cabinets", "◻ Fridge Cull"] },
-            { name: "Bathrooms", tasks: ["◻ Scrub Shower Grout", "◻ Vanity Organization", "◻ Mirror Polish", "◻ Floor Deep Scrub"] },
-            { name: "Floors/Windows", tasks: ["◻ Steam Mop All Floors", "◻ Clean Window Tracks", "◻ Dust Skirting Boards", "◻ Glass Slider Polish"] },
-            { name: "Laundry/Linen", tasks: ["◻ Washer/Dryer Filter Flush", "◻ Linen Cupboard Sort", "◻ Fold & Iron Backlog", "◻ Inventory Consumables"] }
-        ];
+// Weekly reset Sunday
+if (now.getDay() === 0 && now - last > 86400000) {
+state.budget = 900;
+state.lastReset = Date.now();
+saveState();
+}
 
-        const dailyRituals = ["🛌 Make Bed", "🧺 One Load Laundry", "🧹 Sweep High-Traffic Areas", "🍽️ Clear & Clean Kitchen Sink"];
-        const gardenRoutine = ["🌿 Water the hidden corners", "🪴 Check soil moisture (QLD Sun)", "🍃 Clear autumn debris", "🧺 Harvest seasonal herbs"];
+// Load checklist
+document.getElementById('cleaning-checklist').innerHTML =
+cleaningTasks.map((t,i)=>{
+const saved = localStorage.getItem('task_'+i)==='true';
+return `
+<div class="row ${saved?'done':''}" onclick="toggleTask(this,'task_${i}')">
+<div class="checkbox"></div>
+<span>${t}</span>
+</div>`;
+}).join('');
 
-        // --- STATE MANAGEMENT ---
-        let state = JSON.parse(localStorage.getItem('hearthwood_master_state')) || {
-            budget: 900,
-            savings: 0,
-            lastReset: new Date().getTime(),
-            mood: null
-        };
+// Load notes
+const notes = document.getElementById('daily-notes');
+notes.value = localStorage.getItem('notes') || '';
+notes.oninput = e => localStorage.setItem('notes', e.target.value);
 
-        function init() {
-            const now = new Date();
-            const day = now.getDay();
-            const date = now.getDate();
+// Restore mood
+if(state.mood){
+document.querySelectorAll('.mood-btn').forEach(b=>{
+if(b.innerText===state.mood) b.style.opacity=1;
+});
+}
 
-            // 1. Weekly Cleaning Zone (Sunday Reset)
-            const zoneIndex = Math.floor((date - 1) / 7) % 4;
-            const currentZone = cleaningZones[zoneIndex];
-            document.getElementById('zone-display').innerText = "ZONE: " + currentZone.name.toUpperCase();
-            
-            const fullCleaning = [...dailyRituals, ...currentZone.tasks];
-            document.getElementById('cleaning-checklist').innerHTML = fullCleaning.map(t => `
-                <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>${t}</span></div>
-            `).join('');
+updateUI();
+}
 
-            // 2. Gardening Logic
-            document.getElementById('garden-checklist').innerHTML = gardenRoutine.map(t => `
-                <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>${t}</span></div>
-            `).join('');
+function toggleTask(el,key){
+el.classList.toggle('done');
+localStorage.setItem(key, el.classList.contains('done'));
+}
 
-            // 3. School Day Lunch Visibility (Mon-Fri)
-            if (day >= 1 && day <= 5) document.getElementById('school-lunch-row').classList.remove('hidden');
+function logSpend(){
+let amt = parseFloat(document.getElementById('spend-amount').value);
+if(!amt) return;
 
-            // 4. Persistence Loading
-            ['daily-notes', 'lunch-input', 'dinner-input'].forEach(id => {
-                const el = document.getElementById(id);
-                el.value = localStorage.getItem('hw_' + id) || '';
-                el.oninput = (e) => localStorage.setItem('hw_' + id, e.target.value);
-            });
+if(state.budget - amt < 0){
+alert("Over budget!");
+return;
+}
 
-            updateUI();
-        }
+state.budget -= amt;
+saveState();
+updateUI();
+}
 
-        function logSpend() {
-            const amt = document.getElementById('spend-amount').value;
-            if(amt && !isNaN(amt)) {
-                state.budget -= parseFloat(amt);
-                saveState();
-                updateUI();
-                document.getElementById('spend-amount').value = '';
-            }
-        }
+function logRefused(){
+let amt = prompt("Amount?");
+if(!amt) return;
+state.savings += parseFloat(amt);
+saveState();
+updateUI();
+}
 
-        function logRefused() {
-            const amt = prompt("How much did you choose NOT to spend?");
-            if(amt && !isNaN(amt)) {
-                state.savings += parseFloat(amt);
-                saveState();
-                updateUI();
-            }
-        }
+function setMood(el){
+document.querySelectorAll('.mood-btn').forEach(b=>b.style.opacity=0.3);
+el.style.opacity=1;
+state.mood = el.innerText;
+saveState();
+}
 
-        function setMood(el) {
-            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            state.mood = el.innerText;
-            saveState();
-        }
+function updateUI(){
+document.getElementById('budget-num').innerText = state.budget.toFixed(2);
+document.getElementById('saved-num').innerText = state.savings.toFixed(2);
+}
 
-        function updateUI() {
-            document.getElementById('budget-num').innerText = state.budget.toFixed(2);
-            document.getElementById('budget-fill').style.width = Math.max(0, (state.budget/900)*100) + '%';
-            document.getElementById('jar-level').style.height = Math.min((state.savings/200)*100, 100) + '%';
-        }
+function saveState(){
+localStorage.setItem('hw_state', JSON.stringify(state));
+}
 
-        function saveState() {
-            localStorage.setItem('hearthwood_master_state', JSON.stringify(state));
-        }
+init();
+</script>
 
-        init();
-    </script>
 </body>
 </html>
