@@ -15,49 +15,52 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; min-height: 100vh; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
 
         /* --- HEADER --- */
-        .header { padding: 50px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); }
-        .app-title { font-family: 'Cinzel', serif; font-size: 24px; letter-spacing: 12px; color: var(--gold); margin-bottom: 30px; cursor: pointer; }
+        .header { padding: 40px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
+        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; cursor: pointer; }
         
-        .medallion-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .medallion { flex: 1; max-width: 90px; border: 1px solid var(--border); padding: 12px 5px; border-radius: 40px 40px 10px 10px; background: rgba(201,169,110,0.03); text-align: center; }
-        .medallion svg { width: 20px; height: 20px; stroke: var(--gold); margin-bottom: 8px; fill: none; }
-        .medallion .label { font-family: 'Cinzel'; font-size: 7px; color: var(--gold); letter-spacing: 1px; display: block; opacity: 0.7; }
+        .medallion-row { display: flex; justify-content: center; gap: 10px; }
+        .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 30px 30px 10px 10px; background: rgba(201,169,110,0.03); text-align: center; }
+        .medallion svg { width: 18px; height: 18px; stroke: var(--gold); margin-bottom: 5px; fill: none; stroke-width: 1.5; }
+        .medallion .label { font-family: 'Cinzel'; font-size: 6px; color: var(--gold); letter-spacing: 1px; display: block; opacity: 0.6; }
         .medallion .sign { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); font-weight: 500; }
 
-        /* --- NAVIGATION GRID (HOME SCREEN) --- */
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; max-width: 600px; margin: 0 auto; }
+        /* --- HOME GRID --- */
+        #home-screen { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; max-width: 600px; margin: 0 auto; }
         .nav-card { 
-            background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 25px 15px; 
-            text-align: center; text-decoration: none; color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px;
-            transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+            text-decoration: none; position: relative; height: 120px; display: flex; align-items: flex-end; padding: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); transition: transform 0.2s;
         }
-        .nav-card:active { transform: scale(0.95); background: var(--gold); color: #000; }
+        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 1; filter: sepia(20%); }
+        .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 9px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; }
+        .nav-card:active { transform: scale(0.96); }
 
-        /* --- PAGE CONTENT --- */
-        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
-        .page.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- PAGE SYSTEM --- */
+        .page { display: none; min-height: 100vh; background: var(--bg); }
+        .page.active { display: block; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-        .back-btn { display: inline-block; color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 20px; cursor: pointer; text-decoration: underline; }
+        .back-bar { padding: 20px; max-width: 600px; margin: 0 auto; }
+        .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
 
-        .visual-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-bottom: 30px; }
-        .card-img { height: 180px; width: 100%; background-size: cover; background-position: center; opacity: 0.5; border-bottom: 1px solid var(--border); }
-        .section-header { padding: 20px 25px; font-family: 'Cinzel'; font-size: 12px; letter-spacing: 3px; color: var(--gold); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .section-body { padding: 25px; }
-
-        /* --- LISTS & INPUTS --- */
-        .row { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }
-        .checkbox { width: 20px; height: 20px; border: 1.5px solid var(--gold); border-radius: 5px; flex-shrink: 0; position: relative; }
+        .visual-container { max-width: 600px; margin: 0 auto; padding: 0 15px 50px; }
+        .hero-img { width: 100%; height: 220px; border-radius: 20px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 25px; opacity: 0.7; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        
+        .section-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        
+        /* --- LISTS --- */
+        .row { display: flex; align-items: center; gap: 15px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .checkbox { width: 22px; height: 22px; border: 1.5px solid var(--gold); border-radius: 6px; flex-shrink: 0; position: relative; }
         .done .checkbox { background: var(--gold); }
-        .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 4px; top: 0px; font-weight: bold; }
+        .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 5px; top: 1px; font-weight: bold; }
         .done span { opacity: 0.3; text-decoration: line-through; }
         .list-text { font-family: 'Lato'; font-size: 16px; font-weight: 300; }
 
-        textarea, input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--text); padding: 15px; border-radius: 10px; font-family: 'Cormorant Garamond'; font-size: 18px; margin-bottom: 15px; outline: none; }
-        .cal-btn { display: block; text-align: center; border: 1px solid var(--gold); color: var(--gold); font-family: 'Cinzel'; font-size: 10px; padding: 15px; border-radius: 40px; text-decoration: none; margin-bottom: 20px; letter-spacing: 2px; }
+        textarea, input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--text); padding: 18px; border-radius: 12px; font-family: 'Cormorant Garamond'; font-size: 20px; margin-bottom: 20px; outline: none; }
+        .cal-btn { display: block; text-align: center; border: 1px solid var(--gold); color: var(--gold); font-family: 'Cinzel'; font-size: 10px; padding: 18px; border-radius: 50px; text-decoration: none; margin-bottom: 30px; letter-spacing: 2px; background: rgba(201,169,110,0.05); }
     </style>
 </head>
 <body>
@@ -65,190 +68,75 @@
     <div class="header">
         <div class="app-title" onclick="showHome()">HEARTHWOOD</div>
         <div class="medallion-row">
-            <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18"/><path d="M50 10v10m0 60v10M10 50h10m60 0h10"/></svg><span class="label">SUN</span><span class="sign">GEMINI</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M35 50 Q50 30 65 50 Q50 70 35 50"/><path d="M50 15v70"/></svg><span class="label">ASC</span><span class="sign">CANCER</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A30 30 0 1 0 70 70 A25 25 0 1 1 70 30"/></svg><span class="label">MOON</span><span class="sign">AQUARIUS</span></div>
+            <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 10v10m0 60v10M10 50h10m60 0h10"/></svg><span class="label">SUN</span><span class="sign">GEMINI</span></div>
+            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50"/></svg><span class="label">ASC</span><span class="sign">CANCER</span></div>
+            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30"/></svg><span class="label">MOON</span><span class="sign">AQUARIUS</span></div>
         </div>
     </div>
 
-    <div id="home-screen" class="nav-grid">
-        <div class="nav-card" onclick="showPage('p1')">Daily Rhythm</div>
-        <div class="nav-card" onclick="showPage('p2')">Weekly Reset</div>
-        <div class="nav-card" onclick="showPage('p3')">Gardening</div>
-        <div class="nav-card" onclick="showPage('p4')">Meal Planning</div>
-        <div class="nav-card" onclick="showPage('p5')">Spirituality</div>
-        <div class="nav-card" onclick="showPage('p6')">Finance</div>
-        <div class="nav-card" onclick="showPage('p7')">Maintenance</div>
-        <div class="nav-card" onclick="showPage('p8')">Personal Reset</div>
-        <div class="nav-card" onclick="showPage('p10')">Family Flow</div>
-        <div class="nav-card" onclick="showPage('p11')">Learning</div>
-        <div class="nav-card" onclick="showPage('p12')">Pet Health</div>
-        <div class="nav-card" onclick="showPage('p13')">Celebrations</div>
+    <div id="home-screen">
+        <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=500"><span>Daily Rhythm</span></div>
+        <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500"><span>Weekly Reset</span></div>
+        <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=500"><span>Gardening</span></div>
+        <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=500"><span>Meal Planning</span></div>
+        <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=500"><span>Spirituality</span></div>
+        <div class="nav-card" onclick="showPage('p6')"><img src="https://images.unsplash.com/photo-1554224155-1696413565d3?w=500"><span>Finance</span></div>
+        <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1581781870027-146313b82143?w=500"><span>Maintenance</span></div>
+        <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500"><span>Personal Reset</span></div>
+        <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=500"><span>Family Flow</span></div>
+        <div class="nav-card" onclick="showPage('p11')"><img src="https://images.unsplash.com/photo-1506784982865-c840af60055b?w=500"><span>Learning</span></div>
+        <div class="nav-card" onclick="showPage('p12')"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=500"><span>Pet Health</span></div>
+        <div class="nav-card" onclick="showPage('p13')"><img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500"><span>Celebrations</span></div>
     </div>
 
     <div id="p1" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=800')"></div>
-            <div class="section-header">1. Daily Rhythm</div>
-            <div class="section-body">
-                <a href="https://calendar.google.com" target="_blank" class="cal-btn">OPEN GOOGLE CALENDAR</a>
-                <textarea placeholder="Today's focus..." rows="3"></textarea>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Kitchen reset</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Tidy spaces</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Laundry flow</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Pet care</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Quick reset</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p2" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800')"></div>
-            <div class="section-header">2. Weekly Home Reset</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Bathrooms</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Bedrooms</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Kitchen deep clean</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Floors</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Catch-up day / Decluttering</span></div>
-            </div>
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <div class="visual-container">
+            <img class="hero-img" src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=800">
+            <h2 class="section-title">1. Daily Rhythm</h2>
+            <a href="https://calendar.google.com" target="_blank" class="cal-btn">GOOGLE CALENDAR</a>
+            <textarea placeholder="Write focus here..." rows="5"></textarea>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Kitchen reset</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Tidy spaces</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Laundry flow</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Pet care</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Quick reset</span></div>
         </div>
     </div>
 
     <div id="p3" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800')"></div>
-            <div class="section-header">3. Gardening</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Planting schedule & Seasonal Crops</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Watering routine (Check QLD Sun)</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Garden projects / Tool maintenance</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Harvest tracking & Seed saving</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Compost turning</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p4" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800')"></div>
-            <div class="section-header">4. Meal Planning</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Weekly meals / Prep tasks</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Freezer meals / Pantry awareness</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Shopping list / recipes</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p5" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=800')"></div>
-            <div class="section-header">5. Spirituality / Slow Living</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Getting out / Nature</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Wheel of the year / Seasonal rhythms</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Gratitude & Rest practices</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p6" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1554224155-1696413565d3?w=800')"></div>
-            <div class="section-header">6. Finance</div>
-            <div class="section-body">
-                <p style="font-family:'Cinzel'; font-size:12px; margin-bottom:10px;">Weekly Budget: $900.00</p>
-                <input type="number" placeholder="Log spend...">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Subscriptions / Expense tracking</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p7" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1581781870027-146313b82143?w=800')"></div>
-            <div class="section-header">7. Home Maintenance</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Repairs / Seasonal checks</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Upkeep tasks</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p8" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800')"></div>
-            <div class="section-header">8. Personal Reset</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Rest / Hobbies / Alone time</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Weekly reset & planning</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Self care</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p10" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1588072432836-e10032774350?w=800')"></div>
-            <div class="section-header">10. Family Flow</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">School prep / Uniforms</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Activities / Weekly coordination</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p11" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1506784982865-c840af60055b?w=800')"></div>
-            <div class="section-header">11. Learning & Growth</div>
-            <div class="section-body">
-                <textarea placeholder="Books to read / Podcasts..." rows="4"></textarea>
-            </div>
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <div class="visual-container">
+            <img class="hero-img" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800">
+            <h2 class="section-title">3. Gardening</h2>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Planting schedule</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Watering routine</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Harvest tracking</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Seasonal crops</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Garden projects</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Seed saving</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Tool maintenance</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Compost turning</span></div>
         </div>
     </div>
 
     <div id="p12" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1552053831-71594a27632d?w=800')"></div>
-            <div class="section-header">12. Pet Health</div>
-            <div class="section-body">
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Vet appointments</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Flea/tick treatments</span></div>
-                <div class="row" onclick="toggleTask(this)"><div class="checkbox"></div><span class="list-text">Grooming schedule</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="p13" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK</div>
-        <div class="visual-card">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800')"></div>
-            <div class="section-header">13. Celebrations & Gifting</div>
-            <div class="section-body">
-                <textarea placeholder="Birthdays / Gift ideas..." rows="4"></textarea>
-            </div>
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <div class="visual-container">
+            <img class="hero-img" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=800">
+            <h2 class="section-title">12. Pet Health</h2>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Vet appointments</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Flea/tick treatments</span></div>
+            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Grooming schedule</span></div>
         </div>
     </div>
 
     <script>
-        function showPage(pageId) {
+        function showPage(id) {
             document.getElementById('home-screen').style.display = 'none';
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            const target = document.getElementById(id);
+            if(target) target.classList.add('active');
             window.scrollTo(0,0);
         }
 
@@ -256,10 +144,6 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('home-screen').style.display = 'grid';
             window.scrollTo(0,0);
-        }
-
-        function toggleTask(el) {
-            el.classList.toggle('done');
         }
     </script>
 </body>
