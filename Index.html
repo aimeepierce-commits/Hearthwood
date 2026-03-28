@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hearthwood</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a2318; --moss: #2d3d28; --sage: #4a5e3a; --fern: #6b7f55;
+    --gold: #c9a96e; --gold-light: #e8c98a; --cream: #f2ead8;
+    --parchment: #e8dcc8; --midnight: #0d1510;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background-color: var(--midnight); color: var(--cream); font-family: 'Lato', sans-serif; font-weight: 300; min-height: 100vh; line-height: 1.6; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; opacity: 0.4; }
+
+  .header { height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, #0d1510 0%, #1a2318 100%); }
+  .app-title { font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 5px; color: var(--gold); }
+  
+  .season-bar { background: var(--forest); border-y: 1px solid rgba(201,169,110,0.2); padding: 8px 20px; display: flex; justify-content: space-between; font-family: 'Cormorant Garamond', serif; font-size: 11px; border-top: 1px solid rgba(201,169,110,0.2); border-bottom: 1px solid rgba(201,169,110,0.2); }
+
+  .main { padding: 15px 16px 120px; max-width: 480px; margin: 0 auto; }
+  .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin: 20px 0 10px; text-transform: uppercase; }
+
+  .card { background: rgba(26,35,24,0.9); border: 1px solid rgba(201,169,110,0.2); border-radius: 16px; padding: 18px; margin-bottom: 15px; }
+  .label-sm { font-family: 'Cinzel', serif; font-size: 9px; color: var(--gold); margin-bottom: 4px; opacity: 0.8; }
+
+  .input-group { display: flex; gap: 8px; margin-bottom: 15px; }
+  input { background: transparent; border: none; border-bottom: 1px dashed rgba(201,169,110,0.3); color: var(--parchment); outline: none; padding: 5px; font-family: 'Cormorant Garamond'; font-size: 16px; }
+  button { background: var(--forest); border: 1px solid var(--gold); color: var(--gold); padding: 5px 12px; border-radius: 4px; font-family: 'Cinzel'; font-size: 9px; cursor: pointer; }
+
+  .item-list { margin-top: 10px; }
+  .item-entry { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+  .item-meta { font-size: 11px; opacity: 0.6; font-style: italic; }
+
+  .nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .nav-tile { height: 80px; border: 1px solid rgba(201,169,110,0.1); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); cursor: pointer; }
+  .nav-label { font-size: 8px; font-family: 'Cinzel'; color: var(--gold); margin-top: 5px; }
+
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1510; padding: 15px; display: flex; justify-content: space-around; border-top: 1px solid rgba(201,169,110,0.2); }
+  .nav-btn { font-family: 'Cinzel'; font-size: 9px; color: var(--gold); cursor: pointer; }
+
+  .hidden { display: none; }
+  .back-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; margin-top: 15px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="app-title">HEARTHWOOD</div>
+  <div id="moonEmoji" style="font-size: 20px; margin-top: 5px;">🌒</div>
+</div>
+
+<div class="season-bar">
+  <div id="dateStr"></div>
+  <div id="cleanHead"></div>
+</div>
+
+<div class="main">
+
+  <div id="home-page">
+    <div class="section-label">✦ Hearth Status</div>
+    <div class="card">
+        <div class="label-sm">DINNER</div>
+        <div id="homeMeal" style="font-family: 'Cormorant Garamond'; font-style: italic; font-size: 18px; margin-bottom: 10px;">...</div>
+        <div class="label-sm">GARDEN TRACKER</div>
+        <div id="homeGarden" style="font-size: 13px; opacity: 0.7;">No active crops...</div>
+    </div>
+
+    <div class="nav-grid">
+      <div class="nav-tile" onclick="showPage('meals')"><span>🍽</span><div class="nav-label">MEALS</div></div>
+      <div class="nav-tile" onclick="showPage('recipes')"><span>📜</span><div class="nav-label">RECIPES</div></div>
+      <div class="nav-tile" onclick="showPage('shopping')"><span>🛒</span><div class="nav-label">SHOP</div></div>
+      <div class="nav-tile" onclick="showPage('garden')"><span>🌿</span><div class="nav-label">GARDEN</div></div>
+      <div class="nav-tile" onclick="showPage('budget')"><span>💰</span><div class="nav-label">BUDGET</div></div>
+      <div class="nav-tile" onclick="showPage('home')"><span>🫶</span><div class="nav-label">YOU</div></div>
+    </div>
+  </div>
+
+  <div id="recipes-page" class="hidden">
+    <div class="section-label">✦ Recipe Vault</div>
+    <div class="card">
+      <div class="input-group">
+        <input type="text" id="recipeInput" style="flex:1" placeholder="Recipe name...">
+        <button onclick="addRecipe()">SAVE</button>
+      </div>
+      <div id="recipeList" class="item-list"></div>
+    </div>
+    <button class="back-btn" onclick="showPage('home')">Back</button>
+  </div>
+
+  <div id="garden-page" class="hidden">
+    <div class="section-label">✦ Garden Journal</div>
+    <div class="card">
+      <div class="label-sm">LOG NEW PLANTING</div>
+      <div class="input-group">
+        <input type="text" id="plantInput" style="flex:1" placeholder="What did you plant?">
+        <button onclick="addPlant()">LOG</button>
+      </div>
+      <div id="gardenJournal" class="item-list"></div>
+    </div>
+    <button class="back-btn" onclick="showPage('home')">Back</button>
+  </div>
+
+  <div id="meals-page" class="hidden"><div class="section-label">✦ Meals</div><div class="card" id="mealList"></div><button class="back-btn" onclick="showPage('home')">Back</button></div>
+  <div id="shopping-page" class="hidden"><div class="section-label">✦ Provisions</div><div class="card" id="shopList"></div><button class="back-btn" onclick="showPage('home')">Back</button></div>
+  <div id="budget-page" class="hidden"><div class="section-label">✦ Budget</div><div class="card" id="budgetContent"></div><button class="back-btn" onclick="showPage('home')">Back</button></div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-btn" onclick="showPage('home')">HOME</div>
+  <div class="nav-btn" onclick="showPage('meals')">PLAN</div>
+  <div class="nav-btn" onclick="showPage('recipes')">VAULT</div>
+</div>
+
+<script>
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  
+  window.onload = () => {
+    updateCommon();
+    renderRecipes();
+    renderGarden();
+    updateHome();
+  };
+
+  function showPage(id) {
+    document.querySelectorAll('.main > div').forEach(p => p.classList.add('hidden'));
+    document.getElementById(id + '-page').classList.remove('hidden');
+    window.scrollTo(0,0);
+  }
+
+  function updateCommon() {
+    const today = new Date();
+    document.getElementById('dateStr').textContent = today.toLocaleDateString('en-AU', {day:'numeric', month:'short'});
+    const cleanRoutine = ['Rest','Floors','Bathrooms','Dusting','Kitchen','Laundry','Garden'];
+    document.getElementById('cleanHead').textContent = '✨ ' + cleanRoutine[today.getDay()];
+  }
+
+  // RECIPE LOGIC
+  function addRecipe() {
+    const val = document.getElementById('recipeInput').value;
+    if(!val) return;
+    const items = JSON.parse(localStorage.getItem('hRecipes') || '[]');
+    items.push(val);
+    localStorage.setItem('hRecipes', JSON.stringify(items));
+    document.getElementById('recipeInput').value = '';
+    renderRecipes();
+  }
+
+  function renderRecipes() {
+    const items = JSON.parse(localStorage.getItem('hRecipes') || '[]');
+    document.getElementById('recipeList').innerHTML = items.map((r, i) => `
+      <div class="item-entry"><span>${r}</span><span onclick="delItem('hRecipes', ${i}, renderRecipes)" style="opacity:0.3">✕</span></div>
+    `).join('');
+  }
+
+  // GARDEN LOGIC
+  function addPlant() {
+    const val = document.getElementById('plantInput').value;
+    if(!val) return;
+    const plants = JSON.parse(localStorage.getItem('hGarden') || '[]');
+    plants.push({name: val, date: new Date().getTime()});
+    localStorage.setItem('hGarden', JSON.stringify(plants));
+    document.getElementById('plantInput').value = '';
+    renderGarden();
+    updateHome();
+  }
+
+  function renderGarden() {
+    const plants = JSON.parse(localStorage.getItem('hGarden') || '[]');
+    document.getElementById('gardenJournal').innerHTML = plants.map((p, i) => {
+      const daysAgo = Math.floor((new Date().getTime() - p.date) / (1000 * 60 * 60 * 24));
+      return `
+        <div class="item-entry">
+          <div><b>${p.name}</b><br><span class="item-meta">Planted ${daysAgo} days ago</span></div>
+          <span onclick="delItem('hGarden', ${i}, renderGarden)" style="opacity:0.3">✕</span>
+        </div>`;
+    }).join('');
+  }
+
+  function delItem(key, i, cb) {
+    const items = JSON.parse(localStorage.getItem(key));
+    items.splice(i, 1);
+    localStorage.setItem(key, JSON.stringify(items));
+    cb();
+    updateHome();
+  }
+
+  function updateHome() {
+    const m = JSON.parse(localStorage.getItem('hMeals') || '{}');
+    document.getElementById('homeMeal').textContent = m[days[new Date().getDay()]] || "Tap 'PLAN' to decide";
+    
+    const plants = JSON.parse(localStorage.getItem('hGarden') || '[]');
+    if(plants.length) {
+      const last = plants[plants.length - 1];
+      document.getElementById('homeGarden').textContent = `Latest: ${last.name}`;
+    }
+  }
+</script>
+
+</body>
+</html>
+
