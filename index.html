@@ -20,20 +20,21 @@
 
         /* --- HOME SCREEN DYNAMIC FEED --- */
         #home-screen { padding: 20px; max-width: 600px; margin: 0 auto; }
-        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-left-width: 4px; }
         .briefing-title { font-family: 'Cinzel'; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
-        /* --- NAVIGATION GRID --- */
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 100px; display: flex; align-items: flex-end; padding: 12px; }
-        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.25; z-index: 1; }
+        /* --- NAVIGATION GRID (13 SECTIONS) --- */
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 90px; display: flex; align-items: flex-end; padding: 12px; transition: 0.2s; cursor: pointer; }
+        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.25; z-index: 1; filter: sepia(30%); }
         .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; }
+        .nav-card:active { transform: scale(0.96); }
 
         /* --- PAGE CONTENT --- */
-        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: slideUp 0.3s ease; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 20px; cursor: pointer; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 20px; cursor: pointer; display: inline-block; }
         .hero-img { width: 100%; height: 200px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 20px; opacity: 0.6; }
 
         /* --- TASK ROWS --- */
@@ -48,9 +49,10 @@
         .tracker-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 15px; }
         .day-col { text-align: center; }
         .day-label { font-size: 8px; font-family: 'Cinzel'; color: var(--gold); margin-bottom: 5px; }
-        .progress-bar { height: 60px; width: 100%; background: rgba(255,255,255,0.05); border-radius: 4px; position: relative; overflow: hidden; }
+        .progress-bar { height: 60px; width: 100%; background: rgba(255,255,255,0.05); border-radius: 4px; position: relative; overflow: hidden; border: 1px solid var(--border); }
         .fill { position: absolute; bottom: 0; width: 100%; background: var(--gold); transition: height 0.3s; }
 
+        textarea, input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--text); padding: 15px; border-radius: 10px; font-family: 'Cormorant Garamond'; font-size: 18px; margin-bottom: 20px; outline: none; }
     </style>
 </head>
 <body>
@@ -71,12 +73,18 @@
         </div>
 
         <div class="nav-grid">
-            <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400"><span>Daily Rhythm</span></div>
-            <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1528740561666-dc2479bd08ab?w=400"><span>Home Records</span></div>
-            <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400"><span>Gardening</span></div>
-            <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400"><span>Meal Planning</span></div>
-            <div class="nav-card" onclick="showPage('p12')"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=400"><span>Pet Health</span></div>
-            <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=400"><span>Family Flow</span></div>
+            <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400"><span>1. Daily Rhythm</span></div>
+            <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1528740561666-dc2479bd08ab?w=400"><span>2. Home Records</span></div>
+            <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400"><span>3. Gardening</span></div>
+            <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400"><span>4. Meal Planning</span></div>
+            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=400"><span>5. Spirituality</span></div>
+            <div class="nav-card" onclick="showPage('p6')"><img src="https://images.unsplash.com/photo-1554224155-1696413565d3?w=400"><span>6. Finance</span></div>
+            <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1581781870027-146313b82143?w=400"><span>7. Maintenance</span></div>
+            <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400"><span>8. Personal Reset</span></div>
+            <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=400"><span>10. Family Flow</span></div>
+            <div class="nav-card" onclick="showPage('p11')"><img src="https://images.unsplash.com/photo-1506784982865-c840af60055b?w=400"><span>11. Learning</span></div>
+            <div class="nav-card" onclick="showPage('p12')"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=400"><span>12. Pet Health</span></div>
+            <div class="nav-card" onclick="showPage('p13')"><img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400"><span>13. Gifting</span></div>
         </div>
     </div>
 
@@ -91,18 +99,31 @@
         <div class="back-btn" onclick="showHome()">← BACK HOME</div>
         <img class="hero-img" src="https://images.unsplash.com/photo-1528740561666-dc2479bd08ab?w=800">
         <h2 style="font-family:'Cinzel'; font-size:14px; color:var(--gold); margin-bottom:10px;">2. Home Records</h2>
-        <p style="font-size:12px; opacity:0.7; margin-bottom:20px;">Consistency log for daily rhythm tasks.</p>
-        
-        <div class="tracker-grid" id="history-grid">
-            </div>
+        <div class="tracker-grid" id="history-grid"></div>
+    </div>
+
+    <div id="p3" class="page">
+        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800">
+        <h2 style="font-family:'Cinzel'; font-size:14px; color:var(--gold);">3. Gardening</h2>
+        <div class="row"><div class="checkbox"></div><span class="list-text">Planting schedule</span></div>
+        <div class="row"><div class="checkbox"></div><span class="list-text">Watering routine</span></div>
+    </div>
+
+    <div id="p12" class="page">
+        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=800">
+        <h2 style="font-family:'Cinzel'; font-size:14px; color:var(--gold);">12. Pet Health</h2>
+        <div class="row"><div class="checkbox"></div><span class="list-text">Vet appointments</span></div>
+        <div class="row"><div class="checkbox"></div><span class="list-text">Treatments</span></div>
     </div>
 
     <script>
         const SHIFTS = {
-            "Morning": ["Make Bed", "Feed Pet", "Water Pets", "Clean pet dishes", "One load of laundry (start)", "Empty Dish Rack", "Put away clothes/items", "Dust nightstands/dressers"],
-            "After Breakfast": ["Wash Dishes", "Load dishwasher", "Clean kitchen countertops", "Clean Stovetop", "Wash and rinse the sink", "Sweep the kitchen floor", "Wipe appliances", "Wipe dining table"],
-            "Midday": ["Transfer laundry to dryer", "Fold clean Laundry", "Scrub Toilet", "Quickly wipe bathroom sink/faucet", "Hang or fold towels", "Arrange furniture/cushions", "Water plants if needed", "Dust chairs/tables"],
-            "Night": ["Final kitchen wipe", "Empty trash cans", "Vacuum/Sweep Living room", "Mop Floor", "Put away books/toys", "Return items to proper places", "Organize charging cables"]
+            "Morning": ["Make Bed", "Feed Pet", "Water Pets", "Clean pet dishes", "One load of laundry (start)", "Empty Dish Rack"],
+            "After Breakfast": ["Wash Dishes", "Load dishwasher", "Clean kitchen countertops", "Clean Stovetop", "Wash and rinse the sink", "Sweep kitchen floor"],
+            "Midday": ["Transfer laundry to dryer", "Fold clean Laundry", "Scrub Toilet", "Wipe bathroom sink", "Arrange furniture/cushions"],
+            "Night": ["Final kitchen wipe", "Empty trash cans", "Vacuum/Sweep Living room", "Mop Floor", "Organize charging cables"]
         };
 
         let completedToday = JSON.parse(localStorage.getItem('hw_done_today')) || [];
@@ -117,16 +138,18 @@
         function showPage(id) {
             document.getElementById('home-screen').style.display = 'none';
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            const target = document.getElementById(id);
+            if(target) target.classList.add('active');
             if(id === 'p1') renderFullList();
             if(id === 'p2') renderHistory();
+            window.scrollTo(0,0);
         }
 
         function getCurrentShift() {
-            const hour = new Date().getHours();
-            if (hour < 9) return "Morning";
-            if (hour < 13) return "After Breakfast";
-            if (hour < 17) return "Midday";
+            const h = new Date().getHours();
+            if (h < 9) return "Morning";
+            if (h < 13) return "After Breakfast";
+            if (h < 17) return "Midday";
             return "Night";
         }
 
@@ -135,45 +158,34 @@
             document.getElementById('shift-label').innerText = `CURRENT SHIFT: ${shift.toUpperCase()}`;
             const container = document.getElementById('active-tasks');
             container.innerHTML = '';
-            
             SHIFTS[shift].forEach(task => {
                 if(!completedToday.includes(task)) {
                     const el = document.createElement('div');
                     el.className = 'row';
                     el.innerHTML = `<div class="checkbox"></div><span class="list-text">${task}</span>`;
-                    el.onclick = () => completeTask(task);
+                    el.onclick = () => { completedToday.push(task); localStorage.setItem('hw_done_today', JSON.stringify(completedToday)); updateBriefing(); updateHistoryScore(); };
                     container.appendChild(el);
                 }
             });
-            if(container.innerHTML === '') container.innerHTML = '<p style="font-size:12px; opacity:0.5;">Shift complete. Rest well.</p>';
-        }
-
-        function completeTask(task) {
-            if(!completedToday.includes(task)) {
-                completedToday.push(task);
-                localStorage.setItem('hw_done_today', JSON.stringify(completedToday));
-                updateBriefing();
-                updateHistoryScore();
-            }
+            if(!container.innerHTML) container.innerHTML = '<p style="font-size:12px; opacity:0.5;">Shift complete.</p>';
         }
 
         function updateHistoryScore() {
-            const totalTasks = Object.values(SHIFTS).flat().length;
-            const score = (completedToday.length / totalTasks) * 100;
-            const dayIdx = new Date().getDay(); // 0 is Sunday
-            history[dayIdx] = score;
+            const total = Object.values(SHIFTS).flat().length;
+            const score = (completedToday.length / total) * 100;
+            history[new Date().getDay()] = score;
             localStorage.setItem('hw_history', JSON.stringify(history));
         }
 
         function renderFullList() {
             const container = document.getElementById('full-daily-list');
             container.innerHTML = '';
-            Object.keys(SHIFTS).forEach(shift => {
-                const h = document.createElement('div');
-                h.style = "font-family:'Cinzel'; font-size:10px; color:var(--gold); margin-top:25px; border-bottom:1px solid var(--border);";
-                h.innerText = shift;
-                container.appendChild(h);
-                SHIFTS[shift].forEach(task => {
+            Object.keys(SHIFTS).forEach(s => {
+                const title = document.createElement('div');
+                title.style = "font-family:'Cinzel'; font-size:10px; color:var(--gold); margin-top:20px; border-bottom:1px solid var(--border);";
+                title.innerText = s;
+                container.appendChild(title);
+                SHIFTS[s].forEach(task => {
                     const row = document.createElement('div');
                     row.className = `row ${completedToday.includes(task) ? 'done' : ''}`;
                     row.innerHTML = `<div class="checkbox"></div><span class="list-text">${task}</span>`;
@@ -189,15 +201,11 @@
             history.forEach((score, i) => {
                 const col = document.createElement('div');
                 col.className = 'day-col';
-                col.innerHTML = `
-                    <div class="day-label">${days[i]}</div>
-                    <div class="progress-bar"><div class="fill" style="height:${score}%"></div></div>
-                `;
+                col.innerHTML = `<div class="day-label">${days[i]}</div><div class="progress-bar"><div class="fill" style="height:${score}%"></div></div>`;
                 container.appendChild(col);
             });
         }
 
-        // Initialize
         showHome();
     </script>
 </body>
