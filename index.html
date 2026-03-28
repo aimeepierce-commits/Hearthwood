@@ -3,190 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hearthwood Sanctuary</title>
+    <title>Hearthwood Master Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0a0e0a; --card: #121812; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); --accent: #1e261e; }
+        :root { --bg: #0a0e0a; --card: #121812; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; padding-bottom: 100px; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; padding-bottom: 100px; overflow-x: hidden; }
         
         /* IDENTITY HEADER */
-        .identity-header { padding: 40px 10px 20px; border-bottom: 1px solid var(--border); text-align: center; background: linear-gradient(to bottom, #121812, #0a0e0a); }
-        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 20px; }
-        .medallion-row { display: flex; justify-content: center; gap: 12px; }
-        .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 40px 40px 10px 10px; background: rgba(201,169,110,0.02); }
-        .medallion svg { width: 22px; height: 22px; stroke: var(--gold); margin-bottom: 5px; fill: none; }
-        .medallion div { font-family: 'Cinzel'; font-size: 7px; color: var(--gold); letter-spacing: 1px; }
+        .header { padding: 40px 10px 20px; border-bottom: 1px solid var(--border); text-align: center; background: linear-gradient(to bottom, #121812, #0a0e0a); }
+        .app-title { font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 8px; color: var(--gold); margin-bottom: 20px; }
+        .med-row { display: flex; justify-content: center; gap: 8px; }
+        .med { flex: 1; border: 1px solid var(--border); padding: 10px 5px; border-radius: 40px 40px 10px 10px; background: rgba(201,169,110,0.02); }
+        .med div:first-child { font-family: 'Cinzel'; font-size: 7px; color: var(--gold); opacity: 0.7; }
+        .med div:last-child { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); font-weight: 500; }
 
         .main { padding: 15px; max-width: 500px; margin: 0 auto; }
-        .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin: 30px 0 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 5px; display: flex; justify-content: space-between; }
+        .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: var(--gold); margin: 35px 0 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
         
         /* CARDS */
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; }
-        .card-img { height: 80px; width: 100%; background-size: cover; background-position: center; opacity: 0.3; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--border); }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card-img { height: 90px; width: 100%; background-size: cover; background-position: center; opacity: 0.4; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border); filter: sepia(40%); }
 
         /* BUDGET BAR */
-        .budget-container { height: 12px; background: #000; border-radius: 6px; overflow: hidden; margin: 10px 0; border: 1px solid var(--border); }
-        .budget-fill { height: 100%; background: var(--gold); transition: width 0.5s; }
+        .bar-bg { height: 10px; background: #000; border-radius: 5px; overflow: hidden; margin: 10px 0; border: 1px solid var(--border); }
+        .bar-fill { height: 100%; background: var(--gold); transition: width 0.8s ease; }
         
-        /* WATER DROPS */
-        .water-row { display: flex; justify-content: space-between; margin-top: 10px; }
-        .drop { width: 25px; height: 35px; border: 1px solid var(--gold); border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; cursor: pointer; opacity: 0.3; }
-        .drop.active { opacity: 1; background: var(--gold); }
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; color: var(--text); }
+        th { font-family: 'Cinzel'; color: var(--gold); padding: 8px; text-align: left; border-bottom: 1px solid var(--border); font-size: 8px; }
+        td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
 
-        /* PANTRY STICKERS */
-        .pantry-item { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .status-tag { font-size: 8px; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--gold); }
+        /* STATUS BUTTONS */
+        .tag { font-size: 8px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--gold); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        .tag.low { background: #4a3a1e; border-color: #e8c98a; }
+        .tag.overdue { border-color: #ff4444; color: #ff4444; }
+
+        /* INPUTS */
+        input, select, textarea { width: 100%; background: #000; border: 1px solid var(--border); color: var(--text); padding: 12px; border-radius: 8px; margin-top: 8px; font-family: 'Cormorant Garamond'; font-size: 15px; }
+        .btn { width: 100%; margin-top: 15px; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 12px; font-family: 'Cinzel'; font-size: 9px; cursor: pointer; border-radius: 8px; letter-spacing: 2px; }
 
         /* NAV */
-        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0e0a; display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid var(--border); z-index: 100; }
-        .nav-btn { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); cursor: pointer; }
+        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0e0a; display: flex; justify-content: space-around; padding: 20px; border-top: 1px solid var(--border); z-index: 1000; }
+        .nav-item { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); cursor: pointer; opacity: 0.6; }
+        .nav-item.active { opacity: 1; text-decoration: underline; }
         .hidden { display: none; }
-        input, textarea, select { width: 100%; background: #000; border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 5px; margin-top: 5px; font-family: 'Cormorant Garamond'; }
+
+        /* WHEEL OF THE YEAR */
+        .wheel-box { text-align: center; padding: 10px; }
+        .current-sabbat { font-family: 'Cinzel'; font-size: 18px; color: var(--gold); letter-spacing: 4px; margin: 10px 0; }
+        .sabbat-info { font-family: 'Cormorant Garamond'; font-style: italic; font-size: 14px; opacity: 0.8; }
     </style>
 </head>
 <body>
 
-<div class="identity-header">
+<div class="header">
     <div class="app-title">HEARTHWOOD</div>
-    <div class="medallion-row">
-        <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18"/><path d="M50 10v10M10 50h10"/></svg><div>SUN</div><div style="font-size:8px;">GEMINI</div></div>
-        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 30 70 50 Q50 70 30 50"/></svg><div>ASC</div><div style="font-size:8px;">CANCER</div></div>
-        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A30 30 0 1 0 70 70"/></svg><div>MOON</div><div style="font-size:8px;">AQUARIUS</div></div>
+    <div class="med-row">
+        <div class="med"><div>SUN</div><div>GEMINI</div></div>
+        <div class="med"><div>ASC</div><div>CANCER</div></div>
+        <div class="med"><div>MOON</div><div>AQUARIUS</div></div>
     </div>
 </div>
 
 <div class="main">
     
-    <div class="section-label">✦ Finance: $900 Weekly Budget</div>
-    <div class="card">
-        <div class="budget-container"><div id="budget-bar" class="budget-fill" style="width: 0%;"></div></div>
-        <p style="font-size:11px; text-align:center;">Remaining: $<span id="budget-rem">900.00</span> / $900</p>
-        <input type="number" id="spend-amt" placeholder="Amount ($)">
-        <select id="spend-loc">
-            <option value="Coles">Coles (Groceries)</option>
-            <option value="Bunnings">Bunnings (Household)</option>
-            <option value="Paramount">Paramount+ (Sub)</option>
-            <option value="Other">Other</option>
-        </select>
-        <button onclick="logSpend()" style="width:100%; margin-top:10px; background:none; border:1px solid var(--gold); color:var(--gold); padding:8px; font-family:'Cinzel'; font-size:9px;">Process Transaction</button>
-        <div id="coach-alert" style="font-size:10px; color:var(--gold); margin-top:10px; font-style:italic;"></div>
-    </div>
-
-    <div class="section-label">✦ Cleaning: <span id="current-zone">...</span></div>
-    <div class="card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=500')"></div>
-        <div id="zone-tasks"></div>
-        <a href="https://calendar.google.com" target="_blank" style="color:var(--gold); font-size:10px; text-decoration:none; display:block; margin-top:10px;">View Zone Calendar →</a>
-    </div>
-
-    <div class="section-label">✦ SE QLD Garden: <span id="month-name">March</span></div>
-    <div class="card">
-        <p id="garden-guide" style="font-family:'Cormorant Garamond'; font-size:14px;"></p>
-        <div style="margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
-            <input type="text" id="plant-name" placeholder="What did you plant?">
-            <button onclick="logPlant()" style="width:100%; margin-top:5px; background:none; border:1px solid var(--gold); color:var(--gold); padding:5px; font-size:9px;">Start Tracker</button>
+    <div id="view-hub">
+        <div class="section-label">✦ Finance: $900 Weekly <span id="reset-money" style="opacity:0.5;"></span></div>
+        <div class="card">
+            <div class="bar-bg"><div id="budget-bar" class="bar-fill" style="width: 0%;"></div></div>
+            <p style="text-align:center; font-size:11px; margin-bottom:10px;">REMAINING: $<span id="budget-rem">900.00</span></p>
+            <input type="number" id="spend-val" placeholder="Amount ($)">
+            <select id="spend-cat">
+                <option value="Coles">Coles (Groceries)</option>
+                <option value="Bunnings">Bunnings (Household)</option>
+                <option value="Paramount">Paramount+ (Subscription)</option>
+                <option value="Joy">Joy / Self Care</option>
+            </select>
+            <button class="btn" onclick="logSpend()">LOG TRANSACTION</button>
+            <div id="coach" style="font-size:10px; color:var(--gold); margin-top:12px; font-style:italic; text-align:center;"></div>
         </div>
-        <div id="garden-log" style="font-size:11px; margin-top:10px;"></div>
+
+        <div class="section-label">✦ Cleaning Zone: <span id="zone-name">...</span></div>
+        <div class="card">
+            <div id="zone-tasks" style="font-family:'Cormorant Garamond'; font-size:16px;"></div>
+            <button class="btn" style="border-style:dashed;" onclick="show('cleaning')">VIEW INTELLIGENCE & HISTORY</button>
+        </div>
     </div>
 
-    <div class="section-label">✦ Self Care & Oxenford Outing</div>
-    <div class="card">
-        <div class="water-row" id="water-tracker">
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
-            <div class="drop" onclick="this.classList.toggle('active')"></div>
+    <div id="view-cleaning" class="hidden">
+        <div class="section-label">✦ Maintenance Intelligence</div>
+        <div class="card">
+            <p style="font-family:'Cinzel'; font-size:9px; color:var(--gold); text-align:center;">House Health Score</p>
+            <div style="font-size:32px; text-align:center; font-family:'Cinzel'; color:var(--gold);">85%</div>
         </div>
-        <p style="font-size:11px; margin-top:15px; font-style:italic; border-top:1px solid var(--border); padding-top:10px;">
-            "You are the heart of this home." — Daily Affirmation
-        </p>
-        <p style="font-size:11px; color:var(--gold); margin-top:5px;">Today's Oxenford Joy: Damian Leeding Park Walk</p>
+        <div class="section-label">✦ "Last Done" Archive</div>
+        <div class="card">
+            <table id="history-table">
+                <tr><th>Task</th><th>Last Done</th><th>Status</th></tr>
+                </table>
+            <input type="text" id="new-hist" placeholder="e.g. Ceiling Fans">
+            <button class="btn" onclick="addHistoryItem()">+ ADD TRACKED TASK</button>
+        </div>
+    </div>
+
+    <div id="view-meals" class="hidden">
+        <div class="section-label">✦ Weekly Meal Grid</div>
+        <div class="card">
+            <table>
+                <tr><th>Day</th><th>Dinner Plan</th></tr>
+                <tr><td>Sun</td><td><input type="text" id="sun-d"></td></tr>
+                <tr><td>Mon</td><td><input type="text" id="mon-d" placeholder="School Lunch?"></td></tr>
+                <tr><td>Tue</td><td><input type="text" id="tue-d"></td></tr>
+                <tr><td>Wed</td><td><input type="text" id="wed-d"></td></tr>
+                <tr><td>Thu</td><td><input type="text" id="thu-d"></td></tr>
+                <tr><td>Fri</td><td><input type="text" id="fri-d"></td></tr>
+                <tr><td>Sat</td><td><input type="text" id="sat-d"></td></tr>
+            </table>
+        </div>
+        <div class="section-label">✦ Pantry Low Stock</div>
+        <div class="card" id="pantry-list">
+            </div>
+    </div>
+
+    <div id="view-spirit" class="hidden">
+        <div class="section-label">✦ Southern Wheel of the Year</div>
+        <div class="card wheel-box">
+            <div class="current-sabbat" id="sabbat-name">SAMHAIN</div>
+            <p class="sabbat-info" id="sabbat-desc">The veil thins. A time for honoring ancestors and inner reflection.</p>
+            <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:15px; font-size:12px;">
+                <p><b>Energy:</b> Release & Rest</p>
+                <p><b>Altar:</b> Apples, Dark Stones, Candles</p>
+            </div>
+        </div>
+        <div class="section-label">✦ Oxenford Joy Challenge</div>
+        <div class="card">
+            <p style="font-style:italic;">"Walk the Damian Leeding Park loop at sunrise."</p>
+        </div>
     </div>
 
 </div>
 
 <div class="nav">
-    <div class="nav-btn">HUB</div>
-    <div class="nav-btn">PANTRY</div>
-    <div class="nav-btn">RECIPES</div>
-    <div class="nav-btn">MEALS</div>
+    <div class="nav-item" onclick="show('hub')">HUB</div>
+    <div class="nav-item" onclick="show('cleaning')">CLEAN</div>
+    <div class="nav-item" onclick="show('meals')">KITCHEN</div>
+    <div class="nav-item" onclick="show('spirit')">SPIRIT</div>
 </div>
 
 <script>
-    // 1. CLEANING ZONE LOGIC (4-Week Rotation)
+    // 1. DATA STORAGE
+    let budget = parseFloat(localStorage.getItem('hw_budget') || 900);
     const zones = [
-        { name: "Kitchen", tasks: ["Deep clean oven", "Degrease rangehood", "Wipe kickboards"] },
-        { name: "Bathrooms", tasks: ["Scrub grout", "Clean vanity internals", "Polished mirrors"] },
-        { name: "Floors", tasks: ["Mop all edges", "Steam carpets", "Wipe skirting"] },
-        { name: "Laundry/Linen", tasks: ["Wash curtains", "Organise linen closet", "Clean dryer filter"] }
+        { name: "Kitchen", tasks: ["◻ Oven & Rangehood", "◻ Pantry Wipe", "◻ Kickboards"] },
+        { name: "Bathrooms", tasks: ["◻ Scrub Grout", "◻ Vanity Sort", "◻ Drain Flush"] },
+        { name: "Floors/Windows", tasks: ["◻ Steam Mopping", "◻ Window Tracks", "◻ Skirtings"] },
+        { name: "Laundry/Linen", tasks: ["◻ Machine Maintenance", "◻ Linen Sort", "◻ Filters"] }
     ];
 
-    // 2. GARDEN LOGIC (Month-to-Month)
-    const gardenData = {
-        2: "March: Plant Basil, Beans, and Greens. Time for autumn brassicas.",
-        3: "April: Broccoli, Cabbage, and Herbs. Watch for cabbage moth!",
-    };
-
-    let budget = parseFloat(localStorage.getItem('hw_budget') || 900);
-    let gardenEntries = JSON.parse(localStorage.getItem('hw_garden_log') || '[]');
+    function show(id) {
+        document.querySelectorAll('.main > div').forEach(v => v.classList.add('hidden'));
+        document.getElementById('view-' + id).classList.remove('hidden');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    }
 
     function init() {
         const d = new Date();
-        const month = d.getMonth();
-        const weekNum = Math.floor(d.getDate() / 7);
+        const day = d.getDay(); // 0=Sun, 4=Thu
         
-        // Setup Cleaning Zone
-        const currentZone = zones[weekNum % 4];
-        document.getElementById('current-zone').innerText = currentZone.name;
-        document.getElementById('zone-tasks').innerHTML = currentZone.tasks.map(t => `<div style="font-size:12px; padding:5px 0;">◻ ${t}</div>`).join('');
+        // Setup Cleaning Zone (Resets Sunday)
+        const weekIdx = Math.floor(d.getDate() / 7) % 4;
+        document.getElementById('zone-name').innerText = zones[weekIdx].name;
+        document.getElementById('zone-tasks').innerHTML = zones[weekIdx].tasks.map(t => `<p style="padding:5px 0;">${t}</p>`).join('');
 
-        // Setup Garden
-        document.getElementById('garden-guide').innerText = gardenData[month] || "Plant herbs and check soil moisture.";
-        renderGarden();
+        // Setup Wheel (Southern Hemisphere)
+        const month = d.getMonth();
+        if(month === 2 || month === 3) { // March/April
+            document.getElementById('sabbat-name').innerText = "SAMHAIN";
+            document.getElementById('sabbat-desc').innerText = "Southern Samhain: The Great Harvest. Honor the ancestors as the cold sets in.";
+        }
 
-        // Setup Budget
-        updateBudgetUI();
+        updateUI();
     }
 
     function logSpend() {
-        const amt = parseFloat(document.getElementById('spend-amt').value);
-        const loc = document.getElementById('spend-loc').value;
+        const amt = document.getElementById('spend-val').value;
+        const cat = document.getElementById('spend-cat').value;
         if(amt) {
-            budget -= amt;
+            budget -= parseFloat(amt);
             localStorage.setItem('hw_budget', budget);
-            if(loc === "Paramount") {
-                document.getElementById('coach-alert').innerText = "Coach Tip: Paramount+ deal alert - 60% off currently available for returners.";
+            if(cat === "Paramount") {
+                document.getElementById('coach').innerText = "Coach Tip: Paramount+ is currently 60% off for returners. Deal confirmed!";
             }
-            updateBudgetUI();
-            document.getElementById('spend-amt').value = '';
+            document.getElementById('spend-val').value = '';
+            updateUI();
         }
     }
 
-    function updateBudgetUI() {
-        const perc = (budget / 900) * 100;
-        document.getElementById('budget-bar').style.width = Math.max(0, perc) + '%';
+    function updateUI() {
         document.getElementById('budget-rem').innerText = budget.toFixed(2);
+        document.getElementById('budget-bar').style.width = Math.max(0, (budget/900)*100) + '%';
     }
 
-    function logPlant() {
-        const p = document.getElementById('plant-name').value;
-        if(p) {
-            gardenEntries.push({name: p, date: new Date().toLocaleDateString()});
-            localStorage.setItem('hw_garden_log', JSON.stringify(gardenEntries));
-            renderGarden();
-            document.getElementById('plant-name').value = '';
+    function addHistoryItem() {
+        const val = document.getElementById('new-hist').value;
+        if(val) {
+            const table = document.getElementById('history-table');
+            const row = table.insertRow(-1);
+            row.innerHTML = `<td>${val}</td><td>--/--/--</td><td><span class="tag">LOG NOW</span></td>`;
+            document.getElementById('new-hist').value = '';
         }
-    }
-
-    function renderGarden() {
-        document.getElementById('garden-log').innerHTML = gardenEntries.map(e => `
-            <div style="padding:4px 0;">🌱 ${e.name} (Planted: ${e.date})</div>
-        `).join('');
     }
 
     init();
