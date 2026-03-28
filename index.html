@@ -3,43 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hearthwood Dashboard</title>
+    <title>Hearthwood Sanctuary</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0a0e0a; --card: #121812; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+        :root { --bg: #0a0e0a; --card: #121812; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); --accent: #1e261e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; padding-bottom: 100px; }
         
-        /* HEADER & IDENTITY */
-        .identity-header { background: linear-gradient(180deg, #121812 0%, #0a0e0a 100%); padding: 40px 10px 20px; border-bottom: 1px solid var(--border); text-align: center; }
-        .app-title { font-family: 'Cinzel', serif; font-size: 24px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; }
-        
-        .medallion-row { display: flex; justify-content: center; gap: 15px; }
-        .medallion { flex: 1; max-width: 90px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 40px 40px 10px 10px; background: rgba(201,169,110,0.03); }
-        .medallion svg { width: 24px; height: 24px; stroke: var(--gold); margin-bottom: 8px; stroke-width: 1.5; fill: none; }
-        .medallion .label { font-family: 'Cinzel'; font-size: 7px; color: var(--gold); letter-spacing: 1px; display: block; margin-bottom: 2px; opacity: 0.7; }
-        .medallion .sign { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); font-weight: 500; }
+        /* IDENTITY HEADER */
+        .identity-header { padding: 40px 10px 20px; border-bottom: 1px solid var(--border); text-align: center; background: linear-gradient(to bottom, #121812, #0a0e0a); }
+        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 20px; }
+        .medallion-row { display: flex; justify-content: center; gap: 12px; }
+        .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 40px 40px 10px 10px; background: rgba(201,169,110,0.02); }
+        .medallion svg { width: 22px; height: 22px; stroke: var(--gold); margin-bottom: 5px; fill: none; }
+        .medallion div { font-family: 'Cinzel'; font-size: 7px; color: var(--gold); letter-spacing: 1px; }
 
-        .main { padding: 20px 16px; max-width: 500px; margin: 0 auto; }
-        .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin: 35px 0 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+        .main { padding: 15px; max-width: 500px; margin: 0 auto; }
+        .section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin: 30px 0 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 5px; display: flex; justify-content: space-between; }
         
-        /* CONTENT CARDS */
-        .visual-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card-img { height: 100px; width: 100%; background-size: cover; background-position: center; opacity: 0.4; filter: grayscale(50%); border-bottom: 1px solid var(--border); }
-        .card-content { padding: 20px; }
+        /* CARDS */
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; }
+        .card-img { height: 80px; width: 100%; background-size: cover; background-position: center; opacity: 0.3; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--border); }
 
-        /* LISTS & INPUTS */
-        .row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .checkbox { width: 18px; height: 18px; border: 1px solid var(--gold); border-radius: 4px; flex-shrink: 0; }
-        .done { opacity: 0.3; text-decoration: line-through; filter: grayscale(1); }
+        /* BUDGET BAR */
+        .budget-container { height: 12px; background: #000; border-radius: 6px; overflow: hidden; margin: 10px 0; border: 1px solid var(--border); }
+        .budget-fill { height: 100%; background: var(--gold); transition: width 0.5s; }
         
-        input, textarea { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--text); padding: 12px; border-radius: 8px; font-family: 'Cormorant Garamond'; font-size: 16px; margin-top: 8px; outline: none; }
-        .btn-link { background: none; border: 1px solid var(--gold); color: var(--gold); font-family: 'Cinzel'; font-size: 8px; padding: 8px 12px; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 10px; }
+        /* WATER DROPS */
+        .water-row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .drop { width: 25px; height: 35px; border: 1px solid var(--gold); border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; cursor: pointer; opacity: 0.3; }
+        .drop.active { opacity: 1; background: var(--gold); }
 
-        /* THE SAVINGS JAR */
-        .finance-flex { display: flex; align-items: center; gap: 20px; }
-        .jar { width: 45px; height: 70px; border: 2px solid var(--gold); border-radius: 5px 5px 15px 15px; position: relative; overflow: hidden; background: rgba(201,169,110,0.05); }
-        .jar-fill { position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, #c9a96e, #e8c98a); transition: height 0.8s ease; }
+        /* PANTRY STICKERS */
+        .pantry-item { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .status-tag { font-size: 8px; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--gold); }
+
+        /* NAV */
+        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0e0a; display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid var(--border); z-index: 100; }
+        .nav-btn { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); cursor: pointer; }
+        .hidden { display: none; }
+        input, textarea, select { width: 100%; background: #000; border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 5px; margin-top: 5px; font-family: 'Cormorant Garamond'; }
     </style>
 </head>
 <body>
@@ -47,114 +50,146 @@
 <div class="identity-header">
     <div class="app-title">HEARTHWOOD</div>
     <div class="medallion-row">
-        <div class="medallion">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18"/><path d="M50 10v10m0 60v10M10 50h10m60 0h10M22 22l7 7m42 42l7 7m0-56l-7 7m-42 42l-7 7"/></svg>
-            <span class="label">SUN</span><span class="sign">GEMINI</span>
-        </div>
-        <div class="medallion">
-            <svg viewBox="0 0 100 100"><path d="M35 50 Q50 30 65 50 Q50 70 35 50"/><path d="M50 15v70M25 35h50M25 65h50"/></svg>
-            <span class="label">ASC</span><span class="sign">CANCER</span>
-        </div>
-        <div class="medallion">
-            <svg viewBox="0 0 100 100"><path d="M70 30 A30 30 0 1 0 70 70 A25 25 0 1 1 70 30"/></svg>
-            <span class="label">MOON</span><span class="sign">AQUARIUS</span>
-        </div>
+        <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18"/><path d="M50 10v10M10 50h10"/></svg><div>SUN</div><div style="font-size:8px;">GEMINI</div></div>
+        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 30 70 50 Q50 70 30 50"/></svg><div>ASC</div><div style="font-size:8px;">CANCER</div></div>
+        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A30 30 0 1 0 70 70"/></svg><div>MOON</div><div style="font-size:8px;">AQUARIUS</div></div>
     </div>
 </div>
 
 <div class="main">
     
-    <div class="section-label">✦ Today's Calendar <a href="https://calendar.google.com" target="_blank" class="btn-link">LAUNCH</a></div>
-    <div class="visual-card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=500')"></div>
-        <div class="card-content">
-            <textarea id="cal-events" placeholder="What's happening today? (School, Appointments, Reminders)" rows="3"></textarea>
-        </div>
+    <div class="section-label">✦ Finance: $900 Weekly Budget</div>
+    <div class="card">
+        <div class="budget-container"><div id="budget-bar" class="budget-fill" style="width: 0%;"></div></div>
+        <p style="font-size:11px; text-align:center;">Remaining: $<span id="budget-rem">900.00</span> / $900</p>
+        <input type="number" id="spend-amt" placeholder="Amount ($)">
+        <select id="spend-loc">
+            <option value="Coles">Coles (Groceries)</option>
+            <option value="Bunnings">Bunnings (Household)</option>
+            <option value="Paramount">Paramount+ (Sub)</option>
+            <option value="Other">Other</option>
+        </select>
+        <button onclick="logSpend()" style="width:100%; margin-top:10px; background:none; border:1px solid var(--gold); color:var(--gold); padding:8px; font-family:'Cinzel'; font-size:9px;">Process Transaction</button>
+        <div id="coach-alert" style="font-size:10px; color:var(--gold); margin-top:10px; font-style:italic;"></div>
     </div>
 
-    <div class="section-label">✦ Cleaning Rhythm</div>
-    <div class="visual-card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=500')"></div>
-        <div class="card-content" id="cleaning-checklist">
-            </div>
+    <div class="section-label">✦ Cleaning: <span id="current-zone">...</span></div>
+    <div class="card">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=500')"></div>
+        <div id="zone-tasks"></div>
+        <a href="https://calendar.google.com" target="_blank" style="color:var(--gold); font-size:10px; text-decoration:none; display:block; margin-top:10px;">View Zone Calendar →</a>
     </div>
 
-    <div class="section-label">✦ Nourishment</div>
-    <div class="visual-card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1495521821757-a1efb6729352?q=80&w=500')"></div>
-        <div class="card-content">
-            <div id="school-lunch-box" class="hidden">
-                <span style="font-family:'Cinzel'; font-size:9px; color:var(--gold);">SCHOOL LUNCH</span>
-                <input type="text" id="lunch-val" placeholder="Pack something fresh...">
-                <div style="margin-bottom:15px;"></div>
-            </div>
-            <span style="font-family:'Cinzel'; font-size:9px; color:var(--gold);">DINNER TONIGHT</span>
-            <input type="text" id="dinner-val" placeholder="What's cooking?">
+    <div class="section-label">✦ SE QLD Garden: <span id="month-name">March</span></div>
+    <div class="card">
+        <p id="garden-guide" style="font-family:'Cormorant Garamond'; font-size:14px;"></p>
+        <div style="margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
+            <input type="text" id="plant-name" placeholder="What did you plant?">
+            <button onclick="logPlant()" style="width:100%; margin-top:5px; background:none; border:1px solid var(--gold); color:var(--gold); padding:5px; font-size:9px;">Start Tracker</button>
         </div>
+        <div id="garden-log" style="font-size:11px; margin-top:10px;"></div>
     </div>
 
-    <div class="section-label">✦ Savings Jar</div>
-    <div class="visual-card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=500')"></div>
-        <div class="card-content finance-flex">
-            <div class="jar"><div id="jar-lvl" class="jar-fill" style="height: 0%;"></div></div>
-            <div style="flex:1;">
-                <p style="font-family:'Cinzel'; font-size:11px;">Total Refused: $<span id="save-total">0.00</span></p>
-                <button onclick="logSpend()" style="background:none; border:none; color:var(--gold); font-size:10px; text-decoration:underline; cursor:pointer; margin-top:5px;">+ Log Saved Amount</button>
-            </div>
+    <div class="section-label">✦ Self Care & Oxenford Outing</div>
+    <div class="card">
+        <div class="water-row" id="water-tracker">
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
+            <div class="drop" onclick="this.classList.toggle('active')"></div>
         </div>
+        <p style="font-size:11px; margin-top:15px; font-style:italic; border-top:1px solid var(--border); padding-top:10px;">
+            "You are the heart of this home." — Daily Affirmation
+        </p>
+        <p style="font-size:11px; color:var(--gold); margin-top:5px;">Today's Oxenford Joy: Damian Leeding Park Walk</p>
     </div>
 
 </div>
 
+<div class="nav">
+    <div class="nav-btn">HUB</div>
+    <div class="nav-btn">PANTRY</div>
+    <div class="nav-btn">RECIPES</div>
+    <div class="nav-btn">MEALS</div>
+</div>
+
 <script>
-    const routine = {
-        0: ["🛌 Change Sheets", "🧺 Sunday Laundry", "🍽️ Dishes"],
-        1: ["🛌 Make Bed", "🧹 Sweep & Mop", "🍽️ Dishes"],
-        2: ["🛌 Make Bed", "🧼 Clean Bathrooms", "🍽️ Dishes"],
-        3: ["🛌 Make Bed", "✨ Dust Surfaces", "🍽️ Dishes"],
-        4: ["🛌 Make Bed", "🥦 Grocery Prep", "🍽️ Dishes"],
-        5: ["🛌 Make Bed", "🧺 Full Laundry", "🍽️ Dishes"],
-        6: ["🛌 Make Bed", "🌿 Garden Care", "🍽️ Dishes"]
+    // 1. CLEANING ZONE LOGIC (4-Week Rotation)
+    const zones = [
+        { name: "Kitchen", tasks: ["Deep clean oven", "Degrease rangehood", "Wipe kickboards"] },
+        { name: "Bathrooms", tasks: ["Scrub grout", "Clean vanity internals", "Polished mirrors"] },
+        { name: "Floors", tasks: ["Mop all edges", "Steam carpets", "Wipe skirting"] },
+        { name: "Laundry/Linen", tasks: ["Wash curtains", "Organise linen closet", "Clean dryer filter"] }
+    ];
+
+    // 2. GARDEN LOGIC (Month-to-Month)
+    const gardenData = {
+        2: "March: Plant Basil, Beans, and Greens. Time for autumn brassicas.",
+        3: "April: Broccoli, Cabbage, and Herbs. Watch for cabbage moth!",
     };
+
+    let budget = parseFloat(localStorage.getItem('hw_budget') || 900);
+    let gardenEntries = JSON.parse(localStorage.getItem('hw_garden_log') || '[]');
 
     function init() {
         const d = new Date();
-        const dayNum = d.getDay();
+        const month = d.getMonth();
+        const weekNum = Math.floor(d.getDate() / 7);
         
-        // 1. Cleaning List
-        document.getElementById('cleaning-checklist').innerHTML = routine[dayNum].map(t => `
-            <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span>${t}</span></div>
-        `).join('');
+        // Setup Cleaning Zone
+        const currentZone = zones[weekNum % 4];
+        document.getElementById('current-zone').innerText = currentZone.name;
+        document.getElementById('zone-tasks').innerHTML = currentZone.tasks.map(t => `<div style="font-size:12px; padding:5px 0;">◻ ${t}</div>`).join('');
 
-        // 2. School Day Logic
-        if (dayNum >= 1 && dayNum <= 5) {
-            document.getElementById('school-lunch-box').classList.remove('hidden');
-        }
+        // Setup Garden
+        document.getElementById('garden-guide').innerText = gardenData[month] || "Plant herbs and check soil moisture.";
+        renderGarden();
 
-        // 3. Finance Update
-        const saved = localStorage.getItem('hw_savings') || 0;
-        document.getElementById('save-total').innerText = parseFloat(saved).toFixed(2);
-        document.getElementById('jar-lvl').style.height = Math.min(saved/10, 100) + '%';
-        
-        // 4. Persistence
-        ['cal-events', 'lunch-val', 'dinner-val'].forEach(id => {
-            document.getElementById(id).value = localStorage.getItem(id) || '';
-            document.getElementById(id).oninput = (e) => localStorage.setItem(id, e.target.value);
-        });
+        // Setup Budget
+        updateBudgetUI();
     }
 
     function logSpend() {
-        let val = prompt("How much did you choose NOT to spend?");
-        if(val) {
-            let current = parseFloat(localStorage.getItem('hw_savings') || 0);
-            localStorage.setItem('hw_savings', current + parseFloat(val));
-            location.reload();
+        const amt = parseFloat(document.getElementById('spend-amt').value);
+        const loc = document.getElementById('spend-loc').value;
+        if(amt) {
+            budget -= amt;
+            localStorage.setItem('hw_budget', budget);
+            if(loc === "Paramount") {
+                document.getElementById('coach-alert').innerText = "Coach Tip: Paramount+ deal alert - 60% off currently available for returners.";
+            }
+            updateBudgetUI();
+            document.getElementById('spend-amt').value = '';
         }
+    }
+
+    function updateBudgetUI() {
+        const perc = (budget / 900) * 100;
+        document.getElementById('budget-bar').style.width = Math.max(0, perc) + '%';
+        document.getElementById('budget-rem').innerText = budget.toFixed(2);
+    }
+
+    function logPlant() {
+        const p = document.getElementById('plant-name').value;
+        if(p) {
+            gardenEntries.push({name: p, date: new Date().toLocaleDateString()});
+            localStorage.setItem('hw_garden_log', JSON.stringify(gardenEntries));
+            renderGarden();
+            document.getElementById('plant-name').value = '';
+        }
+    }
+
+    function renderGarden() {
+        document.getElementById('garden-log').innerHTML = gardenEntries.map(e => `
+            <div style="padding:4px 0;">🌱 ${e.name} (Planted: ${e.date})</div>
+        `).join('');
     }
 
     init();
 </script>
-
 </body>
 </html>
