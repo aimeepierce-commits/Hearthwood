@@ -6,53 +6,79 @@
     <title>Hearthwood Sanctuary</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;0,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0a0e0a; --card: #121812; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); }
+        :root { 
+            --bg: #0a0e0a; 
+            --card: #121812; 
+            --gold: #c9a96e; 
+            --text: #e8dcc8; 
+            --border: rgba(201, 169, 110, 0.2); 
+            --shadow: rgba(0,0,0,0.7);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; min-height: 100vh; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
 
         /* --- HEADER & NAVIGATION --- */
-        .header { padding: 40px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
-        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; cursor: pointer; }
+        .header { padding: 40px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(5px); }
+        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; cursor: pointer; text-shadow: 0 0 10px rgba(201,169,110,0.4); }
+        
         .medallion-row { display: flex; justify-content: center; gap: 10px; }
-        .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 30px 30px 10px 10px; background: rgba(201,169,110,0.03); text-align: center; }
-        .medallion svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; margin-bottom: 5px; }
-        .medallion .sign { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); display: block; }
+        .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 30px 30px 10px 10px; background: rgba(201,169,110,0.03); text-align: center; transition: 0.3s; }
+        .medallion svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; margin-bottom: 5px; stroke-width: 1.2; }
+        .medallion .sign { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); display: block; letter-spacing: 1px; }
+        .medallion:active { background: rgba(201,169,110,0.1); }
 
         /* --- HOME SCREEN DYNAMIC FEED --- */
-        #home-screen { padding: 20px; max-width: 600px; margin: 0 auto; }
-        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-left-width: 4px; }
-        .briefing-title { font-family: 'Cinzel'; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        #home-screen { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
+        
+        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px var(--shadow); border-left-width: 4px; position: relative; overflow: hidden; }
+        .daily-briefing::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(201,169,110,0.05) 0%, rgba(0,0,0,0) 70%); pointer-events: none; }
+        .briefing-title { font-family: 'Cinzel'; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; position: relative; z-index: 2; }
+        #active-tasks { position: relative; z-index: 2; }
 
-        /* --- NAVIGATION GRID (13 SECTIONS) --- */
+        /* --- HOME NAVIGATION GRID (13 SECTIONS) --- */
         .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 90px; display: flex; align-items: flex-end; padding: 12px; transition: 0.2s; cursor: pointer; }
-        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.25; z-index: 1; filter: sepia(30%); }
-        .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; }
-        .nav-card:active { transform: scale(0.96); }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 90px; display: flex; align-items: flex-end; padding: 12px; transition: 0.3s; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 1; filter: sepia(40%) contrast(110%); transition: 0.5s; }
+        .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.7); }
+        .nav-card:active { transform: scale(0.96); border-color: var(--gold); }
+        .nav-card:active img { opacity: 0.5; transform: scale(1.05); }
 
         /* --- PAGE CONTENT --- */
-        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: slideUp 0.3s ease; }
+        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); padding-bottom: 100px; }
         .page.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 20px; cursor: pointer; display: inline-block; }
-        .hero-img { width: 100%; height: 200px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 20px; opacity: 0.6; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .back-bar { max-width: 600px; margin: 0 auto; padding: 10px 0 20px; }
+        .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        
+        .hero-img { width: 100%; height: 200px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 25px; opacity: 0.7; box-shadow: 0 15px 40px var(--shadow); filter: sepia(30%) contrast(110%); }
+
+        .section-header-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 4px; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 12px; text-transform: uppercase; }
 
         /* --- TASK ROWS --- */
-        .row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-        .checkbox { width: 20px; height: 20px; border: 1.5px solid var(--gold); border-radius: 5px; position: relative; flex-shrink: 0; }
-        .done .checkbox { background: var(--gold); }
-        .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 4px; top: 0; font-weight: bold; }
-        .done span { opacity: 0.3; text-decoration: line-through; }
-        .list-text { font-size: 15px; font-weight: 300; }
+        .row { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; transition: 0.2s; }
+        .checkbox { width: 22px; height: 22px; border: 1.5px solid var(--gold); border-radius: 6px; position: relative; flex-shrink: 0; transition: 0.2s; background: rgba(0,0,0,0.3); }
+        .done .checkbox { background: var(--gold); box-shadow: 0 0 10px rgba(201,169,110,0.3); }
+        .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 5px; top: 0; font-weight: bold; font-size: 15px; }
+        .done span { opacity: 0.3; text-decoration: line-through; color: var(--text); }
+        .list-text { font-size: 16px; font-weight: 300; letter-spacing: 0.3px; color: rgba(232,220,200,0.9); }
+        .row:active .checkbox { transform: scale(0.9); }
         
         /* --- PROGRESS TRACKER --- */
-        .tracker-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 15px; }
+        .tracker-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 20px; }
         .day-col { text-align: center; }
-        .day-label { font-size: 8px; font-family: 'Cinzel'; color: var(--gold); margin-bottom: 5px; }
-        .progress-bar { height: 60px; width: 100%; background: rgba(255,255,255,0.05); border-radius: 4px; position: relative; overflow: hidden; border: 1px solid var(--border); }
-        .fill { position: absolute; bottom: 0; width: 100%; background: var(--gold); transition: height 0.3s; }
+        .day-label { font-size: 8px; font-family: 'Cinzel'; color: var(--gold); margin-bottom: 8px; letter-spacing: 1px; }
+        .progress-bar { height: 70px; width: 100%; background: rgba(0,0,0,0.5); border-radius: 5px; position: relative; overflow: hidden; border: 1px solid var(--border); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+        .fill { position: absolute; bottom: 0; width: 100%; background: linear-gradient(180deg, #f5e6cc 0%, #c9a96e 100%); transition: height 0.4s ease-out; box-shadow: 0 0 10px rgba(201,169,110,0.5); }
 
-        textarea, input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--text); padding: 15px; border-radius: 10px; font-family: 'Cormorant Garamond'; font-size: 18px; margin-bottom: 20px; outline: none; }
+        /* --- INPUTS --- */
+        textarea, input[type="text"], input[type="number"] { width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border); color: var(--text); padding: 18px; border-radius: 12px; font-family: 'Cormorant Garamond', serif; font-size: 19px; margin-bottom: 20px; outline: none; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
+        textarea:focus, input:focus { border-color: var(--gold); }
+        
+        .small-gold-label { font-family: 'Cinzel'; font-size: 9px; color: var(--gold); letter-spacing: 2px; margin-bottom: 10px; display: block; opacity: 0.8; }
+        .cal-btn { display: block; text-align: center; border: 1px solid var(--gold); color: var(--gold); font-family: 'Cinzel'; font-size: 11px; padding: 18px; border-radius: 50px; text-decoration: none; margin-bottom: 30px; letter-spacing: 3px; background: rgba(201,169,110,0.05); box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s; }
+        .cal-btn:active { background: var(--gold); color: #000; }
     </style>
 </head>
 <body>
@@ -60,9 +86,9 @@
     <div class="header">
         <div class="app-title" onclick="showHome()">HEARTHWOOD</div>
         <div class="medallion-row">
-            <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 5v10m0 70v10M5 50h10m70 0h10" stroke="currentColor"/></svg><span class="sign">GEMINI</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="currentColor"/></svg><span class="sign">CANCER</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30" stroke="currentColor"/></svg><span class="sign">AQUARIUS</span></div>
+            <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 5v10m0 70v10M5 50h10m70 0h10"/></svg><span class="sign">GEMINI</span></div>
+            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50"/></svg><span class="sign">CANCER</span></div>
+            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30"/></svg><span class="sign">AQUARIUS</span></div>
         </div>
     </div>
 
@@ -73,55 +99,81 @@
         </div>
 
         <div class="nav-grid">
-            <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400"><span>1. Daily Rhythm</span></div>
-            <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1528740561666-dc2479bd08ab?w=400"><span>2. Home Records</span></div>
-            <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400"><span>3. Gardening</span></div>
-            <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400"><span>4. Meal Planning</span></div>
-            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=400"><span>5. Spirituality</span></div>
-            <div class="nav-card" onclick="showPage('p6')"><img src="https://images.unsplash.com/photo-1554224155-1696413565d3?w=400"><span>6. Finance</span></div>
-            <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1581781870027-146313b82143?w=400"><span>7. Maintenance</span></div>
-            <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400"><span>8. Personal Reset</span></div>
-            <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=400"><span>10. Family Flow</span></div>
-            <div class="nav-card" onclick="showPage('p11')"><img src="https://images.unsplash.com/photo-1506784982865-c840af60055b?w=400"><span>11. Learning</span></div>
-            <div class="nav-card" onclick="showPage('p12')"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=400"><span>12. Pet Health</span></div>
-            <div class="nav-card" onclick="showPage('p13')"><img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400"><span>13. Gifting</span></div>
+            <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=500"><span>1. Daily Rhythm</span></div>
+            <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1519791883288-dc8bd696e667?w=500"><span>2. Home Records</span></div>
+            <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=500"><span>3. Gardening</span></div>
+            <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=500"><span>4. Meal Planning</span></div>
+            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=500"><span>5. Spirituality</span></div>
+            <div class="nav-card" onclick="showPage('p6')"><img src="https://images.unsplash.com/photo-1554224155-1696413565d3?w=500"><span>6. Finance</span></div>
+            <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1596464521841-38374a581561?w=500"><span>7. Maintenance</span></div>
+            <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1586938928033-03e839e1a852?w=500"><span>8. Personal Reset</span></div>
+            <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=500"><span>10. Family Flow</span></div>
+            <div class="nav-card" onclick="showPage('p11')"><img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=500"><span>11. Learning</span></div>
+            <div class="nav-card" onclick="showPage('p12')"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=500"><span>12. Pet Health</span></div>
+            <div class="nav-card" onclick="showPage('p13')"><img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500"><span>13. Gifting</span></div>
         </div>
     </div>
 
     <div id="p1" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=800">
-        <h2 style="font-family:'Cinzel'; font-size:14px; color:var(--gold); margin-bottom:20px;">1. Daily Rhythm</h2>
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800">
+        <h2 class="section-header-title">1. Daily Rhythm</h2>
+        <a href="https://calendar.google.com" target="_blank" class="cal-btn">GOOGLE CALENDAR</a>
+        <textarea placeholder="Write focus here..." rows="4"></textarea>
         <div id="full-daily-list"></div>
     </div>
 
     <div id="p2" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1528740561666-dc2479bd08ab?w=800">
-        <h2 style="font-family:'Cinzel'; font-size:14px; color:var(--gold); margin-bottom:10px;">2. Home Records</h2>
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1519791883288-dc8bd696e666?w=800">
+        <h2 class="section-header-title">2. Home Records</h2>
+        <span class="small-gold-label">WEEKLY CONSISTENCY LOG</span>
         <div class="tracker-grid" id="history-grid"></div>
     </div>
 
     <div id="p3" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
         <img class="hero-img" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800">
-        <h2 style="font-family:'Cinzel'; font-size:14px; color:var(--gold);">3. Gardening</h2>
-        <div class="row"><div class="checkbox"></div><span class="list-text">Planting schedule</span></div>
-        <div class="row"><div class="checkbox"></div><span class="list-text">Watering routine</span></div>
+        <h2 class="section-header-title">3. Gardening</h2>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Planting schedule</span></div>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Watering routine</span></div>
+    </div>
+
+    <div id="p7" class="page">
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1596464521841-38374a581561?w=800">
+        <h2 class="section-header-title">7. Maintenance</h2>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Repairs List</span></div>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Seasonal Checks</span></div>
+    </div>
+
+    <div id="p8" class="page">
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1586938928033-03e839e1a852?w=800">
+        <h2 class="section-header-title">8. Personal Reset</h2>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Rest / Alone Time</span></div>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Self Care Ritual</span></div>
+    </div>
+
+    <div id="p11" class="page">
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
+        <img class="hero-img" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800">
+        <h2 class="section-header-title">11. Learning</h2>
+        <textarea placeholder="Books to read / arcane knowledge to explore..." rows="5"></textarea>
     </div>
 
     <div id="p12" class="page">
-        <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+        <div class="back-bar"><div class="back-btn" onclick="showHome()">← BACK HOME</div></div>
         <img class="hero-img" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=800">
-        <h2 style="font-family:'Cinzel'; font-size:14px; color:var(--gold);">12. Pet Health</h2>
-        <div class="row"><div class="checkbox"></div><span class="list-text">Vet appointments</span></div>
-        <div class="row"><div class="checkbox"></div><span class="list-text">Treatments</span></div>
+        <h2 class="section-header-title">12. Pet Health</h2>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Vet appointments</span></div>
+        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Flea/Tick Treatments</span></div>
     </div>
 
     <script>
         const SHIFTS = {
             "Morning": ["Make Bed", "Feed Pet", "Water Pets", "Clean pet dishes", "One load of laundry (start)", "Empty Dish Rack"],
-            "After Breakfast": ["Wash Dishes", "Load dishwasher", "Clean kitchen countertops", "Clean Stovetop", "Wash and rinse the sink", "Sweep kitchen floor"],
+            "After Breakfast": ["Wash Dishes", "Load dishwasher", "Clean kitchen countertops", "Clean Stovetop", "Wash/rinse the sink", "Sweep kitchen floor"],
             "Midday": ["Transfer laundry to dryer", "Fold clean Laundry", "Scrub Toilet", "Wipe bathroom sink", "Arrange furniture/cushions"],
             "Night": ["Final kitchen wipe", "Empty trash cans", "Vacuum/Sweep Living room", "Mop Floor", "Organize charging cables"]
         };
@@ -167,7 +219,7 @@
                     container.appendChild(el);
                 }
             });
-            if(!container.innerHTML) container.innerHTML = '<p style="font-size:12px; opacity:0.5;">Shift complete.</p>';
+            if(!container.innerHTML) container.innerHTML = '<p style="font-size:12px; opacity:0.5;">Shift complete. Rest well.</p>';
         }
 
         function updateHistoryScore() {
