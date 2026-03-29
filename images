@@ -1,1 +1,16 @@
-
+project/
+│
+├── index.html
+├── images/
+│   ├── cleaning.jpg
+│   ├── maintenance.jpg
+│   ├── gardening.jpg
+│   ├── meal-planning.jpg
+│   ├── spirituality.jpg
+│   ├── finance.jpg
+│   ├── personal-reset.jpg
+│   ├── social.jpg
+│   ├── family-flow.jpg
+│   ├── learning.jpg
+│   ├── pet-health.jpg
+│   └── gifting.jpg
