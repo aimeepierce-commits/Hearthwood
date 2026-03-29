@@ -2,15 +2,15 @@ project/
 │
 ├── index.html
 ├── images/
-│   ├── cleaning.jpg
-│   ├── maintenance.jpg
-│   ├── gardening.jpg
-│   ├── meal-planning.jpg
-│   ├── spirituality.jpg
-│   ├── finance.jpg
-│   ├── personal-reset.jpg
-│   ├── social.jpg
-│   ├── family-flow.jpg
-│   ├── learning.jpg
-│   ├── pet-health.jpg
-│   └── gifting.jpg
+│   ├── Cleaning.jpg
+│   ├── Maintenance.jpg
+│   ├── Gardening.jpg
+│   ├── Meal-planning.jpg
+│   ├── Spirituality.jpg
+│   ├── Finance.jpg
+│   ├── Personal-reset.jpg
+│   ├── Social.jpg
+│   ├── Family-flow.jpg
+│   ├── Learning.jpg
+│   ├── Pet-health.jpg
+│   └── Gifting.jpg
