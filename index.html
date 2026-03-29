@@ -44,55 +44,35 @@
 
     <div class="header">
         <div class="app-title" onclick="showHome()">HEARTHWOOD</div>
-        <div class="medallion-row">
-            <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 5v10m0 70v10M5 50h10m70 0h10" stroke="currentColor"/></svg><span class="sign">GEMINI</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="currentColor"/></svg><span class="sign">CANCER</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30" stroke="currentColor"/></svg><span class="sign">AQUARIUS</span></div>
-        </div>
     </div>
 
     <div id="home-screen">
-        <div class="daily-briefing" id="daily-feed">
-            <div class="briefing-title" id="shift-label">CURRENT SHIFT</div>
-            <div id="active-tasks"></div>
-        </div>
-
         <div class="nav-grid">
-            <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=800"><span>1. Daily Rhythm</span></div>
-            <div class="nav-card" onclick="showPage('p2')"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=800"><span>2. Home Records</span></div>
-            <div class="nav-card" onclick="showPage('p3')"><img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=800"><span>3. Gardening</span></div>
-            <div class="nav-card" onclick="showPage('p4')"><img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?q=80&w=800"><span>4. Meal Planning</span></div>
-            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?q=80&w=800"><span>5. Spirituality</span></div>
-            <div class="nav-card" onclick="showPage('p6')"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800"><span>6. Finance</span></div>
-            <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800"><span>7. Maintenance</span></div>
-            <div class="nav-card" onclick="showPage('p8')"><img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800"><span>8. Personal Reset</span></div>
-            <div class="nav-card" onclick="showPage('p9')"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800"><span>9. Social</span></div>
-            <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=800"><span>10. Family Flow</span></div>
-            <div class="nav-card" onclick="showPage('p11')"><img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=800"><span>11. Learning</span></div>
-            <div class="nav-card" onclick="showPage('p12')"><img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=800"><span>12. Pet Health</span></div>
-            <div class="nav-card" onclick="showPage('p13')"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?q=80&w=800"><span>13. Gifting</span></div>
+            <div class="nav-card" onclick="showPage('p1')"><img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=800"><span>1. Daily Rhythm</span></div>
+            <div class="nav-card" onclick="showPage('p5')"><img src="https://images.unsplash.com/photo-1528715471579-d1bcf0ba5e83?q=80&w=800"><span>5. Spirituality</span></div>
+            <div class="nav-card" onclick="showPage('p7')"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=800"><span>7. Maintenance</span></div>
+            <div class="nav-card" onclick="showPage('p10')"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800"><span>10. Family Flow</span></div>
+            <div class="nav-card" onclick="showPage('p11')"><img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=800"><span>11. Learning</span></div>
+            <div class="nav-card" onclick="showPage('p12')"><img src="https://images.unsplash.com/photo-1558788353-f76d92427f16?q=80&w=800"><span>12. Pet Health</span></div>
         </div>
     </div>
 
     <div id="p5" class="page">
         <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-        <img class="hero-img" src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?q=80&w=800">
+        <img class="hero-img" src="https://images.unsplash.com/photo-1528715471579-d1bcf0ba5e83?q=80&w=800">
         <h2 class="section-title">5. Spirituality</h2>
-        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Evening Meditation</span></div>
     </div>
 
     <div id="p9" class="page">
         <div class="back-btn" onclick="showHome()">← BACK HOME</div>
         <img class="hero-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800">
         <h2 class="section-title">9. Social</h2>
-        <div class="row" onclick="this.classList.toggle('done')"><div class="checkbox"></div><span class="list-text">Update Address Book</span></div>
     </div>
 
     <script>
         function showHome() {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('home-screen').style.display = 'block';
-            updateBriefing();
         }
 
         function showPage(id) {
@@ -102,18 +82,6 @@
             if(target) target.classList.add('active');
             window.scrollTo(0,0);
         }
-
-        function updateBriefing() {
-            const h = new Date().getHours();
-            let shift = "Night";
-            if (h < 9) shift = "Morning";
-            else if (h < 13) shift = "After Breakfast";
-            else if (h < 17) shift = "Midday";
-            document.getElementById('shift-label').innerText = `CURRENT SHIFT: ${shift.toUpperCase()}`;
-            document.getElementById('active-tasks').innerHTML = '<p style="padding:10px; opacity:0.6; font-size:12px;">Tasks sync in progress...</p>';
-        }
-
-        showHome();
     </script>
 </body>
 </html>
