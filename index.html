@@ -21,6 +21,11 @@
         .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; border-left-width: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
         .briefing-title { font-family: 'Cinzel'; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
+        /* Calendar Box Styling */
+        .calendar-box { margin-bottom:20px; border:1px solid rgba(201,169,110,0.2); border-radius:15px; overflow:hidden; }
+        .calendar-box a { display:block; padding:10px; text-align:center; font-family:'Cinzel'; font-size:10px; letter-spacing:2px; color:#c9a96e; border-bottom:1px solid rgba(201,169,110,0.2); text-decoration:none; }
+        .calendar-box iframe { border:0; width:100%; height:200px; }
+
         .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-card { background: #1a1f1a; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 105px; display: flex; align-items: flex-end; padding: 12px; cursor: pointer; }
         .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; z-index: 1; filter: brightness(0.5) contrast(1.2); }
@@ -52,6 +57,15 @@
     </div>
 
     <div id="home-screen">
+        <!-- Calendar Box -->
+        <div class="calendar-box">
+            <a href="https://calendar.google.com" target="_blank">OPEN CALENDAR</a>
+            <iframe 
+                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Australia%2FBrisbane&showPrint=0&src=YWltZWUucGllcmNlODdAZ21haWwuY29t&src=OTVhYzg3YjMwYTJhMmIxNTMwZTc3YTZhMzI0N2RjZjE1YzEzMzIwOGIwMTE4ZTFlYjcwYjJlNzJlMjMwODA3ZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MzI1ODBhZTg5OGI5N2NmNGRjZmE3OTQ4OTU3YzJiZmJmYTU3NTk5MmU5Mjg4Y2RhM2U1MGI3ZWI1YmViYjUzOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NjE5ZDg3NDJmNDNjZDQ4NjMzNWI1MjA5ZDE1MWQ2MTc5MWVlZmNhY2IyNmExNWUyYmUwMzZkNzMxOTczMjU5ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZmFtaWx5MDIxNDQ2MjQzMDUzODc3ODE1NjVAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=YjJiMDIzMTE2MjQxZGJhNzgyNDFkYmM5NjZjNTZjNmU0NjZiMzA0N2U5YTk2MTg5NDE3Nzg2ZjQ5YTAzZjc0NkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2316e503&color=%238e24aa&color=%23009688&color=%23616161&color=%23f4511e&color=%23e67c73&mode=AGENDA"
+                frameborder="0" scrolling="no">
+            </iframe>
+        </div>
+
         <div class="daily-briefing" id="daily-feed">
             <div class="briefing-title" id="shift-label">CURRENT SHIFT</div>
             <div id="active-tasks"></div>
