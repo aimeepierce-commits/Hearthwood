@@ -1,110 +1,314 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hearthwood Sanctuary</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;0,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg: #080a08; --card: #101410; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hearthwood Sanctuary</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;0,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #080a08;
+    --card: #101410;
+    --gold: #c9a96e;
+    --text: #e8dcc8;
+    --border: rgba(201, 169, 110, 0.2);
+}
 
-        .header { padding: 40px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
-        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; cursor: pointer; }
-        .medallion-row { display: flex; justify-content: center; gap: 10px; }
-        .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 30px 30px 10px 10px; background: rgba(201,169,110,0.03); text-align: center; }
-        .medallion svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; margin-bottom: 5px; }
-        .medallion .sign { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); display: block; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
-        #home-screen { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+}
 
-        .calendar-box { margin-bottom: 20px; }
-        .calendar-box a { 
-            display:block; 
-            padding:10px; 
-            text-align:center; 
-            font-family:'Cinzel'; 
-            font-size:10px; 
-            letter-spacing:2px; 
-            color: var(--gold); 
-            border:1px solid var(--border); 
-            border-radius:12px; 
-            text-decoration:none; 
-        }
+/* HEADER */
+.header {
+    padding: 40px 20px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top:0;
+    z-index:100;
+}
+.app-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    letter-spacing: 10px;
+    color: var(--gold);
+    margin-bottom:25px;
+    cursor:pointer;
+}
+.medallion-row {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+.medallion {
+    flex:1;
+    max-width:85px;
+    border:1px solid var(--border);
+    padding:10px 5px;
+    border-radius:30px 30px 10px 10px;
+    background: rgba(201,169,110,0.03);
+    text-align:center;
+}
+.medallion svg {
+    width:18px; height:18px; stroke: var(--gold); fill:none; margin-bottom:5px;
+}
+.medallion .sign {
+    font-family:'Cinzel';
+    font-size:8px;
+    color:var(--gold);
+    display:block;
+}
 
-        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; border-left-width: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
-        .briefing-title { font-family: 'Cinzel'; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+/* HOME SCREEN */
+#home-screen {
+    padding:20px;
+    max-width:600px;
+    margin:0 auto;
+    padding-bottom:100px;
+}
 
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .nav-card { background: #1a1f1a; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 105px; display: flex; align-items: flex-end; padding: 12px; cursor: pointer; }
-        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; z-index: 1; filter: brightness(0.75) contrast(1.2); }
-        .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; text-shadow: 2px 2px 4px #000; font-weight: 500; }
+.calendar-box { margin-bottom:20px; }
+.calendar-box a {
+    display:block;
+    padding:10px;
+    text-align:center;
+    font-family:'Cinzel';
+    font-size:10px;
+    letter-spacing:2px;
+    color: var(--gold);
+    border:1px solid var(--border);
+    border-radius:12px;
+    text-decoration:none;
+}
 
-        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: fadeIn 0.4s ease; padding-bottom: 100px; }
-        .page.active { display: block; }
-        .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 25px; cursor: pointer; display: inline-block; }
-        .hero-img { width: 100%; height: 240px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 30px; opacity: 0.8; }
-        .section-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 5px; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.daily-briefing {
+    background: var(--card);
+    border: 1px solid var(--gold);
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:30px;
+    border-left-width:4px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+}
+.briefing-title {
+    font-family:'Cinzel';
+    font-size:10px;
+    letter-spacing:3px;
+    color: var(--gold);
+    margin-bottom:15px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:8px;
+}
 
-        .row { display: flex; align-items: center; gap: 15px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-        .checkbox { width: 22px; height: 22px; border: 1.5px solid var(--gold); border-radius: 5px; position: relative; flex-shrink: 0; background: rgba(0,0,0,0.3); }
-        .done .checkbox { background: var(--gold); }
-        .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 5px; top: 0; font-weight: bold; font-size: 14px; }
-        .done span { opacity: 0.3; text-decoration: line-through; }
-        .list-text { font-size: 16px; font-weight: 300; color: rgba(232, 220, 200, 0.9); }
+/* NAV GRID */
+.nav-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+.nav-card {
+    background:#1a1f1a;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+    height:105px;
+    display:flex;
+    align-items:flex-end;
+    padding:12px;
+    cursor:pointer;
+}
+.nav-card img {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0.7;
+    z-index:1;
+    filter: brightness(0.75) contrast(1.2);
+}
+.nav-card span {
+    position:relative;
+    z-index:2;
+    font-family:'Cinzel';
+    font-size:8px;
+    letter-spacing:2px;
+    color: var(--gold);
+    width:100%;
+    text-align:center;
+    text-shadow:2px 2px 4px #000;
+    font-weight:500;
+}
 
-        /* FORM STYLING */
-        .form-popup { display:none; position:fixed; bottom:20px; right:20px; width:300px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; z-index:999; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
-        .form-popup h3 { font-family:'Cinzel'; color:var(--gold); font-size:12px; letter-spacing:2px; margin-bottom:10px; }
-        .form-popup input, .form-popup textarea { width:100%; margin:6px 0; padding:8px; background:#0c0f0c; border:1px solid var(--border); border-radius:6px; color:var(--text); }
-        .form-popup button { margin-top:8px; width:100%; padding:8px; background:var(--gold); color:#000; border:none; border-radius:6px; cursor:pointer; font-family:'Cinzel'; font-size:10px; }
-        .form-popup button:last-child { background:transparent; color:var(--gold); border:1px solid var(--border); }
-    </style>
+/* PAGE */
+.page {
+    display:none;
+    padding:20px;
+    max-width:600px;
+    margin:0 auto;
+    animation: fadeIn 0.4s ease;
+    padding-bottom:100px;
+}
+.page.active { display:block; }
+.back-btn {
+    color: var(--gold);
+    font-family: 'Cinzel';
+    font-size:10px;
+    letter-spacing:2px;
+    margin-bottom:25px;
+    cursor:pointer;
+    display:inline-block;
+}
+.hero-img {
+    width:100%;
+    height:240px;
+    border-radius:15px;
+    object-fit:cover;
+    border:1px solid var(--border);
+    margin-bottom:30px;
+    opacity:0.8;
+}
+.section-title {
+    font-family:'Cinzel';
+    font-size:14px;
+    letter-spacing:5px;
+    color: var(--gold);
+    margin-bottom:25px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:12px;
+}
+
+/* LISTS */
+.row {
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:18px 0;
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    cursor:pointer;
+}
+.checkbox {
+    width:22px;
+    height:22px;
+    border:1.5px solid var(--gold);
+    border-radius:5px;
+    position:relative;
+    flex-shrink:0;
+    background: rgba(0,0,0,0.3);
+}
+.done .checkbox { background: var(--gold); }
+.done .checkbox::after {
+    content:'✓';
+    color:#000;
+    position:absolute;
+    left:5px;
+    top:0;
+    font-weight:bold;
+    font-size:14px;
+}
+.done span { opacity:0.3; text-decoration:line-through; }
+.list-text { font-size:16px; font-weight:300; color:rgba(232,220,200,0.9); }
+
+/* FORM POPUP */
+.form-popup {
+    display:none;
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:300px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px;
+    z-index:999;
+    box-shadow:0 10px 30px rgba(0,0,0,0.8);
+}
+.form-popup h3 {
+    font-family:'Cinzel';
+    color:var(--gold);
+    font-size:12px;
+    letter-spacing:2px;
+    margin-bottom:10px;
+}
+.form-popup input, .form-popup textarea {
+    width:100%;
+    margin:6px 0;
+    padding:8px;
+    background:#0c0f0c;
+    border:1px solid var(--border);
+    border-radius:6px;
+    color:var(--text);
+}
+.form-popup button {
+    margin-top:8px;
+    width:100%;
+    padding:8px;
+    background:var(--gold);
+    color:#000;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-family:'Cinzel';
+    font-size:10px;
+}
+.form-popup button:last-child {
+    background:transparent;
+    color:var(--gold);
+    border:1px solid var(--border);
+}
+</style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
     <div class="app-title" onclick="showHome()">HEARTHWOOD</div>
     <div class="medallion-row">
-        <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 5v10m0 70v10M5 50h10m70 0h10" stroke="currentColor"/></svg><span class="sign">GEMINI</span></div>
-        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="currentColor"/></svg><span class="sign">CANCER</span></div>
-        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30" stroke="currentColor"/></svg><span class="sign">AQUARIUS</span></div>
+        <div class="medallion">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 5v10m0 70v10M5 50h10m70 0h10" stroke="currentColor"/></svg>
+            <span class="sign">GEMINI</span>
+        </div>
+        <div class="medallion">
+            <svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="currentColor"/></svg>
+            <span class="sign">CANCER</span>
+        </div>
+        <div class="medallion">
+            <svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30" stroke="currentColor"/></svg>
+            <span class="sign">AQUARIUS</span>
+        </div>
     </div>
 </div>
 
+<!-- HOME SCREEN -->
 <div id="home-screen">
     <div class="calendar-box">
         <a href="https://calendar.google.com" target="_blank">OPEN CALENDAR</a>
     </div>
-
     <div class="daily-briefing" id="daily-feed">
         <div class="briefing-title" id="shift-label">CURRENT SHIFT</div>
         <div id="active-tasks"></div>
     </div>
-
     <div class="nav-grid">
-        <div class="nav-card" onclick="showPage('p1')"><img src="images/cleaning.jpg" alt="Cleaning"><span>Cleaning</span></div>
-        <div class="nav-card" onclick="showPage('p2')"><img src="images/maintenance.jpg" alt="Maintenance"><span>Maintenance</span></div>
-        <div class="nav-card" onclick="showPage('p3')"><img src="images/gardening.jpg" alt="Gardening"><span>Gardening</span></div>
-        <div class="nav-card" onclick="showPage('p4')"><img src="images/meal-planning.jpg" alt="Meal Planning"><span>Meal Planning</span></div>
-        <div class="nav-card" onclick="showPage('p5')"><img src="images/spirituality.jpg" alt="Spirituality"><span>Spirituality</span></div>
-        <div class="nav-card" onclick="showPage('p6')"><img src="images/finance.jpg" alt="Finance"><span>Finance</span></div>
-
-        <div class="nav-card" onclick="showPage('p8')"><img src="images/personal-reset.jpg" alt="Personal Reset"><span>Personal Reset</span></div>
-        <div class="nav-card" onclick="showPage('p9')"><img src="images/social.jpg" alt="Social"><span>Social</span></div>
-        <div class="nav-card" onclick="showPage('p10')"><img src="images/family-flow.jpg" alt="Family Flow"><span>Family Flow</span></div>
-        <div class="nav-card" onclick="showPage('p11')"><img src="images/learning.jpg" alt="Learning"><span>Learning</span></div>
-        <div class="nav-card" onclick="showPage('p12')"><img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span></div>
-        <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
+        <div class="nav-card" onclick="showPage('p12')">
+            <img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span>
+        </div>
+        <!-- Add other nav cards as needed -->
     </div>
+</div>
 
- <!-- PET HEALTH PAGE (move OUTSIDE home-screen) -->
+<!-- PET HEALTH PAGE -->
 <div id="p12" class="page">
-     <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
     <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
-
     <h2 class="section-title">Pet Health</h2>
 
     <div class="daily-briefing">
@@ -136,252 +340,162 @@
 </div>
 
 <script>
-function showHome() {
-    document.getElementById('home-screen').style.display = 'block';
-    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+/* ---------- NAVIGATION ---------- */
+function showPage(id){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('home-screen').style.display='none';
+    document.getElementById(id).classList.add('active');
+}
+function showHome(){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('home-screen').style.display='block';
 }
 
-function showPage(id) {
-    document.getElementById('home-screen').style.display = 'none';
-    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-}
-</script>
+/* ---------- PET HEALTH DATA ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+    let treatments=JSON.parse(localStorage.getItem('treatments'))||[];
+    let healthRecords=JSON.parse(localStorage.getItem('healthRecords'))||{};
+    let healthLog=JSON.parse(localStorage.getItem('healthLog'))||[];
+    let groomingLog=JSON.parse(localStorage.getItem('groomingLog'))||[];
+    let emergencyInfo=JSON.parse(localStorage.getItem('emergencyInfo'))||[];
+    let currentForm='';
 
-    <!-- Pet summary -->
-    <div class="daily-briefing">
-        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Labrador</h3>
-        <p>Age: 3</p>
-        <p id="nextReminder">No reminders yet</p>
-    </div>
+    const petNameEl=document.getElementById('petName');
+    const petOutput=document.getElementById('pet-output');
+    const remindersDiv=document.getElementById('reminders');
+    const popupForm=document.getElementById('popupForm');
+    const formFields=document.getElementById('formFields');
+    const formTitle=document.getElementById('formTitle');
+    const formEl=document.getElementById('form');
 
-    <!-- Buttons to open forms -->
-    <div style="display:grid; gap:10px; margin-bottom:20px;" id="formButtons">
-        <button data-form="treatment">Add Treatment</button>
-        <button data-form="health">Health Records</button>
-        <button data-form="log">Health Log</button>
-        <button data-form="grooming">Grooming</button>
-        <button data-form="emergency">Emergency Info</button>
-    </div>
-
-    <!-- Pet data outputs -->
-    <div id="pet-output" style="font-size:12px;"></div>
-
-    <!-- Full reminders list -->
-    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
-</div>
-
-<!-- FORM POPUP (shared by all pages) -->
-<div class="form-popup" id="popupForm">
-    <h3 id="formTitle">Form</h3>
-    <form id="form">
-        <div id="formFields"></div>
-        <button type="submit">Save</button>
-        <button type="button" id="cancelForm">Cancel</button>
-    </form>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    /* ---------- DATA ---------- */
-    let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
-    let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
-    let healthLog = JSON.parse(localStorage.getItem('healthLog')) || [];
-    let groomingLog = JSON.parse(localStorage.getItem('groomingLog')) || [];
-    let emergencyInfo = JSON.parse(localStorage.getItem('emergencyInfo')) || {};
-    let currentForm = '';
-
-    const petNameEl = document.getElementById('petName');
-    const petOutput = document.getElementById('pet-output');
-    const remindersDiv = document.getElementById('reminders');
-    const popupForm = document.getElementById('popupForm');
-    const formFields = document.getElementById('formFields');
-    const formTitle = document.getElementById('formTitle');
-    const formEl = document.getElementById('form');
-
-    /* ---------- BACK HOME ---------- */
-    document.getElementById('backHomePet').addEventListener('click', () => {
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        document.getElementById('home-screen').style.display = 'block';
+    document.querySelectorAll('#formButtons button').forEach(btn=>{
+        btn.addEventListener('click',()=>openForm(btn.dataset.form));
     });
+    document.getElementById('cancelForm').addEventListener('click',()=>popupForm.style.display='none');
 
-    /* ---------- FORM BUTTONS ---------- */
-    document.querySelectorAll('#formButtons button').forEach(btn => {
-        btn.addEventListener('click', () => openForm(btn.dataset.form));
-    });
-
-    document.getElementById('cancelForm').addEventListener('click', () => popupForm.style.display = 'none');
-
-    /* ---------- OPEN FORM ---------- */
-    function openForm(type) {
-        currentForm = type;
-        formFields.innerHTML = '';
-        if(type === 'treatment'){
-            formTitle.innerText = 'Add Treatment';
-            formFields.innerHTML = `
-                <input type="date" name="date" required>
-                <input type="text" name="name" placeholder="Treatment" required>
-                <input type="text" name="product" placeholder="Product">
-                <input type="date" name="nextDue">
-            `;
-        } else if(type === 'health'){
-            formTitle.innerText = 'Update Health Records';
-            formFields.innerHTML = `
-                <input type="text" name="weight" placeholder="Weight History">
-                <input type="text" name="allergies" placeholder="Allergies">
-                <input type="text" name="conditions" placeholder="Conditions">
-                <input type="date" name="vetNext">
-            `;
-        } else if(type === 'log'){
-            formTitle.innerText = 'Health Log Entry';
-            formFields.innerHTML = `<textarea name="entry" placeholder="Write note..." required></textarea>`;
-        } else if(type === 'grooming'){
-            formTitle.innerText = 'Grooming Log';
-            formFields.innerHTML = `<textarea name="grooming" placeholder="Grooming update..." required></textarea>`;
-        } else if(type === 'emergency'){
-            formTitle.innerText = 'Emergency Info';
-            formFields.innerHTML = `
-                <input type="text" name="vet" placeholder="Primary Vet">
-                <input type="text" name="emergencyVet" placeholder="Emergency Vet">
-                <input type="text" name="poison" placeholder="Poison Helpline">
-            `;
+    function openForm(type){
+        currentForm=type;
+        formFields.innerHTML='';
+        switch(type){
+            case 'treatment':
+                formTitle.innerText='Add Treatment';
+                formFields.innerHTML=`
+                    <input type="date" name="date" required>
+                    <input type="text" name="name" placeholder="Treatment" required>
+                    <input type="text" name="product" placeholder="Product">
+                    <input type="date" name="nextDue">
+                `; break;
+            case 'health':
+                formTitle.innerText='Update Health Records';
+                formFields.innerHTML=`
+                    <input type="text" name="weight" placeholder="Weight History">
+                    <input type="text" name="allergies" placeholder="Allergies">
+                    <input type="text" name="conditions" placeholder="Conditions">
+                    <input type="date" name="vetNext">
+                `; break;
+            case 'log':
+                formTitle.innerText='Health Log Entry';
+                formFields.innerHTML=`<textarea name="entry" placeholder="Write note..." required></textarea>`; break;
+            case 'grooming':
+                formTitle.innerText='Grooming Log';
+                formFields.innerHTML=`<textarea name="grooming" placeholder="Grooming update..." required></textarea>`; break;
+            case 'emergency':
+                formTitle.innerText='Emergency Info';
+                formFields.innerHTML=`
+                    <input type="text" name="vet" placeholder="Primary Vet">
+                    <input type="text" name="emergencyVet" placeholder="Emergency Vet">
+                    <input type="text" name="poison" placeholder="Poison Helpline">
+                `; break;
         }
-        popupForm.style.display = 'block';
+        popupForm.style.display='block';
     }
 
-    /* ---------- FORM SUBMIT ---------- */
-    formEl.addEventListener('submit', (e) => {
+    formEl.addEventListener('submit',(e)=>{
         e.preventDefault();
-        const data = new FormData(formEl);
-
-        if(currentForm === 'treatment'){
-            treatments.push({
-                date: data.get('date'),
-                name: data.get('name'),
-                product: data.get('product'),
-                nextDue: data.get('nextDue')
-            });
-            localStorage.setItem('treatments', JSON.stringify(treatments));
-        } else if(currentForm === 'health'){
-            healthRecords = {
-                weight: data.get('weight'),
-                allergies: data.get('allergies'),
-                conditions: data.get('conditions'),
-                vetNext: data.get('vetNext')
-            };
-            localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
-        } else if(currentForm === 'log'){
-            healthLog.push(data.get('entry'));
-            localStorage.setItem('healthLog', JSON.stringify(healthLog));
-        } else if(currentForm === 'grooming'){
-            groomingLog.push(data.get('grooming'));
-            localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
-        } else if(currentForm === 'emergency'){
-            emergencyInfo = {
-                vet: data.get('vet'),
-                emergencyVet: data.get('emergencyVet'),
-                poison: data.get('poison')
-            };
-            localStorage.setItem('emergencyInfo', JSON.stringify(emergencyInfo));
+        const data=new FormData(formEl);
+        switch(currentForm){
+            case 'treatment':
+                treatments.push({date:data.get('date'),name:data.get('name'),product:data.get('product'),nextDue:data.get('nextDue')});
+                localStorage.setItem('treatments',JSON.stringify(treatments)); break;
+            case 'health':
+                healthRecords={weight:data.get('weight'),allergies:data.get('allergies'),conditions:data.get('conditions'),vetNext:data.get('vetNext')};
+                localStorage.setItem('healthRecords',JSON.stringify(healthRecords)); break;
+            case 'log':
+                healthLog.push(data.get('entry')); localStorage.setItem('healthLog',JSON.stringify(healthLog)); break;
+            case 'grooming':
+                groomingLog.push(data.get('grooming')); localStorage.setItem('groomingLog',JSON.stringify(groomingLog)); break;
+            case 'emergency':
+                emergencyInfo={vet:data.get('vet'),emergencyVet:data.get('emergencyVet'),poison:data.get('poison')};
+                localStorage.setItem('emergencyInfo',JSON.stringify(emergencyInfo)); break;
         }
-
         formEl.reset();
-        popupForm.style.display = 'none';
+        popupForm.style.display='none';
         renderPetData();
     });
 
-    /* ---------- RENDER PET DATA ---------- */
-    function renderPetData() {
-        const petName = localStorage.getItem('petName') || 'Labrador';
-        petNameEl.innerText = petName;
+    function renderPetData(){
+        const petName=localStorage.getItem('petName')||'Labrador';
+        petNameEl.innerText=petName;
 
-        let html = '';
-
-        // Treatments
-        html += '<h4 style="color:var(--gold)">Treatments</h4>';
+        let html='';
+        html+='<h4 style="color:var(--gold)">Treatments</h4>';
         if(treatments.length){
-            html += '<ul>';
-            treatments.forEach((t,i) => {
-                const overdue = t.nextDue && new Date(t.nextDue) < new Date() ? 'color:red;' : '';
-                html += `<li style="${overdue}">${t.date || 'N/A'} - ${t.name || 'N/A'} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}
-                         <button data-index="${i}" class="deleteTreatment" style="margin-left:8px;color:red;">❌</button></li>`;
+            html+='<ul>';
+            treatments.forEach((t,i)=>{
+                const overdue=t.nextDue && new Date(t.nextDue)<new Date()?'color:red;':'';
+                html+=`<li style="${overdue}">${t.date||'N/A'} - ${t.name||'N/A'} (${t.product||'N/A'}) Next: ${t.nextDue||'N/A'}
+                <button data-index="${i}" class="deleteTreatment" style="margin-left:8px;color:red;">❌</button></li>`;
             });
-            html += '</ul>';
-        } else html += '<p style="opacity:0.6;">No treatments recorded yet.</p>';
+            html+='</ul>';
+        } else html+='<p style="opacity:0.6;">No treatments recorded yet.</p>';
 
-        // Health Records
-        html += '<h4 style="color:var(--gold)">Health Records</h4>';
+        html+='<h4 style="color:var(--gold)">Health Records</h4>';
         if(Object.keys(healthRecords).length){
-            for(const k in healthRecords){
-                if(healthRecords[k]) html += `<p>${k}: ${healthRecords[k]}</p>`;
-            }
-        } else html += '<p style="opacity:0.6;">No health records yet.</p>';
+            for(const k in healthRecords) if(healthRecords[k]) html+=`<p>${k}: ${healthRecords[k]}</p>`;
+        } else html+='<p style="opacity:0.6;">No health records yet.</p>';
 
-        // Health Log
-        html += '<h4 style="color:var(--gold)">Health Log</h4>';
+        html+='<h4 style="color:var(--gold)">Health Log</h4>';
         if(healthLog.length){
-            html += '<ul>';
-            healthLog.forEach((e,i)=> html += `<li>${e} <button data-index="${i}" class="deleteHealthLog" style="margin-left:8px;color:red;">❌</button></li>`);
-            html += '</ul>';
-        } else html += '<p style="opacity:0.6;">No health log entries yet.</p>';
+            html+='<ul>';
+            healthLog.forEach((e,i)=> html+=`<li>${e} <button data-index="${i}" class="deleteHealthLog" style="margin-left:8px;color:red;">❌</button></li>`);
+            html+='</ul>';
+        } else html+='<p style="opacity:0.6;">No health log entries yet.</p>';
 
-        // Grooming Log
-        html += '<h4 style="color:var(--gold)">Grooming</h4>';
+        html+='<h4 style="color:var(--gold)">Grooming</h4>';
         if(groomingLog.length){
-            html += '<ul>';
-            groomingLog.forEach((e,i)=> html += `<li>${e} <button data-index="${i}" class="deleteGrooming" style="margin-left:8px;color:red;">❌</button></li>`);
-            html += '</ul>';
-        } else html += '<p style="opacity:0.6;">No grooming entries yet.</p>';
+            html+='<ul>';
+            groomingLog.forEach((e,i)=> html+=`<li>${e} <button data-index="${i}" class="deleteGrooming" style="margin-left:8px;color:red;">❌</button></li>`);
+            html+='</ul>';
+        } else html+='<p style="opacity:0.6;">No grooming records yet.</p>';
 
-        // Emergency Info
-        html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+        html+='<h4 style="color:var(--gold)">Emergency Info</h4>';
         if(Object.keys(emergencyInfo).length){
-            for(const k in emergencyInfo){
-                if(emergencyInfo[k]) html += `<p>${k}: ${emergencyInfo[k]}</p>`;
-            }
-        } else html += '<p style="opacity:0.6;">No emergency info provided yet.</p>';
+            for(const k in emergencyInfo) if(emergencyInfo[k]) html+=`<p>${k}: ${emergencyInfo[k]}</p>`;
+        } else html+='<p style="opacity:0.6;">No emergency info yet.</p>';
 
-        petOutput.innerHTML = html;
+        petOutput.innerHTML=html;
+
+        // Delete buttons
+        document.querySelectorAll('.deleteTreatment').forEach(btn=>{
+            btn.addEventListener('click',()=>{ treatments.splice(btn.dataset.index,1); localStorage.setItem('treatments',JSON.stringify(treatments)); renderPetData(); });
+        });
+        document.querySelectorAll('.deleteHealthLog').forEach(btn=>{
+            btn.addEventListener('click',()=>{ healthLog.splice(btn.dataset.index,1); localStorage.setItem('healthLog',JSON.stringify(healthLog)); renderPetData(); });
+        });
+        document.querySelectorAll('.deleteGrooming').forEach(btn=>{
+            btn.addEventListener('click',()=>{ groomingLog.splice(btn.dataset.index,1); localStorage.setItem('groomingLog',JSON.stringify(groomingLog)); renderPetData(); });
+        });
 
         // Next treatment reminder
-        const upcoming = treatments.filter(t=>t.nextDue).sort((a,b)=>new Date(a.nextDue)-new Date(b.nextDue));
-        const next = upcoming[0];
-        document.getElementById('nextReminder').innerText = next ? `Next: ${next.name} on ${next.nextDue}` : 'No reminders yet';
-
-        // Reminders list
+        const upcoming=treatments.filter(t=>t.nextDue && new Date(t.nextDue)>=new Date());
         if(upcoming.length){
-            let remindersHTML = '<h4 style="color:var(--gold)">Upcoming Treatments</h4><ul>';
-            upcoming.forEach((t,i)=>{
-                const overdue = t.nextDue && new Date(t.nextDue) < new Date() ? 'color:red;' : '';
-                remindersHTML += `<li style="${overdue}">${t.name} – Due ${t.nextDue} <button data-index="${i}" class="deleteTreatment" style="margin-left:8px;color:red;">❌</button></li>`;
-            });
-            remindersHTML += '</ul>';
-            remindersDiv.innerHTML = remindersHTML;
-        } else remindersDiv.innerHTML = '<p style="opacity:0.6;">No upcoming treatments.</p>';
-
-        // Attach delete button listeners
-        document.querySelectorAll('.deleteTreatment').forEach(btn=> btn.addEventListener('click', ()=> {
-            const idx = btn.dataset.index;
-            treatments.splice(idx,1);
-            localStorage.setItem('treatments', JSON.stringify(treatments));
-            renderPetData();
-        }));
-        document.querySelectorAll('.deleteHealthLog').forEach(btn=> btn.addEventListener('click', ()=>{
-            const idx = btn.dataset.index;
-            healthLog.splice(idx,1);
-            localStorage.setItem('healthLog', JSON.stringify(healthLog));
-            renderPetData();
-        }));
-        document.querySelectorAll('.deleteGrooming').forEach(btn=> btn.addEventListener('click', ()=>{
-            const idx = btn.dataset.index;
-            groomingLog.splice(idx,1);
-            localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
-            renderPetData();
-        }));
+            upcoming.sort((a,b)=>new Date(a.nextDue)-new Date(b.nextDue));
+            remindersDiv.innerHTML='Next treatment due: '+upcoming[0].nextDue+' ('+upcoming[0].name+')';
+        } else remindersDiv.innerHTML='No upcoming treatments';
     }
 
     renderPetData();
-
 });
 </script>
+</body>
+</html>
