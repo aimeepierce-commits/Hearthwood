@@ -299,34 +299,68 @@ body {
     </div>
     <div class="nav-grid">
         <div class="nav-card" onclick="showPage('p12')">
-            <img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span>
+            <img src="https://via.placeholder.com/300x105?text=Pet+Care" alt="Pet Care">
+            <span>Pet Care</span>
         </div>
-        <!-- Add other nav cards as needed -->
+        <div class="nav-card">
+            <img src="https://via.placeholder.com/300x105?text=Gardening" alt="Gardening">
+            <span>Gardening</span>
+        </div>
+        <div class="nav-card">
+            <img src="https://via.placeholder.com/300x105?text=Finance" alt="Finance">
+            <span>Finance</span>
+        </div>
+        <div class="nav-card">
+            <img src="https://via.placeholder.com/300x105?text=Spirituality" alt="Spirituality">
+            <span>Spirituality</span>
+        </div>
+        <div class="nav-card">
+            <img src="https://via.placeholder.com/300x105?text=Home+Maintenance" alt="Home Maintenance">
+            <span>Home Maintenance</span>
+        </div>
+        <div class="nav-card">
+            <img src="https://via.placeholder.com/300x105?text=Wellbeing" alt="Wellbeing">
+            <span>Wellbeing</span>
+        </div>
     </div>
 </div>
 
-<!-- PET HEALTH PAGE -->
+<!-- PET CARE PAGE -->
 <div id="p12" class="page">
     <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-    <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
-    <h2 class="section-title">Pet Health</h2>
+    <img class="hero-img" src="https://via.placeholder.com/600x240?text=Pet+Care+Hero" alt="Pet Health">
+    <h2 class="section-title">Pet Care</h2>
 
     <div class="daily-briefing">
-        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Labrador</h3>
-        <p>Age: 3</p>
-        <p id="nextReminder">No reminders yet</p>
+        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">[Enter Pet Name]</h3>
+        <p>Age: [Enter Age]</p>
+        <p id="nextReminder">No upcoming treatments</p>
     </div>
 
     <div style="display:grid; gap:10px; margin-bottom:20px;" id="formButtons">
         <button data-form="treatment">Add Treatment</button>
-        <button data-form="health">Health Records</button>
+        <button data-form="health">Update Health Records</button>
         <button data-form="log">Health Log</button>
         <button data-form="grooming">Grooming</button>
         <button data-form="emergency">Emergency Info</button>
     </div>
 
-    <div id="pet-output" style="font-size:12px;"></div>
-    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
+    <div id="pet-output" style="font-size:12px;">
+        <h4 style="color:var(--gold)">Treatments</h4>
+        <p style="opacity:0.6;">No treatments recorded yet. Click “Add Treatment” to fill in.</p>
+
+        <h4 style="color:var(--gold)">Health Records</h4>
+        <p style="opacity:0.6;">No health records yet. Click “Update Health Records” to fill in.</p>
+
+        <h4 style="color:var(--gold)">Health Log</h4>
+        <p style="opacity:0.6;">No health log entries yet. Click “Health Log” to add notes.</p>
+
+        <h4 style="color:var(--gold)">Grooming</h4>
+        <p style="opacity:0.6;">No grooming records yet. Click “Grooming” to add updates.</p>
+
+        <h4 style="color:var(--gold)">Emergency Info</h4>
+        <p style="opacity:0.6;">No emergency info yet. Click “Emergency Info” to fill in.</p>
+    </div>
 </div>
 
 <!-- FORM POPUP -->
@@ -357,12 +391,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     let healthRecords=JSON.parse(localStorage.getItem('healthRecords'))||{};
     let healthLog=JSON.parse(localStorage.getItem('healthLog'))||[];
     let groomingLog=JSON.parse(localStorage.getItem('groomingLog'))||[];
-    let emergencyInfo=JSON.parse(localStorage.getItem('emergencyInfo'))||[];
+    let emergencyInfo=JSON.parse(localStorage.getItem('emergencyInfo'))||{};
     let currentForm='';
 
     const petNameEl=document.getElementById('petName');
     const petOutput=document.getElementById('pet-output');
-    const remindersDiv=document.getElementById('reminders');
+    const remindersDiv=document.getElementById('nextReminder');
     const popupForm=document.getElementById('popupForm');
     const formFields=document.getElementById('formFields');
     const formTitle=document.getElementById('formTitle');
@@ -434,64 +468,42 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
 
     function renderPetData(){
-        const petName=localStorage.getItem('petName')||'Labrador';
+        const petName=localStorage.getItem('petName')||'[Enter Pet Name]';
         petNameEl.innerText=petName;
 
-        let html='';
-        html+='<h4 style="color:var(--gold)">Treatments</h4>';
-        if(treatments.length){
-            html+='<ul>';
-            treatments.forEach((t,i)=>{
-                const overdue=t.nextDue && new Date(t.nextDue)<new Date()?'color:red;':'';
-                html+=`<li style="${overdue}">${t.date||'N/A'} - ${t.name||'N/A'} (${t.product||'N/A'}) Next: ${t.nextDue||'N/A'}
-                <button data-index="${i}" class="deleteTreatment" style="margin-left:8px;color:red;">❌</button></li>`;
-            });
-            html+='</ul>';
-        } else html+='<p style="opacity:0.6;">No treatments recorded yet.</p>';
+        // Treatments
+        let tHtml=treatments.length?'<ul>'+treatments.map(t=>`<li>${t.date}: ${t.name} (${t.product||'No product'}) Next: ${t.nextDue||'N/A'}</li>`).join('')+'</ul>':'<p style="opacity:0.6;">No treatments recorded yet. Click “Add Treatment” to fill in.</p>';
 
-        html+='<h4 style="color:var(--gold)">Health Records</h4>';
-        if(Object.keys(healthRecords).length){
-            for(const k in healthRecords) if(healthRecords[k]) html+=`<p>${k}: ${healthRecords[k]}</p>`;
-        } else html+='<p style="opacity:0.6;">No health records yet.</p>';
+        // Health Records
+        let hHtml=Object.keys(healthRecords).length?`<ul>
+            <li>Weight: ${healthRecords.weight||'N/A'}</li>
+            <li>Allergies: ${healthRecords.allergies||'N/A'}</li>
+            <li>Conditions: ${healthRecords.conditions||'N/A'}</li>
+            <li>Next Vet: ${healthRecords.vetNext||'N/A'}</li>
+        </ul>`:'<p style="opacity:0.6;">No health records yet. Click “Update Health Records” to fill in.</p>';
 
-        html+='<h4 style="color:var(--gold)">Health Log</h4>';
-        if(healthLog.length){
-            html+='<ul>';
-            healthLog.forEach((e,i)=> html+=`<li>${e} <button data-index="${i}" class="deleteHealthLog" style="margin-left:8px;color:red;">❌</button></li>`);
-            html+='</ul>';
-        } else html+='<p style="opacity:0.6;">No health log entries yet.</p>';
+        // Health Log
+        let lHtml=healthLog.length?'<ul>'+healthLog.map(l=>`<li>${l}</li>`).join('')+'</ul>':'<p style="opacity:0.6;">No health log entries yet. Click “Health Log” to add notes.</p>';
 
-        html+='<h4 style="color:var(--gold)">Grooming</h4>';
-        if(groomingLog.length){
-            html+='<ul>';
-            groomingLog.forEach((e,i)=> html+=`<li>${e} <button data-index="${i}" class="deleteGrooming" style="margin-left:8px;color:red;">❌</button></li>`);
-            html+='</ul>';
-        } else html+='<p style="opacity:0.6;">No grooming records yet.</p>';
+        // Grooming
+        let gHtml=groomingLog.length?'<ul>'+groomingLog.map(g=>`<li>${g}</li>`).join('')+'</ul>':'<p style="opacity:0.6;">No grooming records yet. Click “Grooming” to add updates.</p>';
 
-        html+='<h4 style="color:var(--gold)">Emergency Info</h4>';
-        if(Object.keys(emergencyInfo).length){
-            for(const k in emergencyInfo) if(emergencyInfo[k]) html+=`<p>${k}: ${emergencyInfo[k]}</p>`;
-        } else html+='<p style="opacity:0.6;">No emergency info yet.</p>';
+        // Emergency
+        let eHtml=Object.keys(emergencyInfo).length?`<ul>
+            <li>Primary Vet: ${emergencyInfo.vet||'N/A'}</li>
+            <li>Emergency Vet: ${emergencyInfo.emergencyVet||'N/A'}</li>
+            <li>Poison Helpline: ${emergencyInfo.poison||'N/A'}</li>
+        </ul>`:'<p style="opacity:0.6;">No emergency info yet. Click “Emergency Info” to fill in.</p>';
 
-        petOutput.innerHTML=html;
+        petOutput.innerHTML=`<h4 style="color:var(--gold)">Treatments</h4>${tHtml}
+            <h4 style="color:var(--gold)">Health Records</h4>${hHtml}
+            <h4 style="color:var(--gold)">Health Log</h4>${lHtml}
+            <h4 style="color:var(--gold)">Grooming</h4>${gHtml}
+            <h4 style="color:var(--gold)">Emergency Info</h4>${eHtml}`;
 
-        // Delete buttons
-        document.querySelectorAll('.deleteTreatment').forEach(btn=>{
-            btn.addEventListener('click',()=>{ treatments.splice(btn.dataset.index,1); localStorage.setItem('treatments',JSON.stringify(treatments)); renderPetData(); });
-        });
-        document.querySelectorAll('.deleteHealthLog').forEach(btn=>{
-            btn.addEventListener('click',()=>{ healthLog.splice(btn.dataset.index,1); localStorage.setItem('healthLog',JSON.stringify(healthLog)); renderPetData(); });
-        });
-        document.querySelectorAll('.deleteGrooming').forEach(btn=>{
-            btn.addEventListener('click',()=>{ groomingLog.splice(btn.dataset.index,1); localStorage.setItem('groomingLog',JSON.stringify(groomingLog)); renderPetData(); });
-        });
-
-        // Next treatment reminder
-        const upcoming=treatments.filter(t=>t.nextDue && new Date(t.nextDue)>=new Date());
-        if(upcoming.length){
-            upcoming.sort((a,b)=>new Date(a.nextDue)-new Date(b.nextDue));
-            remindersDiv.innerHTML='Next treatment due: '+upcoming[0].nextDue+' ('+upcoming[0].name+')';
-        } else remindersDiv.innerHTML='No upcoming treatments';
+        // Next reminder
+        let upcoming=treatments.filter(t=>t.nextDue).sort((a,b)=>new Date(a.nextDue)-new Date(b.nextDue))[0];
+        remindersDiv.innerText=upcoming?`Next treatment: ${upcoming.name} on ${upcoming.nextDue}`:'No upcoming treatments';
     }
 
     renderPetData();
