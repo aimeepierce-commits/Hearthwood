@@ -99,3 +99,260 @@
         <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
     </div>
 
+    </div>
+</div>
+
+<!-- PET HEALTH PAGE -->
+<div id="p12" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+
+    <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
+
+    <h2 class="section-title">Pet Health</h2>
+
+    <div class="daily-briefing">
+        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Labrador</h3>
+        <p>Age: 3</p>
+        <p id="reminders">No upcoming treatments</p>
+    </div>
+
+    <div style="display:grid; gap:10px; margin-bottom:20px;" id="formButtons">
+        <button data-form="treatment">Add Treatment</button>
+        <button data-form="health">Health Records</button>
+        <button data-form="log">Health Log</button>
+        <button data-form="grooming">Grooming</button>
+        <button data-form="emergency">Emergency Info</button>
+    </div>
+
+    <div id="pet-output" style="font-size:12px;">
+        <h4 style="color:var(--gold)">Treatments</h4>
+        <p style="opacity:0.6;">No treatments recorded yet.</p>
+
+        <h4 style="color:var(--gold)">Health Records</h4>
+        <p style="opacity:0.6;">No health records yet.</p>
+
+        <h4 style="color:var(--gold)">Health Log</h4>
+        <p style="opacity:0.6;">No health log entries yet.</p>
+
+        <h4 style="color:var(--gold)">Grooming</h4>
+        <p style="opacity:0.6;">No grooming records yet.</p>
+
+        <h4 style="color:var(--gold)">Emergency Info</h4>
+        <p style="opacity:0.6;">No emergency info yet.</p>
+    </div>
+</div>
+
+<!-- FORM POPUP -->
+<div class="form-popup" id="popupForm">
+    <h3 id="formTitle">Form</h3>
+    <form id="form">
+        <div id="formFields"></div>
+        <button type="submit">Save</button>
+        <button type="button" id="cancelForm">Cancel</button>
+    </form>
+</div>
+
+<script>
+function showHome() {
+    document.getElementById('home-screen').style.display = 'block';
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+}
+
+function showPage(id) {
+    document.getElementById('home-screen').style.display = 'none';
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
+    let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
+    let healthLog = JSON.parse(localStorage.getItem('healthLog')) || [];
+    let groomingLog = JSON.parse(localStorage.getItem('groomingLog')) || [];
+    let emergencyInfo = JSON.parse(localStorage.getItem('emergencyInfo')) || {};
+    let currentForm = '';
+
+    const petNameEl = document.getElementById('petName');
+    const petOutput = document.getElementById('pet-output');
+    const remindersDiv = document.getElementById('reminders');
+    const popupForm = document.getElementById('popupForm');
+    const formFields = document.getElementById('formFields');
+    const formTitle = document.getElementById('formTitle');
+    const formEl = document.getElementById('form');
+
+    document.querySelectorAll('#formButtons button').forEach(btn => {
+        btn.addEventListener('click', () => openForm(btn.dataset.form));
+    });
+
+    document.getElementById('cancelForm').addEventListener('click', () => {
+        popupForm.style.display = 'none';
+    });
+
+    function openForm(type) {
+        currentForm = type;
+        formFields.innerHTML = '';
+
+        if (type === 'treatment') {
+            formTitle.innerText = 'Add Treatment';
+            formFields.innerHTML = `
+                <input type="date" name="date" required>
+                <input type="text" name="name" placeholder="Treatment" required>
+                <input type="text" name="product" placeholder="Product">
+                <input type="date" name="nextDue">
+            `;
+        }
+
+        if (type === 'health') {
+            formTitle.innerText = 'Update Health Records';
+            formFields.innerHTML = `
+                <input type="text" name="weight" placeholder="Weight History">
+                <input type="text" name="allergies" placeholder="Allergies">
+                <input type="text" name="conditions" placeholder="Conditions">
+                <input type="date" name="vetNext">
+            `;
+        }
+
+        if (type === 'log') {
+            formTitle.innerText = 'Health Log Entry';
+            formFields.innerHTML = `<textarea name="entry" placeholder="Write note..." required></textarea>`;
+        }
+
+        if (type === 'grooming') {
+            formTitle.innerText = 'Grooming Log';
+            formFields.innerHTML = `<textarea name="grooming" placeholder="Grooming update..." required></textarea>`;
+        }
+
+        if (type === 'emergency') {
+            formTitle.innerText = 'Emergency Info';
+            formFields.innerHTML = `
+                <input type="text" name="vet" placeholder="Primary Vet">
+                <input type="text" name="emergencyVet" placeholder="Emergency Vet">
+                <input type="text" name="poison" placeholder="Poison Helpline">
+            `;
+        }
+
+        popupForm.style.display = 'block';
+    }
+
+    formEl.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(formEl);
+
+        if (currentForm === 'treatment') {
+            treatments.push({
+                date: data.get('date'),
+                name: data.get('name'),
+                product: data.get('product'),
+                nextDue: data.get('nextDue')
+            });
+            localStorage.setItem('treatments', JSON.stringify(treatments));
+        }
+
+        if (currentForm === 'health') {
+            healthRecords = {
+                weight: data.get('weight'),
+                allergies: data.get('allergies'),
+                conditions: data.get('conditions'),
+                vetNext: data.get('vetNext')
+            };
+            localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
+        }
+
+        if (currentForm === 'log') {
+            healthLog.push(data.get('entry'));
+            localStorage.setItem('healthLog', JSON.stringify(healthLog));
+        }
+
+        if (currentForm === 'grooming') {
+            groomingLog.push(data.get('grooming'));
+            localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
+        }
+
+        if (currentForm === 'emergency') {
+            emergencyInfo = {
+                vet: data.get('vet'),
+                emergencyVet: data.get('emergencyVet'),
+                poison: data.get('poison')
+            };
+            localStorage.setItem('emergencyInfo', JSON.stringify(emergencyInfo));
+        }
+
+        formEl.reset();
+        popupForm.style.display = 'none';
+        renderPetData();
+    });
+
+    function renderPetData() {
+        petNameEl.innerText = 'Labrador';
+
+        let html = '';
+
+        html += '<h4 style="color:var(--gold)">Treatments</h4>';
+        if (treatments.length) {
+            html += '<ul>';
+            treatments.forEach(t => {
+                html += `<li>${t.date || 'N/A'} - ${t.name || 'N/A'} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}</li>`;
+            });
+            html += '</ul>';
+        } else {
+            html += '<p style="opacity:0.6;">No treatments recorded yet.</p>';
+        }
+
+        html += '<h4 style="color:var(--gold)">Health Records</h4>';
+        if (Object.keys(healthRecords).length) {
+            for (const key in healthRecords) {
+                if (healthRecords[key]) html += `<p>${key}: ${healthRecords[key]}</p>`;
+            }
+        } else {
+            html += '<p style="opacity:0.6;">No health records yet.</p>';
+        }
+
+        html += '<h4 style="color:var(--gold)">Health Log</h4>';
+        if (healthLog.length) {
+            html += '<ul>';
+            healthLog.forEach(entry => {
+                html += `<li>${entry}</li>`;
+            });
+            html += '</ul>';
+        } else {
+            html += '<p style="opacity:0.6;">No health log entries yet.</p>';
+        }
+
+        html += '<h4 style="color:var(--gold)">Grooming</h4>';
+        if (groomingLog.length) {
+            html += '<ul>';
+            groomingLog.forEach(entry => {
+                html += `<li>${entry}</li>`;
+            });
+            html += '</ul>';
+        } else {
+            html += '<p style="opacity:0.6;">No grooming records yet.</p>';
+        }
+
+        html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+        if (Object.keys(emergencyInfo).length) {
+            for (const key in emergencyInfo) {
+                if (emergencyInfo[key]) html += `<p>${key}: ${emergencyInfo[key]}</p>`;
+            }
+        } else {
+            html += '<p style="opacity:0.6;">No emergency info yet.</p>';
+        }
+
+        petOutput.innerHTML = html;
+
+        const upcoming = treatments.filter(t => t.nextDue);
+        if (upcoming.length) {
+            upcoming.sort((a, b) => new Date(a.nextDue) - new Date(b.nextDue));
+            remindersDiv.innerText = `Next treatment due: ${upcoming[0].nextDue} (${upcoming[0].name})`;
+        } else {
+            remindersDiv.innerText = 'No upcoming treatments';
+        }
+    }
+
+    renderPetData();
+});
+</script>
+
+</body>
+</html>
