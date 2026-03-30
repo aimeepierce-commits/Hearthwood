@@ -99,157 +99,210 @@
         <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
     </div>
 
-<!-- PET HEALTH PAGE -->
-<div id="p12" class="page">
-    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-    <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
-    <h2 class="section-title">Pet Care</h2>
+<!-- PET CARE WITH FIRESTORE -->
+<script type="module">
+  // Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-    <div class="daily-briefing">
-        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">[Enter Pet Name]</h3>
-        <p>Age: [Enter Age]</p>
-        <p id="nextReminder">No upcoming treatments</p>
-    </div>
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyANWvx81VLjn0v6eEGpnNcIEdjQKt1hP3k",
+    authDomain: "home-b7fa0.firebaseapp.com",
+    projectId: "home-b7fa0",
+    storageBucket: "home-b7fa0.firebasestorage.app",
+    messagingSenderId: "376280545473",
+    appId: "1:376280545473:web:201974ec84cc0c779cfc40",
+    measurementId: "G-D3DSTWPG18"
+  };
 
-    <div style="display:grid; gap:10px; margin-bottom:20px;" id="formButtons">
-        <button data-form="treatment">Add Treatment</button>
-        <button data-form="health">Update Health Records</button>
-        <button data-form="log">Health Log</button>
-        <button data-form="grooming">Grooming</button>
-        <button data-form="emergency">Emergency Info</button>
-    </div>
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
 
-    <div id="pet-output" style="font-size:12px;">
-        <h4 style="color:var(--gold)">Treatments</h4>
-        <p style="opacity:0.6;">No treatments recorded yet. Click “Add Treatment” to fill in.</p>
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Pet care data
+    let treatments = [];
+    let healthRecords = {};
+    let healthLog = [];
+    let groomingLog = [];
+    let emergencyInfo = [];
 
-        <h4 style="color:var(--gold)">Health Records</h4>
-        <p style="opacity:0.6;">No health records yet. Click “Update Health Records” to fill in.</p>
+    const petNameEl = document.getElementById('petName');
+    const petOutput = document.getElementById('pet-output');
+    const remindersDiv = document.getElementById('reminders');
+    const popupForm = document.getElementById('popupForm');
+    const formFields = document.getElementById('formFields');
+    const formTitle = document.getElementById('formTitle');
+    const formEl = document.getElementById('form');
+    let currentForm = '';
 
-        <h4 style="color:var(--gold)">Health Log</h4>
-        <p style="opacity:0.6;">No health log entries yet. Click “Health Log” to add notes.</p>
-
-        <h4 style="color:var(--gold)">Grooming</h4>
-        <p style="opacity:0.6;">No grooming records yet. Click “Grooming” to add updates.</p>
-
-        <h4 style="color:var(--gold)">Emergency Info</h4>
-        <p style="opacity:0.6;">No emergency info yet. Click “Emergency Info” to fill in.</p>
-    </div>
-
-    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
-</div>
-
-<!-- PLACEHOLDER PAGES -->
-<div id="pMaintenance" class="page">
-    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-    <h2 class="section-title">Maintenance</h2>
-    <p style="opacity:0.6;">No maintenance records yet.</p>
-</div>
-
-<div id="pFinance" class="page">
-    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-    <h2 class="section-title">Finance</h2>
-    <p style="opacity:0.6;">No finance records yet.</p>
-</div>
-
-<div id="pGardening" class="page">
-    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-    <h2 class="section-title">Gardening</h2>
-    <p style="opacity:0.6;">No gardening records yet.</p>
-</div>
-
-<!-- FORM POPUP -->
-<div class="form-popup" id="popupForm">
-    <h3 id="formTitle">Form</h3>
-    <form id="form">
-        <div id="formFields"></div>
-        <button type="submit">Save</button>
-        <button type="button" id="cancelForm">Cancel</button>
-    </form>
-</div>
-
-<script>
-/* ---------- NAVIGATION ---------- */
-function showPage(id){
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('home-screen').style.display='none';
-    document.getElementById(id).classList.add('active');
-}
-function showHome(){
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('home-screen').style.display='block';
-}
-
-/* ---------- PET CARE DATA ---------- */
-document.addEventListener('DOMContentLoaded',()=>{
-    let treatments=JSON.parse(localStorage.getItem('treatments'))||[];
-    let healthRecords=JSON.parse(localStorage.getItem('healthRecords'))||{};
-    let healthLog=JSON.parse(localStorage.getItem('healthLog'))||[];
-    let groomingLog=JSON.parse(localStorage.getItem('groomingLog'))||[];
-    let emergencyInfo=JSON.parse(localStorage.getItem('emergencyInfo'))||[];
-    let currentForm='';
-
-    const petNameEl=document.getElementById('petName');
-    const petOutput=document.getElementById('pet-output');
-    const remindersDiv=document.getElementById('reminders');
-    const popupForm=document.getElementById('popupForm');
-    const formFields=document.getElementById('formFields');
-    const formTitle=document.getElementById('formTitle');
-    const formEl=document.getElementById('form');
-
-    document.querySelectorAll('#formButtons button').forEach(btn=>{
-        btn.addEventListener('click',()=>openForm(btn.dataset.form));
-    });
-    document.getElementById('cancelForm').addEventListener('click',()=>popupForm.style.display='none');
-
-    function openForm(type){
-        currentForm=type;
-        formFields.innerHTML='';
-        switch(type){
-            case 'treatment':
-                formTitle.innerText='Add Treatment';
-                formFields.innerHTML=`
-                    <input type="date" name="date" required>
-                    <input type="text" name="name" placeholder="Treatment" required>
-                    <input type="text" name="product" placeholder="Product">
-                    <input type="date" name="nextDue">
-                `; break;
-            case 'health':
-                formTitle.innerText='Update Health Records';
-                formFields.innerHTML=`
-                    <input type="text" name="weight" placeholder="Weight History">
-                    <input type="text" name="allergies" placeholder="Allergies">
-                    <input type="text" name="conditions" placeholder="Conditions">
-                    <input type="date" name="vetNext">
-                `; break;
-            case 'log':
-                formTitle.innerText='Health Log Entry';
-                formFields.innerHTML=`<textarea name="entry" placeholder="Write note..." required></textarea>`; break;
-            case 'grooming':
-                formTitle.innerText='Grooming Log';
-                formFields.innerHTML=`<textarea name="grooming" placeholder="Grooming update..." required></textarea>`; break;
-            case 'emergency':
-                formTitle.innerText='Emergency Info';
-                formFields.innerHTML=`
-                    <input type="text" name="vet" placeholder="Primary Vet">
-                    <input type="text" name="emergencyVet" placeholder="Emergency Vet">
-                    <input type="text" name="poison" placeholder="Poison Helpline">
-                `; break;
-        }
-        popupForm.style.display='block';
+    // Load Firestore data
+    async function loadPetData() {
+      const docSnap = await getDoc(doc(db, "pets", "labrador"));
+      if(docSnap.exists()){
+        const data = docSnap.data();
+        treatments = data.treatments || [];
+        healthRecords = data.healthRecords || {};
+        healthLog = data.healthLog || [];
+        groomingLog = data.groomingLog || [];
+        emergencyInfo = data.emergencyInfo || [];
+      }
+      renderPetData();
     }
 
-    formEl.addEventListener('submit',(e)=>{
-        e.preventDefault();
-        const data=new FormData(formEl);
-        switch(currentForm){
-            case 'treatment':
-                treatments.push({date:data.get('date'),name:data.get('name'),product:data.get('product'),nextDue:data.get('nextDue')});
-                localStorage.setItem('treatments',JSON.stringify(treatments)); break;
-            case 'health':
-                healthRecords={weight:data.get('weight'),allergies:data.get('allergies'),conditions:data.get('conditions'),vetNext:data.get('vetNext')};
-                localStorage.setItem('healthRecords',JSON.stringify(healthRecords)); break;
-            case 'log':
-                healthLog.push(data.get('entry')); localStorage.setItem('healthLog',JSON.stringify(healthLog)); break;
-            case 'grooming':
-                grooming
+    // Save Firestore data
+    async function savePetData() {
+      await setDoc(doc(db, "pets", "labrador"), {
+        treatments,
+        healthRecords,
+        healthLog,
+        groomingLog,
+        emergencyInfo
+      });
+    }
+
+    // Open form
+    document.querySelectorAll('#formButtons button').forEach(btn => {
+      btn.addEventListener('click', () => openForm(btn.dataset.form));
+    });
+    document.getElementById('cancelForm').addEventListener('click', () => popupForm.style.display='none');
+
+    function openForm(type) {
+      currentForm = type;
+      formFields.innerHTML = '';
+      switch(type){
+        case 'treatment':
+          formTitle.innerText = 'Add Treatment';
+          formFields.innerHTML = `
+            <input type="date" name="date" required>
+            <input type="text" name="name" placeholder="Treatment" required>
+            <input type="text" name="product" placeholder="Product">
+            <input type="date" name="nextDue">
+          `; break;
+        case 'health':
+          formTitle.innerText = 'Update Health Records';
+          formFields.innerHTML = `
+            <input type="text" name="weight" placeholder="Weight History">
+            <input type="text" name="allergies" placeholder="Allergies">
+            <input type="text" name="conditions" placeholder="Conditions">
+            <input type="date" name="vetNext">
+          `; break;
+        case 'log':
+          formTitle.innerText = 'Health Log Entry';
+          formFields.innerHTML = `<textarea name="entry" placeholder="Write note..." required></textarea>`; break;
+        case 'grooming':
+          formTitle.innerText = 'Grooming Log';
+          formFields.innerHTML = `<textarea name="grooming" placeholder="Grooming update..." required></textarea>`; break;
+        case 'emergency':
+          formTitle.innerText = 'Emergency Info';
+          formFields.innerHTML = `
+            <input type="text" name="vet" placeholder="Primary Vet">
+            <input type="text" name="emergencyVet" placeholder="Emergency Vet">
+            <input type="text" name="poison" placeholder="Poison Helpline">
+          `; break;
+      }
+      popupForm.style.display='block';
+    }
+
+    // Handle form submit
+    formEl.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(formEl);
+      switch(currentForm){
+        case 'treatment':
+          treatments.push({date:data.get('date'), name:data.get('name'), product:data.get('product'), nextDue:data.get('nextDue')});
+          break;
+        case 'health':
+          healthRecords = {weight:data.get('weight'), allergies:data.get('allergies'), conditions:data.get('conditions'), vetNext:data.get('vetNext')};
+          break;
+        case 'log':
+          healthLog.push(data.get('entry')); break;
+        case 'grooming':
+          groomingLog.push(data.get('grooming')); break;
+        case 'emergency':
+          emergencyInfo = {vet:data.get('vet'), emergencyVet:data.get('emergencyVet'), poison:data.get('poison')}; break;
+      }
+      formEl.reset();
+      popupForm.style.display='none';
+      await savePetData();
+      renderPetData();
+    });
+
+    // Render Pet Data
+    function renderPetData() {
+      petNameEl.innerText = 'Labrador';
+
+      let html = '';
+      html += '<h4 style="color:var(--gold)">Treatments</h4>';
+      if(treatments.length){
+        html += '<ul>';
+        treatments.forEach((t,i)=>{
+          const overdue = t.nextDue && new Date(t.nextDue) < new Date() ? 'color:red;' : '';
+          html += `<li style="${overdue}">${t.date||'N/A'} - ${t.name||'N/A'} (${t.product||'N/A'}) Next: ${t.nextDue||'N/A'} <button data-index="${i}" class="deleteTreatment" style="margin-left:8px;color:red;">❌</button></li>`;
+        });
+        html += '</ul>';
+      } else html += '<p style="opacity:0.6;">No treatments recorded yet.</p>';
+
+      html += '<h4 style="color:var(--gold)">Health Records</h4>';
+      if(Object.keys(healthRecords).length){
+        for(const k in healthRecords) if(healthRecords[k]) html += `<p>${k}: ${healthRecords[k]}</p>`;
+      } else html += '<p style="opacity:0.6;">No health records yet.</p>';
+
+      html += '<h4 style="color:var(--gold)">Health Log</h4>';
+      if(healthLog.length){
+        html += '<ul>';
+        healthLog.forEach((e,i)=> html += `<li>${e} <button data-index="${i}" class="deleteHealthLog" style="margin-left:8px;color:red;">❌</button></li>`);
+        html += '</ul>';
+      } else html += '<p style="opacity:0.6;">No health log entries yet.</p>';
+
+      html += '<h4 style="color:var(--gold)">Grooming</h4>';
+      if(groomingLog.length){
+        html += '<ul>';
+        groomingLog.forEach((e,i)=> html += `<li>${e} <button data-index="${i}" class="deleteGrooming" style="margin-left:8px;color:red;">❌</button></li>`);
+        html += '</ul>';
+      } else html += '<p style="opacity:0.6;">No grooming records yet.</p>';
+
+      html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+      if(Object.keys(emergencyInfo).length){
+        for(const k in emergencyInfo) if(emergencyInfo[k]) html += `<p>${k}: ${emergencyInfo[k]}</p>`;
+      } else html += '<p style="opacity:0.6;">No emergency info yet.</p>';
+
+      petOutput.innerHTML = html;
+
+      // Delete buttons
+      document.querySelectorAll('.deleteTreatment').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{ 
+          treatments.splice(btn.dataset.index,1); 
+          await savePetData();
+          renderPetData(); 
+        });
+      });
+      document.querySelectorAll('.deleteHealthLog').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{ 
+          healthLog.splice(btn.dataset.index,1); 
+          await savePetData();
+          renderPetData(); 
+        });
+      });
+      document.querySelectorAll('.deleteGrooming').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{ 
+          groomingLog.splice(btn.dataset.index,1); 
+          await savePetData();
+          renderPetData(); 
+        });
+      });
+
+      // Next treatment reminder
+      const upcoming = treatments.filter(t=>t.nextDue && new Date(t.nextDue) >= new Date());
+      if(upcoming.length){
+        upcoming.sort((a,b)=>new Date(a.nextDue)-new Date(b.nextDue));
+        remindersDiv.innerHTML = 'Next treatment due: '+upcoming[0].nextDue+' ('+upcoming[0].name+')';
+      } else remindersDiv.innerHTML = 'No upcoming treatments';
+    }
+
+    await loadPetData();
+  });
+</script>
