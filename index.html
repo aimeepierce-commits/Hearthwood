@@ -101,40 +101,43 @@
 </div>
 <!-- PET HEALTH PAGE -->
 <div id="p12" class="page">
-  <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
 
-  <img class="hero-img" src="images/pet-health.jpg">
+    <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
 
-  <h2 class="section-title">Pet Health</h2>
+    <h2 class="section-title">Pet Health</h2>
 
-  <!-- Pet Summary -->
-  <div class="daily-briefing">
-    <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Luna</h3>
-    <p>Breed: Border Collie | Age: 3</p>
-    <p id="nextReminder">No reminders yet</p>
-  </div>
+    <!-- Pet summary -->
+    <div class="daily-briefing">
+        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Labrador</h3>
+        <p>Age: 3</p>
+        <p id="nextReminder">No reminders yet</p>
+    </div>
 
-  <!-- Buttons to open forms -->
-  <div style="display:grid; gap:10px; margin-bottom:20px;">
-    <button onclick="openForm('treatment')">Add Treatment</button>
-    <button onclick="openForm('health')">Health Records</button>
-    <button onclick="openForm('log')">Health Log</button>
-    <button onclick="openForm('grooming')">Grooming</button>
-    <button onclick="openForm('emergency')">Emergency Info</button>
-  </div>
+    <!-- Buttons to open forms -->
+    <div style="display:grid; gap:10px; margin-bottom:20px;">
+        <button onclick="openForm('treatment')">Add Treatment</button>
+        <button onclick="openForm('health')">Health Records</button>
+        <button onclick="openForm('log')">Health Log</button>
+        <button onclick="openForm('grooming')">Grooming</button>
+        <button onclick="openForm('emergency')">Emergency Info</button>
+    </div>
 
-  <!-- Data Output -->
-  <div id="pet-output" style="margin-top:20px; font-size:12px;"></div>
+    <!-- Pet data outputs -->
+    <div id="pet-output" style="font-size:12px;"></div>
+
+    <!-- Full reminders list -->
+    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
 </div>
 
 <!-- POPUP FORM -->
 <div class="form-popup" id="popupForm">
-  <h3 id="formTitle">Add Entry</h3>
-  <form id="form">
-    <div id="formFields"></div>
-    <button type="submit">Save</button>
-    <button type="button" onclick="closeForm()">Cancel</button>
-  </form>
+    <h3 id="formTitle">Add Entry</h3>
+    <form id="form">
+        <div id="formFields"></div>
+        <button type="submit">Save</button>
+        <button type="button" onclick="closeForm()">Cancel</button>
+    </form>
 </div>
 
 <script>
@@ -147,164 +150,188 @@ let emergencyInfo = JSON.parse(localStorage.getItem('emergencyInfo')) || {};
 
 let currentForm = '';
 
-/* ---------------- SHOW / HIDE PAGES ---------------- */
+/* ---------------- HOME / NAV ---------------- */
 function showHome() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('home-screen').style.display = 'block';
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('home-screen').style.display = 'block';
+    updateBriefing();
 }
 
 function showPage(id) {
-  document.getElementById('home-screen').style.display = 'none';
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const target = document.getElementById(id);
-  if(target) target.classList.add('active');
-  window.scrollTo(0,0);
-  if(id === 'p12') renderPetData();
+    document.getElementById('home-screen').style.display = 'none';
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active');
+    window.scrollTo(0,0);
+    if(id === 'p12') renderPetData();
 }
 
-/* ---------------- POPUP FORM ---------------- */
+function updateBriefing() {
+    const h = new Date().getHours();
+    let shift = "Night";
+    if (h < 9) shift = "Morning";
+    else if (h < 13) shift = "After Breakfast";
+    else if (h < 17) shift = "Midday";
+    document.getElementById('shift-label').innerText = `CURRENT SHIFT: ${shift.toUpperCase()}`;
+    document.getElementById('active-tasks').innerHTML = '<p style="padding:10px; opacity:0.6; font-size:12px;">Tasks sync in progress...</p>';
+}
+
+/* ---------------- FORMS ---------------- */
 function openForm(type) {
-  currentForm = type;
-  const popup = document.getElementById('popupForm');
-  const fields = document.getElementById('formFields');
-  const title = document.getElementById('formTitle');
-  fields.innerHTML = '';
+    currentForm = type;
+    const popup = document.getElementById('popupForm');
+    const fields = document.getElementById('formFields');
+    const title = document.getElementById('formTitle');
+    fields.innerHTML = '';
 
-  if(type === 'treatment'){
-    title.innerText = 'Add Treatment';
-    fields.innerHTML = `
-      <input type="date" name="date" required>
-      <input type="text" name="name" placeholder="Treatment" required>
-      <input type="text" name="product" placeholder="Product">
-      <input type="date" name="nextDue">
-    `;
-  }
-  if(type === 'health'){
-    title.innerText = 'Update Health Records';
-    fields.innerHTML = `
-      <input type="text" name="weight" placeholder="Weight History">
-      <input type="text" name="allergies" placeholder="Allergies">
-      <input type="text" name="conditions" placeholder="Conditions">
-      <input type="date" name="vetNext">
-    `;
-  }
-  if(type === 'log'){
-    title.innerText = 'Health Log Entry';
-    fields.innerHTML = `<textarea name="entry" placeholder="Write note..." required></textarea>`;
-  }
-  if(type === 'grooming'){
-    title.innerText = 'Grooming Log';
-    fields.innerHTML = `<textarea name="grooming" placeholder="Grooming update..." required></textarea>`;
-  }
-  if(type === 'emergency'){
-    title.innerText = 'Emergency Info';
-    fields.innerHTML = `
-      <input type="text" name="vet" placeholder="Primary Vet">
-      <input type="text" name="emergencyVet" placeholder="Emergency Vet">
-      <input type="text" name="poison" placeholder="Poison Helpline">
-    `;
-  }
+    if(type === 'treatment') {
+        title.innerText = 'Add Treatment';
+        fields.innerHTML = `
+            <input type="date" name="date" required>
+            <input type="text" name="name" placeholder="Treatment" required>
+            <input type="text" name="product" placeholder="Product">
+            <input type="date" name="nextDue">
+        `;
+    }
 
-  popup.style.display = 'block';
+    if(type === 'health') {
+        title.innerText = 'Update Health Records';
+        fields.innerHTML = `
+            <input type="text" name="weight" placeholder="Weight History">
+            <input type="text" name="allergies" placeholder="Allergies">
+            <input type="text" name="conditions" placeholder="Conditions">
+            <input type="date" name="vetNext">
+        `;
+    }
+
+    if(type === 'log') {
+        title.innerText = 'Health Log Entry';
+        fields.innerHTML = `<textarea name="entry" placeholder="Write note..." required></textarea>`;
+    }
+
+    if(type === 'grooming') {
+        title.innerText = 'Grooming Log';
+        fields.innerHTML = `<textarea name="grooming" placeholder="Grooming update..." required></textarea>`;
+    }
+
+    if(type === 'emergency') {
+        title.innerText = 'Emergency Info';
+        fields.innerHTML = `
+            <input type="text" name="vet" placeholder="Primary Vet">
+            <input type="text" name="emergencyVet" placeholder="Emergency Vet">
+            <input type="text" name="poison" placeholder="Poison Helpline">
+        `;
+    }
+
+    popup.style.display = 'block';
 }
 
-function closeForm(){
-  document.getElementById('popupForm').style.display = 'none';
+function closeForm() {
+    document.getElementById('popupForm').style.display = 'none';
 }
 
-/* ---------------- SAVE FORM ---------------- */
 document.getElementById('form').addEventListener('submit', function(e){
-  e.preventDefault();
-  const data = new FormData(this);
+    e.preventDefault();
+    const data = new FormData(this);
 
-  if(currentForm === 'treatment'){
-    treatments.push({
-      date: data.get('date'),
-      name: data.get('name'),
-      product: data.get('product'),
-      nextDue: data.get('nextDue')
-    });
-    localStorage.setItem('treatments', JSON.stringify(treatments));
-  }
-  if(currentForm === 'health'){
-    healthRecords = {
-      weight: data.get('weight'),
-      allergies: data.get('allergies'),
-      conditions: data.get('conditions'),
-      vetNext: data.get('vetNext')
-    };
-    localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
-  }
-  if(currentForm === 'log'){
-    healthLog.push(data.get('entry'));
-    localStorage.setItem('healthLog', JSON.stringify(healthLog));
-  }
-  if(currentForm === 'grooming'){
-    groomingLog.push(data.get('grooming'));
-    localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
-  }
-  if(currentForm === 'emergency'){
-    emergencyInfo = {
-      vet: data.get('vet'),
-      emergencyVet: data.get('emergencyVet'),
-      poison: data.get('poison')
-    };
-    localStorage.setItem('emergencyInfo', JSON.stringify(emergencyInfo));
-  }
+    if(currentForm === 'treatment') {
+        treatments.push({
+            date: data.get('date'),
+            name: data.get('name'),
+            product: data.get('product'),
+            nextDue: data.get('nextDue')
+        });
+        localStorage.setItem('treatments', JSON.stringify(treatments));
+    }
 
-  closeForm();
-  renderPetData();
+    if(currentForm === 'health') {
+        healthRecords = {
+            weight: data.get('weight'),
+            allergies: data.get('allergies'),
+            conditions: data.get('conditions'),
+            vetNext: data.get('vetNext')
+        };
+        localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
+    }
+
+    if(currentForm === 'log') {
+        healthLog.push(data.get('entry'));
+        localStorage.setItem('healthLog', JSON.stringify(healthLog));
+    }
+
+    if(currentForm === 'grooming') {
+        groomingLog.push(data.get('grooming'));
+        localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
+    }
+
+    if(currentForm === 'emergency') {
+        emergencyInfo = {
+            vet: data.get('vet'),
+            emergencyVet: data.get('emergencyVet'),
+            poison: data.get('poison')
+        };
+        localStorage.setItem('emergencyInfo', JSON.stringify(emergencyInfo));
+    }
+
+    closeForm();
+    renderPetData();
 });
 
 /* ---------------- RENDER PET DATA ---------------- */
-function renderPetData(){
-  const output = document.getElementById('pet-output');
-  if(!output) return;
+function renderPetData() {
+    const output = document.getElementById('pet-output');
+    const remindersDiv = document.getElementById('reminders');
+    if(!output || !remindersDiv) return;
 
-  let html = '';
+    let html = '';
 
-  if(treatments.length){
-    html += '<h4 style="color:var(--gold)">Treatments</h4><ul>';
-    treatments.forEach(t=> html += `<li>${t.date} - ${t.name} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}</li>`);
-    html += '</ul>';
-  }
-
-  if(Object.keys(healthRecords).length){
-    html += '<h4 style="color:var(--gold)">Health Records</h4>';
-    for(const k in healthRecords){
-      if(healthRecords[k]) html += `<p>${k}: ${healthRecords[k]}</p>`;
+    // Treatments
+    if(treatments.length) {
+        html += '<h4 style="color:var(--gold)">Treatments</h4><ul>';
+        treatments.forEach(t => {
+            html += `<li>${t.date} - ${t.name} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}</li>`;
+        });
+        html += '</ul>';
     }
-  }
 
-  if(healthLog.length){
-    html += '<h4 style="color:var(--gold)">Health Log</h4><ul>';
-    healthLog.forEach(e=> html += `<li>${e}</li>`);
-    html += '</ul>';
-  }
-
-  if(groomingLog.length){
-    html += '<h4 style="color:var(--gold)">Grooming</h4><ul>';
-    groomingLog.forEach(e=> html += `<li>${e}</li>`);
-    html += '</ul>';
-  }
-
-  if(Object.keys(emergencyInfo).length){
-    html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
-    for(const k in emergencyInfo){
-      if(emergencyInfo[k]) html += `<p>${k}: ${emergencyInfo[k]}</p>`;
+    // Health Records
+    if(Object.keys(healthRecords).length) {
+        html += '<h4 style="color:var(--gold)">Health Records</h4>';
+        for(const key in healthRecords) {
+            if(healthRecords[key]) html += `<p>${key}: ${healthRecords[key]}</p>`;
+        }
     }
-  }
 
-  output.innerHTML = html;
+    // Health Log
+    if(healthLog.length) {
+        html += '<h4 style="color:var(--gold)">Health Log</h4><ul>';
+        healthLog.forEach(e => html += `<li>${e}</li>`);
+        html += '</ul>';
+    }
 
-  // Update next reminder
-  let next = treatments.filter(t=>t.nextDue).sort((a,b)=> new Date(a.nextDue)-new Date(b.nextDue))[0];
-  document.getElementById('nextReminder').innerText = next ? `Next: ${next.name} on ${next.nextDue}` : 'No reminders yet';
+    // Grooming Log
+    if(groomingLog.length) {
+        html += '<h4 style="color:var(--gold)">Grooming</h4><ul>';
+        groomingLog.forEach(e => html += `<li>${e}</li>`);
+        html += '</ul>';
+    }
+
+    // Emergency Info
+    if(Object.keys(emergencyInfo).length) {
+        html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+        for(const key in emergencyInfo) {
+            if(emergencyInfo[key]) html += `<p>${key}: ${emergencyInfo[key]}</p>`;
+        }
+    }
+
+    output.innerHTML = html;
+
+    // Next Reminder
+    let next = treatments.filter(t => t.nextDue).sort((a,b)=> new Date(a.nextDue) - new Date(b.nextDue))[0];
+    document.getElementById('nextReminder').innerText = next ? `Next: ${next.name} on ${next.nextDue}` : 'No reminders yet';
+
+    // Full reminders list
+    remindersDiv.innerHTML = '';
+    if(next) remindersDiv.innerHTML = `<div class="reminder-card">${next.name} – Due ${next.nextDue}</div>`;
 }
-
-/* ---------------- INITIAL RENDER ---------------- */
-renderPetData();
 </script>
-
-</body>
-</html>
