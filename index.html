@@ -108,6 +108,156 @@
 
     <h2 class="section-title">Pet Health</h2>
 
+    <!-- Pet summary -->
+    <div class="daily-briefing">
+        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Labrador</h3>
+        <p>Age: 3</p>
+        <p id="nextReminder">No reminders yet</p>
+    </div>
+
+    <!-- Buttons to open forms -->
+    <div style="display:grid; gap:10px; margin-bottom:20px;">
+        <button onclick="openForm('treatment')">Add Treatment</button>
+        <button onclick="openForm('health')">Health Records</button>
+        <button onclick="openForm('log')">Health Log</button>
+        <button onclick="openForm('grooming')">Grooming</button>
+        <button onclick="openForm('emergency')">Emergency Info</button>
+    </div>
+
+    <!-- Pet data outputs -->
+    <div id="pet-output" style="font-size:12px;"></div>
+
+    <!-- Full reminders list -->
+    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
+</div>
+
+<script>
+/* ---------------- PET DATA RENDER ---------------- */
+function renderPetData() {
+    const output = document.getElementById('pet-output');
+    const remindersDiv = document.getElementById('reminders');
+    if(!output) return;
+
+    // Clear previous
+    output.innerHTML = '';
+    remindersDiv.innerHTML = '';
+
+    // --- Treatments ---
+    if(treatments.length) {
+        output.innerHTML += '<h4 style="color:var(--gold)">Treatments</h4><ul>';
+        treatments.forEach(t => {
+            output.innerHTML += `<li>${t.date} - ${t.name} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}</li>`;
+        });
+        output.innerHTML += '</ul>';
+    }
+
+    // --- Health Records ---
+    if(Object.keys(healthRecords).length) {
+        output.innerHTML += '<h4 style="color:var(--gold)">Health Records</h4>';
+        for(const key in healthRecords) {
+            if(healthRecords[key]) output.innerHTML += `<p><strong>${key}:</strong> ${healthRecords[key]}</p>`;
+        }
+    }
+
+    // --- Health Log ---
+    if(healthLog.length) {
+        output.innerHTML += '<h4 style="color:var(--gold)">Health Log</h4><ul>';
+        healthLog.forEach(e => output.innerHTML += `<li>${e}</li>`);
+        output.innerHTML += '</ul>';
+    }
+
+    // --- Grooming Log ---
+    if(groomingLog.length) {
+        output.innerHTML += '<h4 style="color:var(--gold)">Grooming</h4><ul>';
+        groomingLog.forEach(e => output.innerHTML += `<li>${e}</li>`);
+        output.innerHTML += '</ul>';
+    }
+
+    // --- Emergency Info ---
+    if(Object.keys(emergencyInfo).length) {
+        output.innerHTML += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+        for(const key in emergencyInfo) {
+            if(emergencyInfo[key]) output.innerHTML += `<p><strong>${key}:</strong> ${emergencyInfo[key]}</p>`;
+        }
+    }
+
+    // --- Next Reminder ---
+    let next = treatments.filter(t => t.nextDue).sort((a,b)=> new Date(a.nextDue) - new Date(b.nextDue))[0];
+    document.getElementById('nextReminder').innerText = next ? `Next: ${next.name} on ${next.nextDue}` : 'No reminders yet';
+
+    // --- Full reminders list ---
+    let upcoming = treatments.filter(t => t.nextDue).sort((a,b)=> new Date(a.nextDue) - new Date(b.nextDue));
+    upcoming.forEach(t => {
+        let div = document.createElement('div');
+        div.className = 'reminder-card';
+        div.innerText = `${t.name} – Due ${t.nextDue}`;
+        remindersDiv.appendChild(div);
+    });
+}
+
+/* ---------------- HOOKS ---------------- */
+function showPage(id) {
+    document.getElementById('home-screen').style.display = 'none';
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active');
+    window.scrollTo(0,0);
+    if(id === 'p12') renderPetData();
+}
+
+document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const data = new FormData(this);
+
+    if(currentForm === 'treatment') {
+        treatments.push({
+            date: data.get('date'),
+            name: data.get('name'),
+            product: data.get('product'),
+            nextDue: data.get('nextDue')
+        });
+        localStorage.setItem('treatments', JSON.stringify(treatments));
+    }
+
+    if(currentForm === 'health') {
+        healthRecords = {
+            weight: data.get('weight'),
+            allergies: data.get('allergies'),
+            conditions: data.get('conditions'),
+            vetNext: data.get('vetNext')
+        };
+        localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
+    }
+
+    if(currentForm === 'log') {
+        healthLog.push(data.get('entry'));
+        localStorage.setItem('healthLog', JSON.stringify(healthLog));
+    }
+
+    if(currentForm === 'grooming') {
+        groomingLog.push(data.get('grooming'));
+        localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
+    }
+
+    if(currentForm === 'emergency') {
+        emergencyInfo = {
+            vet: data.get('vet'),
+            emergencyVet: data.get('emergencyVet'),
+            poison: data.get('poison')
+        };
+        localStorage.setItem('emergencyInfo', JSON.stringify(emergencyInfo));
+    }
+
+    closeForm();
+    renderPetData();
+});
+</script><div id="p12" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+
+    <img class="hero-img" src="images/pet-health.jpg">
+
+    <h2 class="section-title">Pet Health</h2>
+
     <div class="daily-briefing">
         <h3 style="color:var(--gold); font-family:Cinzel;">Labrador</h3>
         <p>Age: 3</p>
