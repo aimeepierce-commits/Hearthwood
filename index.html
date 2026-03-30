@@ -124,5 +124,184 @@
 
         showHome();
     </script>
+    <!-- POPUP FORM -->
+<div class="form-popup" id="popupForm">
+  <h3 id="formTitle">Add Entry</h3>
+  <form id="form">
+    <div id="formFields"></div>
+    <button type="submit">Save</button>
+    <button type="button" onclick="closeForm()">Cancel</button>
+  </form>
+</div>
+
+<style>
+/* FORM STYLING - MATCHES YOUR SITE */
+.form-popup {
+  display:none;
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:300px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  z-index:999;
+  box-shadow:0 10px 30px rgba(0,0,0,0.8);
+}
+
+.form-popup h3 {
+  font-family:'Cinzel';
+  color:var(--gold);
+  font-size:12px;
+  letter-spacing:2px;
+  margin-bottom:10px;
+}
+
+.form-popup input,
+.form-popup textarea {
+  width:100%;
+  margin:6px 0;
+  padding:8px;
+  background:#0c0f0c;
+  border:1px solid var(--border);
+  border-radius:6px;
+  color:var(--text);
+}
+
+.form-popup button {
+  margin-top:8px;
+  width:100%;
+  padding:8px;
+  background:var(--gold);
+  color:#000;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-family:'Cinzel';
+  font-size:10px;
+}
+
+.form-popup button:last-child {
+  background:transparent;
+  color:var(--gold);
+  border:1px solid var(--border);
+}
+</style>
+
+<script>
+/* ---------------- DATA ---------------- */
+let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
+let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
+let healthLog = JSON.parse(localStorage.getItem('healthLog')) || [];
+let groomingLog = JSON.parse(localStorage.getItem('groomingLog')) || [];
+let emergencyInfo = JSON.parse(localStorage.getItem('emergencyInfo')) || {};
+
+let currentForm = '';
+
+/* ---------------- OPEN FORM ---------------- */
+function openForm(type) {
+  currentForm = type;
+  const popup = document.getElementById('popupForm');
+  const fields = document.getElementById('formFields');
+  const title = document.getElementById('formTitle');
+
+  fields.innerHTML = '';
+
+  if(type === 'treatment') {
+    title.innerText = 'Add Treatment';
+    fields.innerHTML = `
+      <input type="date" name="date" required>
+      <input type="text" name="name" placeholder="Treatment" required>
+      <input type="text" name="product" placeholder="Product">
+      <input type="date" name="nextDue">
+    `;
+  }
+
+  if(type === 'health') {
+    title.innerText = 'Update Health Records';
+    fields.innerHTML = `
+      <input type="text" name="weight" placeholder="Weight History">
+      <input type="text" name="allergies" placeholder="Allergies">
+      <input type="text" name="conditions" placeholder="Conditions">
+      <input type="date" name="vetNext">
+    `;
+  }
+
+  if(type === 'log') {
+    title.innerText = 'Health Log Entry';
+    fields.innerHTML = `<textarea name="entry" placeholder="Write note..." required></textarea>`;
+  }
+
+  if(type === 'grooming') {
+    title.innerText = 'Grooming Log';
+    fields.innerHTML = `<textarea name="grooming" placeholder="Grooming update..." required></textarea>`;
+  }
+
+  if(type === 'emergency') {
+    title.innerText = 'Emergency Info';
+    fields.innerHTML = `
+      <input type="text" name="vet" placeholder="Primary Vet">
+      <input type="text" name="emergencyVet" placeholder="Emergency Vet">
+      <input type="text" name="poison" placeholder="Poison Helpline">
+    `;
+  }
+
+  popup.style.display = 'block';
+}
+
+/* ---------------- SAVE FORM ---------------- */
+document.getElementById('form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const data = new FormData(this);
+
+  if(currentForm === 'treatment') {
+    treatments.push({
+      date: data.get('date'),
+      name: data.get('name'),
+      product: data.get('product'),
+      nextDue: data.get('nextDue')
+    });
+    localStorage.setItem('treatments', JSON.stringify(treatments));
+  }
+
+  if(currentForm === 'health') {
+    healthRecords = {
+      weight: data.get('weight'),
+      allergies: data.get('allergies'),
+      conditions: data.get('conditions'),
+      vetNext: data.get('vetNext')
+    };
+    localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
+  }
+
+  if(currentForm === 'log') {
+    healthLog.push(data.get('entry'));
+    localStorage.setItem('healthLog', JSON.stringify(healthLog));
+  }
+
+  if(currentForm === 'grooming') {
+    groomingLog.push(data.get('grooming'));
+    localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
+  }
+
+  if(currentForm === 'emergency') {
+    emergencyInfo = {
+      vet: data.get('vet'),
+      emergencyVet: data.get('emergencyVet'),
+      poison: data.get('poison')
+    };
+    localStorage.setItem('emergencyInfo', JSON.stringify(emergencyInfo));
+  }
+
+  closeForm();
+});
+
+/* ---------------- CLOSE ---------------- */
+function closeForm() {
+  document.getElementById('popupForm').style.display = 'none';
+  document.getElementById('form').reset();
+}
+</script>
 </body>
 </html>
