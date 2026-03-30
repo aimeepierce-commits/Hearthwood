@@ -218,6 +218,12 @@
             padding: 16px 0;
             border-bottom: 1px solid rgba(255,255,255,0.03);
             cursor: pointer;
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+
+        .row.fade-out {
+            opacity: 0;
+            transform: translateY(8px);
         }
 
         .checkbox {
@@ -252,7 +258,7 @@
         .list-text {
             font-size: 16px;
             font-weight: 300;
-            color: rgba(232, 220, 200, 0.9);
+            color: rgba(232, 220, 200, 0.95);
         }
 
         .form-popup {
@@ -372,6 +378,36 @@
             margin: 18px 0 10px;
         }
 
+        /* HOME TODAY BOX */
+
+        #daily-feed {
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            isolation: isolate;
+        }
+
+        #daily-feed::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(8,10,8,0.42), rgba(8,10,8,0.78)),
+                radial-gradient(circle at 80% 20%, rgba(201,169,110,0.08), transparent 28%);
+            z-index: -1;
+        }
+
+        #active-tasks {
+            min-height: 76px;
+        }
+
+        .today-caption {
+            font-size: 12px;
+            color: rgba(232,220,200,0.82);
+            margin-bottom: 8px;
+        }
+
         /* CLEANING REWORK */
 
         .cleaning-hero {
@@ -481,7 +517,7 @@
         }
 
         .seasonal-card::before {
-            background-image: url('images/cleaning-seasonal.jpg');
+            background-image: var(--seasonal-image, url('images/cleaning-seasonal.jpg'));
         }
 
         .annual-card::before {
@@ -577,6 +613,7 @@
 
     <div class="daily-briefing" id="daily-feed">
         <div class="briefing-title" id="shift-label">CURRENT SHIFT</div>
+        <div class="today-caption" id="todayCaption"></div>
         <div id="active-tasks"></div>
     </div>
 
@@ -918,6 +955,8 @@ const annualCleaningTasks = {
     ]
 };
 
+/* ---------------- SEASONAL BLOCK + IMAGES ---------------- */
+
 function getSeasonalBlock() {
     const now = new Date();
     const month = now.getMonth() + 1;
@@ -926,6 +965,7 @@ function getSeasonalBlock() {
     if ((month === 12 && day >= 21) || month === 1 || (month === 2 && day <= 1)) {
         return {
             sabbat: "Litha",
+            image: "images/season-summer.jpg",
             tasks: [
                 "Clean fans",
                 "Wash light summer bedding",
@@ -938,6 +978,7 @@ function getSeasonalBlock() {
     if ((month === 2 && day >= 2) || (month === 3 && day <= 20)) {
         return {
             sabbat: "Lammas",
+            image: "images/season-lammas.jpg",
             tasks: [
                 "Deep clean pantry shelves",
                 "Check expiry dates",
@@ -950,6 +991,7 @@ function getSeasonalBlock() {
     if ((month === 3 && day >= 21) || month === 4 || (month === 5 && day <= 1)) {
         return {
             sabbat: "Mabon",
+            image: "images/cleaning-seasonal.jpg",
             tasks: [
                 "Rotate seasonal clothes",
                 "Wash blankets",
@@ -962,6 +1004,7 @@ function getSeasonalBlock() {
     if ((month === 5 && day >= 2) || (month === 6 && day <= 20)) {
         return {
             sabbat: "Samhain",
+            image: "images/season-samhain.jpg",
             tasks: [
                 "Declutter each room",
                 "Clean behind furniture",
@@ -974,6 +1017,7 @@ function getSeasonalBlock() {
     if ((month === 6 && day >= 21) || month === 7 || (month === 8 && day <= 1)) {
         return {
             sabbat: "Yule",
+            image: "images/season-winter.jpg",
             tasks: [
                 "Deep vacuum carpets",
                 "Polish wood furniture",
@@ -986,6 +1030,7 @@ function getSeasonalBlock() {
     if ((month === 8 && day >= 2) || (month === 9 && day <= 20)) {
         return {
             sabbat: "Imbolc",
+            image: "images/season-imbolc.jpg",
             tasks: [
                 "Wash light switches",
                 "Clean door handles",
@@ -998,6 +1043,7 @@ function getSeasonalBlock() {
     if ((month === 9 && day >= 21) || month === 10 || (month === 11 && day <= 1)) {
         return {
             sabbat: "Ostara",
+            image: "images/season-spring.jpg",
             tasks: [
                 "Wash windows inside and out",
                 "Wash curtains",
@@ -1009,6 +1055,7 @@ function getSeasonalBlock() {
 
     return {
         sabbat: "Beltane",
+        image: "images/season-beltane.jpg",
         tasks: [
             "Clean entry area",
             "Wash outdoor furniture",
@@ -1017,6 +1064,16 @@ function getSeasonalBlock() {
         ]
     };
 }
+
+function setSeasonalCardImage() {
+    const seasonal = getSeasonalBlock();
+    const seasonalCard = document.querySelector('.seasonal-card');
+    if (seasonalCard) {
+        seasonalCard.style.setProperty('--seasonal-image', `url('${seasonal.image}')`);
+    }
+}
+
+/* ---------------- HOME TASK FLOW ---------------- */
 
 function getTodayCleaningTasks() {
     const day = new Date().getDay();
@@ -1057,6 +1114,57 @@ function getCleaningProgress() {
         percent: tasks.length ? Math.round((done / tasks.length) * 100) : 0
     };
 }
+
+function getNextHomeTasks(limit = 3) {
+    return getTodayCleaningTasks().filter(task => !isTaskDone('daily', task)).slice(0, limit);
+}
+
+/* ---------------- RENDER HOME ---------------- */
+
+function renderHomeTasks() {
+    const container = document.getElementById('active-tasks');
+    const box = document.getElementById('daily-feed');
+    const caption = document.getElementById('todayCaption');
+    if (!container || !box || !caption) return;
+
+    const seasonal = getSeasonalBlock();
+    box.style.backgroundImage = `url('${seasonal.image}')`;
+    box.style.backgroundSize = 'cover';
+    box.style.backgroundPosition = 'center';
+
+    caption.textContent = `${seasonal.sabbat} rhythm • three tasks at a time`;
+
+    const tasks = getNextHomeTasks(3);
+    container.innerHTML = '';
+
+    if (!tasks.length) {
+        container.innerHTML = '<p class="mini-note">All done for today 🌙</p>';
+        return;
+    }
+
+    tasks.forEach(task => {
+        const row = document.createElement('div');
+        row.className = 'row';
+
+        row.innerHTML = `
+            <div class="checkbox"></div>
+            <span class="list-text">${task}</span>
+        `;
+
+        row.addEventListener('click', () => {
+            row.classList.add('fade-out');
+            setTimeout(() => {
+                setTaskDone('daily', task, true);
+                renderHomeTasks();
+                if (currentCleaningView === 'daily') renderCurrentCleaningView();
+            }, 220);
+        });
+
+        container.appendChild(row);
+    });
+}
+
+/* ---------------- CLEANING RENDERS ---------------- */
 
 function renderTaskRows(container, tasks, viewName) {
     container.innerHTML = '';
@@ -1130,39 +1238,6 @@ function renderSeasonalMessage() {
     });
     html += '</ul>';
     target.innerHTML = html;
-}
-
-function renderHomeTasks() {
-    const container = document.getElementById('active-tasks');
-    if (!container) return;
-
-    const tasks = getTodayCleaningTasks();
-    container.innerHTML = '';
-
-    if (!tasks.length) {
-        container.innerHTML = '<p class="mini-note">Nothing due today.</p>';
-        return;
-    }
-
-    tasks.forEach(task => {
-        const done = isTaskDone('daily', task);
-        const row = document.createElement('div');
-        row.className = 'row';
-        if (done) row.classList.add('done');
-
-        row.innerHTML = `
-            <div class="checkbox"></div>
-            <span class="list-text">${task}</span>
-        `;
-
-        row.addEventListener('click', () => {
-            toggleTask('daily', task);
-            renderHomeTasks();
-            if (currentCleaningView === 'daily') renderCurrentCleaningView();
-        });
-
-        container.appendChild(row);
-    });
 }
 
 let currentCleaningView = null;
@@ -1455,6 +1530,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPetData();
     renderHomeTasks();
     renderSeasonalMessage();
+    setSeasonalCardImage();
 });
 </script>
 
