@@ -383,7 +383,7 @@
             border: 1px solid var(--border);
             background:
                 radial-gradient(circle at 50% 20%, rgba(214,165,93,0.12), transparent 32%),
-                linear-gradient(180deg, rgba(9,10,9,0.18), rgba(9,10,9,0.82)),
+                linear-gradient(180deg, rgba(9,10,9,0.12), rgba(9,10,9,0.58)),
                 url('images/cleaning.jpg') center/cover no-repeat;
             box-shadow: 0 18px 40px rgba(0,0,0,0.45);
         }
@@ -393,7 +393,7 @@
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.5)),
+                linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.36)),
                 radial-gradient(circle at 80% 20%, rgba(201,169,110,0.08), transparent 25%);
         }
 
@@ -413,7 +413,7 @@
             font-size: 9px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: rgba(232,220,200,0.78);
+            color: rgba(232,220,200,0.82);
         }
 
         .cleaning-title {
@@ -428,7 +428,7 @@
             max-width: 430px;
             font-size: 15px;
             line-height: 1.7;
-            color: rgba(232,220,200,0.88);
+            color: rgba(232,220,200,0.9);
         }
 
         .cleaning-section-grid {
@@ -454,9 +454,9 @@
             inset: 0;
             background-size: cover;
             background-position: center;
-            opacity: 0.7;
+            opacity: 0.88;
             transform: scale(1.02);
-            filter: brightness(0.85) contrast(1.05) saturate(0.75);
+            filter: brightness(1) contrast(1.03) saturate(0.88);
         }
 
         .cleaning-section-card::after {
@@ -464,33 +464,28 @@
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.5)),
-        linear-gradient(90deg, rgba(10,12,10,0.6), rgba(10,12,10,0.2));
+                linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.34)),
+                linear-gradient(90deg, rgba(10,12,10,0.42), rgba(10,12,10,0.1));
         }
 
         .daily-card::before {
-            background-image: url('images/cleaning.jpg');
-            background-position: center 20%;
+            background-image: url('images/cleaning-daily.jpg');
         }
 
         .weekly-card::before {
-            background-image: url('images/cleaning.jpg');
-            background-position: center 40%;
+            background-image: url('images/cleaning-weekly.jpg');
         }
 
         .monthly-card::before {
-            background-image: url('images/cleaning.jpg');
-            background-position: center 60%;
+            background-image: url('images/cleaning-monthly.jpg');
         }
 
         .seasonal-card::before {
-            background-image: url('images/cleaning.jpg');
-            background-position: center 75%;
+            background-image: url('images/cleaning-seasonal.jpg');
         }
 
         .annual-card::before {
-            background-image: url('images/cleaning.jpg');
-            background-position: center bottom;
+            background-image: url('images/cleaning-annual.jpg');
         }
 
         .cleaning-card-inner {
@@ -514,7 +509,7 @@
         .cleaning-card-inner p {
             font-size: 14px;
             line-height: 1.55;
-            color: rgba(232,220,200,0.82);
+            color: rgba(232,220,200,0.86);
             max-width: 290px;
         }
 
@@ -928,75 +923,43 @@ function getSeasonalBlock() {
     const month = now.getMonth() + 1;
     const day = now.getDate();
 
-    if ((month === 2 && day >= 1) || (month === 3 && day <= 20)) {
+    if ((month === 12 && day >= 21) || month === 1 || (month === 2 && day <= 1)) {
         return {
-            sabbat: "Imbolc",
+            sabbat: "Litha",
             tasks: [
-                "Wash light switches",
-                "Clean door handles",
-                "Wash pillow covers",
-                "Deep clean bathroom grout"
+                "Clean fans",
+                "Wash light summer bedding",
+                "Wipe skirting boards",
+                "Refresh entryways"
+            ]
+        };
+    }
+
+    if ((month === 2 && day >= 2) || (month === 3 && day <= 20)) {
+        return {
+            sabbat: "Lammas",
+            tasks: [
+                "Deep clean pantry shelves",
+                "Check expiry dates",
+                "Clean kitchen drawers",
+                "Refresh food storage jars"
             ]
         };
     }
 
     if ((month === 3 && day >= 21) || month === 4 || (month === 5 && day <= 1)) {
         return {
-            sabbat: "Ostara",
+            sabbat: "Mabon",
             tasks: [
-                "Wash windows inside and out",
-                "Wash curtains",
-                "Declutter wardrobes",
-                "Clean under furniture"
+                "Rotate seasonal clothes",
+                "Wash blankets",
+                "Clean storage areas",
+                "Declutter gathering spaces"
             ]
         };
     }
 
     if ((month === 5 && day >= 2) || (month === 6 && day <= 20)) {
-        return {
-            sabbat: "Beltane",
-            tasks: [
-                "Clean entry area",
-                "Wash outdoor furniture",
-                "Clean windows and screens"
-            ]
-        };
-    }
-
-    if ((month === 6 && day >= 21) || month === 7 || (month === 8 && day <= 1)) {
-        return {
-            sabbat: "Litha",
-            tasks: [
-                "Clean fans",
-                "Wipe skirting boards",
-                "Wash all bedding"
-            ]
-        };
-    }
-
-    if ((month === 8 && day >= 2) || (month === 9 && day <= 20)) {
-        return {
-            sabbat: "Lammas",
-            tasks: [
-                "Deep clean pantry shelves",
-                "Check expiry dates",
-                "Clean kitchen drawers"
-            ]
-        };
-    }
-
-    if ((month === 9 && day >= 21) || month === 10) {
-        return {
-            sabbat: "Mabon",
-            tasks: [
-                "Rotate seasonal clothes",
-                "Wash blankets",
-                "Clean storage areas"
-            ]
-        };
-    }
-
-    if (month === 11) {
         return {
             sabbat: "Samhain",
             tasks: [
@@ -1008,13 +971,49 @@ function getSeasonalBlock() {
         };
     }
 
+    if ((month === 6 && day >= 21) || month === 7 || (month === 8 && day <= 1)) {
+        return {
+            sabbat: "Yule",
+            tasks: [
+                "Deep vacuum carpets",
+                "Polish wood furniture",
+                "Clean windows",
+                "Wash bedding and blankets"
+            ]
+        };
+    }
+
+    if ((month === 8 && day >= 2) || (month === 9 && day <= 20)) {
+        return {
+            sabbat: "Imbolc",
+            tasks: [
+                "Wash light switches",
+                "Clean door handles",
+                "Wash pillow covers",
+                "Deep clean bathroom grout"
+            ]
+        };
+    }
+
+    if ((month === 9 && day >= 21) || month === 10 || (month === 11 && day <= 1)) {
+        return {
+            sabbat: "Ostara",
+            tasks: [
+                "Wash windows inside and out",
+                "Wash curtains",
+                "Declutter wardrobes",
+                "Clean under furniture"
+            ]
+        };
+    }
+
     return {
-        sabbat: "Yule",
+        sabbat: "Beltane",
         tasks: [
-            "Deep vacuum carpets",
-            "Polish wood furniture",
-            "Clean windows",
-            "Wash bedding and blankets"
+            "Clean entry area",
+            "Wash outdoor furniture",
+            "Clean windows and screens",
+            "Refresh outdoor thresholds"
         ]
     };
 }
