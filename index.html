@@ -6,60 +6,372 @@
     <title>Hearthwood Sanctuary</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;0,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #080a08; --card: #101410; --gold: #c9a96e; --text: #e8dcc8; --border: rgba(201, 169, 110, 0.2); }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Lato', sans-serif; line-height: 1.6; min-height: 100vh; }
-
-        .header { padding: 40px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
-        .app-title { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 10px; color: var(--gold); margin-bottom: 25px; cursor: pointer; }
-        .medallion-row { display: flex; justify-content: center; gap: 10px; }
-        .medallion { flex: 1; max-width: 85px; border: 1px solid var(--border); padding: 10px 5px; border-radius: 30px 30px 10px 10px; background: rgba(201,169,110,0.03); text-align: center; }
-        .medallion svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; margin-bottom: 5px; }
-        .medallion .sign { font-family: 'Cinzel'; font-size: 8px; color: var(--gold); display: block; }
-
-        #home-screen { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
-
-        .calendar-box { margin-bottom: 20px; }
-        .calendar-box a { 
-            display:block; 
-            padding:10px; 
-            text-align:center; 
-            font-family:'Cinzel'; 
-            font-size:10px; 
-            letter-spacing:2px; 
-            color: var(--gold); 
-            border:1px solid var(--border); 
-            border-radius:12px; 
-            text-decoration:none; 
+        :root {
+            --bg: #080a08;
+            --card: #101410;
+            --gold: #c9a96e;
+            --text: #e8dcc8;
+            --border: rgba(201, 169, 110, 0.2);
+            --moss: #4d5a3d;
+            --ember: #d6a55d;
         }
 
-        .daily-briefing { background: var(--card); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; border-left-width: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
-        .briefing-title { font-family: 'Cinzel'; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .nav-card { background: #1a1f1a; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; height: 105px; display: flex; align-items: flex-end; padding: 12px; cursor: pointer; }
-        .nav-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; z-index: 1; filter: brightness(0.75) contrast(1.2); }
-        .nav-card span { position: relative; z-index: 2; font-family: 'Cinzel'; font-size: 8px; letter-spacing: 2px; color: var(--gold); width: 100%; text-align: center; text-shadow: 2px 2px 4px #000; font-weight: 500; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
 
-        .page { display: none; padding: 20px; max-width: 600px; margin: 0 auto; animation: fadeIn 0.4s ease; padding-bottom: 100px; }
-        .page.active { display: block; }
-        .back-btn { color: var(--gold); font-family: 'Cinzel'; font-size: 10px; letter-spacing: 2px; margin-bottom: 25px; cursor: pointer; display: inline-block; }
-        .hero-img { width: 100%; height: 240px; border-radius: 15px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 30px; opacity: 0.8; }
-        .section-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 5px; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .header {
+            padding: 40px 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-        .row { display: flex; align-items: center; gap: 15px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-        .checkbox { width: 22px; height: 22px; border: 1.5px solid var(--gold); border-radius: 5px; position: relative; flex-shrink: 0; background: rgba(0,0,0,0.3); }
-        .done .checkbox { background: var(--gold); }
-        .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 5px; top: 0; font-weight: bold; font-size: 14px; }
-        .done span { opacity: 0.3; text-decoration: line-through; }
-        .list-text { font-size: 16px; font-weight: 300; color: rgba(232, 220, 200, 0.9); }
+        .app-title {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            letter-spacing: 10px;
+            color: var(--gold);
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
 
-        /* FORM STYLING */
-        .form-popup { display:none; position:fixed; bottom:20px; right:20px; width:300px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; z-index:999; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
-        .form-popup h3 { font-family:'Cinzel'; color:var(--gold); font-size:12px; letter-spacing:2px; margin-bottom:10px; }
-        .form-popup input, .form-popup textarea { width:100%; margin:6px 0; padding:8px; background:#0c0f0c; border:1px solid var(--border); border-radius:6px; color:var(--text); }
-        .form-popup button { margin-top:8px; width:100%; padding:8px; background:var(--gold); color:#000; border:none; border-radius:6px; cursor:pointer; font-family:'Cinzel'; font-size:10px; }
-        .form-popup button:last-child { background:transparent; color:var(--gold); border:1px solid var(--border); }
+        .medallion-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .medallion {
+            flex: 1;
+            max-width: 85px;
+            border: 1px solid var(--border);
+            padding: 10px 5px;
+            border-radius: 30px 30px 10px 10px;
+            background: rgba(201,169,110,0.03);
+            text-align: center;
+        }
+
+        .medallion svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--gold);
+            fill: none;
+            margin-bottom: 5px;
+        }
+
+        .medallion .sign {
+            font-family: 'Cinzel';
+            font-size: 8px;
+            color: var(--gold);
+            display: block;
+        }
+
+        #home-screen {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        .calendar-box {
+            margin-bottom: 20px;
+        }
+
+        .calendar-box a {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Cinzel';
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+        }
+
+        .daily-briefing {
+            background: var(--card);
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left-width: 4px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+        }
+
+        .briefing-title {
+            font-family: 'Cinzel';
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .nav-card {
+            background: #1a1f1a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 105px;
+            display: flex;
+            align-items: flex-end;
+            padding: 12px;
+            cursor: pointer;
+        }
+
+        .nav-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            z-index: 1;
+            filter: brightness(0.75) contrast(1.2);
+        }
+
+        .nav-card span {
+            position: relative;
+            z-index: 2;
+            font-family: 'Cinzel';
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            width: 100%;
+            text-align: center;
+            text-shadow: 2px 2px 4px #000;
+            font-weight: 500;
+        }
+
+        .page {
+            display: none;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .back-btn {
+            color: var(--gold);
+            font-family: 'Cinzel';
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 240px;
+            border-radius: 15px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-family: 'Cinzel';
+            font-size: 14px;
+            letter-spacing: 5px;
+            color: var(--gold);
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 1.5px solid var(--gold);
+            border-radius: 5px;
+            position: relative;
+            flex-shrink: 0;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .done .checkbox {
+            background: var(--gold);
+        }
+
+        .done .checkbox::after {
+            content: '✓';
+            color: #000;
+            position: absolute;
+            left: 5px;
+            top: 0;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .done span {
+            opacity: 0.3;
+            text-decoration: line-through;
+        }
+
+        .list-text {
+            font-size: 16px;
+            font-weight: 300;
+            color: rgba(232, 220, 200, 0.9);
+        }
+
+        .form-popup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .form-popup h3 {
+            font-family: 'Cinzel';
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .form-popup input,
+        .form-popup textarea {
+            width: 100%;
+            margin: 6px 0;
+            padding: 8px;
+            background: #0c0f0c;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+        }
+
+        .form-popup button {
+            margin-top: 8px;
+            width: 100%;
+            padding: 8px;
+            background: var(--gold);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Cinzel';
+            font-size: 10px;
+        }
+
+        .form-popup button:last-child {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--border);
+        }
+
+        .mini-note {
+            font-size: 12px;
+            opacity: 0.72;
+        }
+
+        .season-box {
+            background: linear-gradient(180deg, rgba(201,169,110,0.06), rgba(77,90,61,0.08));
+        }
+
+        .overdue-list p {
+            margin-bottom: 8px;
+        }
+
+        .progress-wrap {
+            margin-bottom: 18px;
+        }
+
+        .progress-label {
+            font-family: 'Cinzel';
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .progress-outer {
+            width: 100%;
+            height: 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+        }
+
+        .progress-inner {
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background:
+                linear-gradient(90deg, #6f7f4f 0%, #b69056 40%, #e1b772 70%, #fff0c8 100%);
+            box-shadow:
+                0 0 10px rgba(201,169,110,0.55),
+                0 0 22px rgba(201,169,110,0.25);
+            transition: width 0.35s ease;
+        }
+
+        .status-chip {
+            display: inline-block;
+            padding: 4px 10px;
+            margin: 0 6px 8px 0;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .subheading {
+            font-family: 'Cinzel';
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin: 18px 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +402,6 @@
         <div class="nav-card" onclick="showPage('p4')"><img src="images/meal-planning.jpg" alt="Meal Planning"><span>Meal Planning</span></div>
         <div class="nav-card" onclick="showPage('p5')"><img src="images/spirituality.jpg" alt="Spirituality"><span>Spirituality</span></div>
         <div class="nav-card" onclick="showPage('p6')"><img src="images/finance.jpg" alt="Finance"><span>Finance</span></div>
-
         <div class="nav-card" onclick="showPage('p8')"><img src="images/personal-reset.jpg" alt="Personal Reset"><span>Personal Reset</span></div>
         <div class="nav-card" onclick="showPage('p9')"><img src="images/social.jpg" alt="Social"><span>Social</span></div>
         <div class="nav-card" onclick="showPage('p10')"><img src="images/family-flow.jpg" alt="Family Flow"><span>Family Flow</span></div>
@@ -98,7 +409,52 @@
         <div class="nav-card" onclick="showPage('p12')"><img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span></div>
         <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
     </div>
+</div>
 
+<!-- CLEANING PAGE -->
+<div id="p1" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+
+    <img class="hero-img" src="images/cleaning.jpg" alt="Cleaning">
+
+    <h2 class="section-title">Cleaning</h2>
+
+    <div class="daily-briefing season-box">
+        <h3 class="briefing-title">SEASONAL KEEPING</h3>
+        <div id="seasonalCleaningMessage" class="mini-note"></div>
+    </div>
+
+    <div class="daily-briefing">
+        <h3 class="briefing-title">TODAY’S HEARTH</h3>
+
+        <div class="progress-wrap">
+            <div class="progress-label" id="cleaningProgressText">HEARTH TENDING</div>
+            <div class="progress-outer">
+                <div class="progress-inner" id="cleaningProgressBar"></div>
+            </div>
+        </div>
+
+        <div id="todayCleaning"></div>
+    </div>
+
+    <div class="daily-briefing">
+        <h3 class="briefing-title">OVERDUE</h3>
+        <div id="overdueCleaningTasks" class="overdue-list"></div>
+    </div>
+
+    <div class="daily-briefing">
+        <h3 class="briefing-title">ROOM STATUS</h3>
+        <div id="roomStatus"></div>
+    </div>
+
+    <div class="daily-briefing">
+        <h3 class="briefing-title">ROOM TASK BANK</h3>
+        <div id="roomCleaning"></div>
+    </div>
+
+    <div class="daily-briefing">
+        <h3 class="briefing-title">MONTHLY & SEASONAL DEEP CLEAN</h3>
+        <div id="deepCleaning"></div>
     </div>
 </div>
 
@@ -165,6 +521,387 @@ function showPage(id) {
     if (target) target.classList.add('active');
 }
 
+/* ---------------- CLEANING DATA ---------------- */
+const cleaningDailyTasks = [
+    "Make beds",
+    "Start laundry",
+    "Wipe kitchen counters",
+    "Quick bathroom wipe",
+    "Tidy lounge + playroom",
+    "Quick vacuum main areas",
+    "Move / hang / fold laundry",
+    "Dishes done + sink clean",
+    "Wipe counters + table",
+    "10-minute house tidy",
+    "Fold / put away laundry"
+];
+
+const cleaningWeeklyTasks = {
+    1: [
+        "Clean sink",
+        "Clean stovetop",
+        "Wipe cabinet fronts",
+        "Wipe fridge exterior",
+        "Clean microwave inside",
+        "Sweep and mop kitchen floor",
+        "Wipe dining table and chairs"
+    ],
+    2: [
+        "Vacuum lounge",
+        "Dust lounge surfaces",
+        "Wipe TV and remotes",
+        "Dust library shelves",
+        "Straighten books",
+        "Vacuum library corners"
+    ],
+    3: [
+        "Vacuum all bedrooms",
+        "Dust bedside tables",
+        "Empty bedroom bins",
+        "Tidy bedroom floors",
+        "Change sheets"
+    ],
+    4: [
+        "Clean main bathroom toilet",
+        "Clean ensuite toilet",
+        "Clean sinks and taps",
+        "Clean mirrors",
+        "Scrub showers",
+        "Replace towels"
+    ],
+    5: [
+        "Sort toys",
+        "Wipe playroom shelves",
+        "Vacuum playroom",
+        "Declutter main areas",
+        "Empty bins"
+    ],
+    6: [
+        "Quick tidy only"
+    ],
+    0: [
+        "Catch up missed cleaning",
+        "Vacuum main areas"
+    ]
+};
+
+const cleaningRooms = {
+    "Kitchen": ["Clean sink", "Clean stovetop", "Wipe cabinet fronts", "Clean microwave", "Wipe fridge exterior", "Sweep and mop floor"],
+    "Dining": ["Wipe table", "Wipe chairs", "Vacuum floor"],
+    "Library": ["Dust shelves", "Straighten books", "Vacuum corners"],
+    "Lounge Room": ["Vacuum floor", "Vacuum cushions", "Dust surfaces", "Wipe electronics"],
+    "Playroom": ["Sort toys", "Wipe shelves", "Vacuum floor"],
+    "Laundry": ["Start load", "Fold washing", "Clean lint filter", "Wipe machines"],
+    "Master Bedroom": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
+    "Layla’s Room": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
+    "Christian’s Room": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
+    "Ashley’s Room": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
+    "Main Bathroom": ["Clean toilet", "Clean sink", "Clean mirror", "Scrub shower"],
+    "Ensuite": ["Clean toilet", "Clean sink", "Clean mirror", "Scrub shower"]
+};
+
+const monthlyDeepTasks = [
+    "Clean oven inside",
+    "Deep clean fridge shelves and drawers",
+    "Wash bins",
+    "Clean inside cupboards",
+    "Vacuum under beds",
+    "Wash bath mats"
+];
+
+function getSeasonalBlock() {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+
+    if ((month === 2 && day >= 1) || (month === 3 && day <= 20)) {
+        return {
+            sabbat: "Imbolc",
+            tasks: [
+                "Wash light switches",
+                "Clean door handles",
+                "Wash pillow covers",
+                "Deep clean bathroom grout"
+            ]
+        };
+    }
+
+    if ((month === 3 && day >= 21) || month === 4 || (month === 5 && day <= 1)) {
+        return {
+            sabbat: "Ostara",
+            tasks: [
+                "Wash windows inside and out",
+                "Wash curtains",
+                "Declutter wardrobes",
+                "Clean under furniture"
+            ]
+        };
+    }
+
+    if ((month === 5 && day >= 2) || (month === 6 && day <= 20)) {
+        return {
+            sabbat: "Beltane",
+            tasks: [
+                "Clean entry area",
+                "Wash outdoor furniture",
+                "Clean windows and screens"
+            ]
+        };
+    }
+
+    if ((month === 6 && day >= 21) || month === 7 || (month === 8 && day <= 1)) {
+        return {
+            sabbat: "Litha",
+            tasks: [
+                "Clean fans",
+                "Wipe skirting boards",
+                "Wash all bedding"
+            ]
+        };
+    }
+
+    if ((month === 8 && day >= 2) || (month === 9 && day <= 20)) {
+        return {
+            sabbat: "Lammas",
+            tasks: [
+                "Deep clean pantry shelves",
+                "Check expiry dates",
+                "Clean kitchen drawers"
+            ]
+        };
+    }
+
+    if ((month === 9 && day >= 21) || month === 10) {
+        return {
+            sabbat: "Mabon",
+            tasks: [
+                "Rotate seasonal clothes",
+                "Wash blankets",
+                "Clean storage areas"
+            ]
+        };
+    }
+
+    if (month === 11) {
+        return {
+            sabbat: "Samhain",
+            tasks: [
+                "Declutter each room",
+                "Clean behind furniture",
+                "Clean wardrobes fully",
+                "Clean tops of cupboards and behind appliances"
+            ]
+        };
+    }
+
+    return {
+        sabbat: "Yule",
+        tasks: [
+            "Deep vacuum carpets",
+            "Polish wood furniture",
+            "Clean windows",
+            "Wash bedding and blankets"
+        ]
+    };
+}
+
+function getTodayCleaningTasks() {
+    const day = new Date().getDay();
+    return [...cleaningDailyTasks, ...(cleaningWeeklyTasks[day] || [])];
+}
+
+function getTaskKey(taskName) {
+    const today = new Date().toISOString().slice(0, 10);
+    return `cleaning-${today}-${taskName}`;
+}
+
+function isTaskDone(taskName) {
+    return JSON.parse(localStorage.getItem(getTaskKey(taskName))) || false;
+}
+
+function setTaskDone(taskName, value) {
+    localStorage.setItem(getTaskKey(taskName), JSON.stringify(value));
+}
+
+function toggleTask(taskName) {
+    setTaskDone(taskName, !isTaskDone(taskName));
+}
+
+function getCleaningProgress() {
+    const tasks = getTodayCleaningTasks();
+    const done = tasks.filter(task => isTaskDone(task)).length;
+    return {
+        total: tasks.length,
+        done,
+        percent: tasks.length ? Math.round((done / tasks.length) * 100) : 0
+    };
+}
+
+function renderHomeTasks() {
+    const container = document.getElementById('active-tasks');
+    if (!container) return;
+
+    const tasks = getTodayCleaningTasks();
+    container.innerHTML = '';
+
+    if (!tasks.length) {
+        container.innerHTML = '<p class="mini-note">Nothing due today.</p>';
+        return;
+    }
+
+    tasks.forEach(task => {
+        const done = isTaskDone(task);
+        const row = document.createElement('div');
+        row.className = 'row';
+        if (done) row.classList.add('done');
+
+        row.innerHTML = `
+            <div class="checkbox"></div>
+            <span class="list-text">${task}</span>
+        `;
+
+        row.addEventListener('click', () => {
+            toggleTask(task);
+            renderHomeTasks();
+            renderCleaningToday();
+        });
+
+        container.appendChild(row);
+    });
+}
+
+function renderCleaningToday() {
+    const container = document.getElementById('todayCleaning');
+    const progressText = document.getElementById('cleaningProgressText');
+    const progressBar = document.getElementById('cleaningProgressBar');
+
+    if (!container || !progressText || !progressBar) return;
+
+    const tasks = getTodayCleaningTasks();
+    container.innerHTML = '';
+
+    tasks.forEach(task => {
+        const done = isTaskDone(task);
+        const row = document.createElement('div');
+        row.className = 'row';
+        if (done) row.classList.add('done');
+
+        row.innerHTML = `
+            <div class="checkbox"></div>
+            <span class="list-text">${task}</span>
+        `;
+
+        row.addEventListener('click', () => {
+            toggleTask(task);
+            renderCleaningToday();
+            renderHomeTasks();
+        });
+
+        container.appendChild(row);
+    });
+
+    const progress = getCleaningProgress();
+    progressText.innerText = `HEARTH TENDING: ${progress.done} / ${progress.total} TASKS`;
+    progressBar.style.width = `${progress.percent}%`;
+}
+
+function renderSeasonalMessage() {
+    const target = document.getElementById('seasonalCleaningMessage');
+    if (!target) return;
+
+    const seasonal = getSeasonalBlock();
+    let html = `<p style="margin-bottom:10px;"><strong>${seasonal.sabbat}</strong></p>`;
+    html += '<ul>';
+    seasonal.tasks.forEach(task => {
+        html += `<li>${task}</li>`;
+    });
+    html += '</ul>';
+    target.innerHTML = html;
+}
+
+function getOverdueCleaningTasks() {
+    const overdue = [];
+    const day = new Date().getDay();
+
+    Object.keys(cleaningWeeklyTasks).forEach(key => {
+        if (Number(key) < day) {
+            cleaningWeeklyTasks[key].forEach(task => {
+                const completedToday = isTaskDone(task);
+                if (!completedToday) overdue.push(task);
+            });
+        }
+    });
+
+    return overdue.slice(0, 8);
+}
+
+function renderOverdueCleaning() {
+    const target = document.getElementById('overdueCleaningTasks');
+    if (!target) return;
+
+    const overdue = getOverdueCleaningTasks();
+
+    if (!overdue.length) {
+        target.innerHTML = '<p class="mini-note">Nothing overdue right now.</p>';
+        return;
+    }
+
+    let html = '';
+    overdue.forEach(task => {
+        html += `<p>⚠️ ${task}</p>`;
+    });
+    target.innerHTML = html;
+}
+
+function renderRoomStatus() {
+    const target = document.getElementById('roomStatus');
+    if (!target) return;
+
+    let html = '';
+    Object.keys(cleaningRooms).forEach(room => {
+        html += `<span class="status-chip">${room} — Due</span>`;
+    });
+    target.innerHTML = html;
+}
+
+function renderRoomCleaning() {
+    const target = document.getElementById('roomCleaning');
+    if (!target) return;
+
+    let html = '';
+    Object.keys(cleaningRooms).forEach(room => {
+        html += `<div class="subheading">${room}</div><ul>`;
+        cleaningRooms[room].forEach(task => {
+            html += `<li>${task}</li>`;
+        });
+        html += `</ul>`;
+    });
+
+    target.innerHTML = html;
+}
+
+function renderDeepCleaning() {
+    const target = document.getElementById('deepCleaning');
+    if (!target) return;
+
+    const seasonal = getSeasonalBlock();
+
+    let html = '<div class="subheading">Monthly</div><ul>';
+    monthlyDeepTasks.forEach(task => {
+        html += `<li>${task}</li>`;
+    });
+    html += '</ul>';
+
+    html += `<div class="subheading">${seasonal.sabbat}</div><ul>`;
+    seasonal.tasks.forEach(task => {
+        html += `<li>${task}</li>`;
+    });
+    html += '</ul>';
+
+    target.innerHTML = html;
+}
+
+/* ---------------- PAGE LOGIC ---------------- */
 document.addEventListener('DOMContentLoaded', () => {
     let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
     let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
@@ -351,6 +1088,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderPetData();
+    renderHomeTasks();
+    renderCleaningToday();
+    renderSeasonalMessage();
+    renderOverdueCleaning();
+    renderRoomStatus();
+    renderRoomCleaning();
+    renderDeepCleaning();
 });
 </script>
 
