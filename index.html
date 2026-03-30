@@ -73,7 +73,6 @@ body {
     margin:0 auto;
     padding-bottom:100px;
 }
-
 .calendar-box { margin-bottom:20px; }
 .calendar-box a {
     display:block;
@@ -293,42 +292,36 @@ body {
     <div class="calendar-box">
         <a href="https://calendar.google.com" target="_blank">OPEN CALENDAR</a>
     </div>
+
     <div class="daily-briefing" id="daily-feed">
         <div class="briefing-title" id="shift-label">CURRENT SHIFT</div>
-        <div id="active-tasks"></div>
+        <div id="active-tasks">No tasks yet</div>
     </div>
+
     <div class="nav-grid">
         <div class="nav-card" onclick="showPage('p12')">
-            <img src="https://via.placeholder.com/300x105?text=Pet+Care" alt="Pet Care">
-            <span>Pet Care</span>
+            <img src="images/pet-health.jpg" alt="Pet Health">
+            <span>Pet Health</span>
         </div>
-        <div class="nav-card">
-            <img src="https://via.placeholder.com/300x105?text=Gardening" alt="Gardening">
-            <span>Gardening</span>
+        <div class="nav-card" onclick="showPage('pMaintenance')">
+            <img src="images/home-maintenance.jpg" alt="Maintenance">
+            <span>Maintenance</span>
         </div>
-        <div class="nav-card">
-            <img src="https://via.placeholder.com/300x105?text=Finance" alt="Finance">
+        <div class="nav-card" onclick="showPage('pFinance')">
+            <img src="images/finance.jpg" alt="Finance">
             <span>Finance</span>
         </div>
-        <div class="nav-card">
-            <img src="https://via.placeholder.com/300x105?text=Spirituality" alt="Spirituality">
-            <span>Spirituality</span>
-        </div>
-        <div class="nav-card">
-            <img src="https://via.placeholder.com/300x105?text=Home+Maintenance" alt="Home Maintenance">
-            <span>Home Maintenance</span>
-        </div>
-        <div class="nav-card">
-            <img src="https://via.placeholder.com/300x105?text=Wellbeing" alt="Wellbeing">
-            <span>Wellbeing</span>
+        <div class="nav-card" onclick="showPage('pGardening')">
+            <img src="images/gardening.jpg" alt="Gardening">
+            <span>Gardening</span>
         </div>
     </div>
 </div>
 
-<!-- PET CARE PAGE -->
+<!-- PET HEALTH PAGE -->
 <div id="p12" class="page">
     <div class="back-btn" onclick="showHome()">← BACK HOME</div>
-    <img class="hero-img" src="https://via.placeholder.com/600x240?text=Pet+Care+Hero" alt="Pet Health">
+    <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
     <h2 class="section-title">Pet Care</h2>
 
     <div class="daily-briefing">
@@ -361,6 +354,27 @@ body {
         <h4 style="color:var(--gold)">Emergency Info</h4>
         <p style="opacity:0.6;">No emergency info yet. Click “Emergency Info” to fill in.</p>
     </div>
+
+    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
+</div>
+
+<!-- PLACEHOLDER PAGES -->
+<div id="pMaintenance" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Maintenance</h2>
+    <p style="opacity:0.6;">No maintenance records yet.</p>
+</div>
+
+<div id="pFinance" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Finance</h2>
+    <p style="opacity:0.6;">No finance records yet.</p>
+</div>
+
+<div id="pGardening" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Gardening</h2>
+    <p style="opacity:0.6;">No gardening records yet.</p>
 </div>
 
 <!-- FORM POPUP -->
@@ -385,18 +399,18 @@ function showHome(){
     document.getElementById('home-screen').style.display='block';
 }
 
-/* ---------- PET HEALTH DATA ---------- */
+/* ---------- PET CARE DATA ---------- */
 document.addEventListener('DOMContentLoaded',()=>{
     let treatments=JSON.parse(localStorage.getItem('treatments'))||[];
     let healthRecords=JSON.parse(localStorage.getItem('healthRecords'))||{};
     let healthLog=JSON.parse(localStorage.getItem('healthLog'))||[];
     let groomingLog=JSON.parse(localStorage.getItem('groomingLog'))||[];
-    let emergencyInfo=JSON.parse(localStorage.getItem('emergencyInfo'))||{};
+    let emergencyInfo=JSON.parse(localStorage.getItem('emergencyInfo'))||[];
     let currentForm='';
 
     const petNameEl=document.getElementById('petName');
     const petOutput=document.getElementById('pet-output');
-    const remindersDiv=document.getElementById('nextReminder');
+    const remindersDiv=document.getElementById('reminders');
     const popupForm=document.getElementById('popupForm');
     const formFields=document.getElementById('formFields');
     const formTitle=document.getElementById('formTitle');
@@ -457,57 +471,4 @@ document.addEventListener('DOMContentLoaded',()=>{
             case 'log':
                 healthLog.push(data.get('entry')); localStorage.setItem('healthLog',JSON.stringify(healthLog)); break;
             case 'grooming':
-                groomingLog.push(data.get('grooming')); localStorage.setItem('groomingLog',JSON.stringify(groomingLog)); break;
-            case 'emergency':
-                emergencyInfo={vet:data.get('vet'),emergencyVet:data.get('emergencyVet'),poison:data.get('poison')};
-                localStorage.setItem('emergencyInfo',JSON.stringify(emergencyInfo)); break;
-        }
-        formEl.reset();
-        popupForm.style.display='none';
-        renderPetData();
-    });
-
-    function renderPetData(){
-        const petName=localStorage.getItem('petName')||'[Enter Pet Name]';
-        petNameEl.innerText=petName;
-
-        // Treatments
-        let tHtml=treatments.length?'<ul>'+treatments.map(t=>`<li>${t.date}: ${t.name} (${t.product||'No product'}) Next: ${t.nextDue||'N/A'}</li>`).join('')+'</ul>':'<p style="opacity:0.6;">No treatments recorded yet. Click “Add Treatment” to fill in.</p>';
-
-        // Health Records
-        let hHtml=Object.keys(healthRecords).length?`<ul>
-            <li>Weight: ${healthRecords.weight||'N/A'}</li>
-            <li>Allergies: ${healthRecords.allergies||'N/A'}</li>
-            <li>Conditions: ${healthRecords.conditions||'N/A'}</li>
-            <li>Next Vet: ${healthRecords.vetNext||'N/A'}</li>
-        </ul>`:'<p style="opacity:0.6;">No health records yet. Click “Update Health Records” to fill in.</p>';
-
-        // Health Log
-        let lHtml=healthLog.length?'<ul>'+healthLog.map(l=>`<li>${l}</li>`).join('')+'</ul>':'<p style="opacity:0.6;">No health log entries yet. Click “Health Log” to add notes.</p>';
-
-        // Grooming
-        let gHtml=groomingLog.length?'<ul>'+groomingLog.map(g=>`<li>${g}</li>`).join('')+'</ul>':'<p style="opacity:0.6;">No grooming records yet. Click “Grooming” to add updates.</p>';
-
-        // Emergency
-        let eHtml=Object.keys(emergencyInfo).length?`<ul>
-            <li>Primary Vet: ${emergencyInfo.vet||'N/A'}</li>
-            <li>Emergency Vet: ${emergencyInfo.emergencyVet||'N/A'}</li>
-            <li>Poison Helpline: ${emergencyInfo.poison||'N/A'}</li>
-        </ul>`:'<p style="opacity:0.6;">No emergency info yet. Click “Emergency Info” to fill in.</p>';
-
-        petOutput.innerHTML=`<h4 style="color:var(--gold)">Treatments</h4>${tHtml}
-            <h4 style="color:var(--gold)">Health Records</h4>${hHtml}
-            <h4 style="color:var(--gold)">Health Log</h4>${lHtml}
-            <h4 style="color:var(--gold)">Grooming</h4>${gHtml}
-            <h4 style="color:var(--gold)">Emergency Info</h4>${eHtml}`;
-
-        // Next reminder
-        let upcoming=treatments.filter(t=>t.nextDue).sort((a,b)=>new Date(a.nextDue)-new Date(b.nextDue))[0];
-        remindersDiv.innerText=upcoming?`Next treatment: ${upcoming.name} on ${upcoming.nextDue}`:'No upcoming treatments';
-    }
-
-    renderPetData();
-});
-</script>
-</body>
-</html>
+                grooming
