@@ -100,7 +100,7 @@
     </div>
 <!-- PET HEALTH PAGE -->
 <div id="p12" class="page">
-    <div class="back-btn" id="backHome">← BACK HOME</div>
+    <div class="back-btn" id="backHomePet">← BACK HOME</div>
 
     <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
 
@@ -129,16 +129,6 @@
     <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
 </div>
 
-<!-- POPUP FORM -->
-<div class="form-popup" id="popupForm">
-    <h3 id="formTitle">Add Entry</h3>
-    <form id="form">
-        <div id="formFields"></div>
-        <button type="submit">Save</button>
-        <button type="button" id="cancelForm">Cancel</button>
-    </form>
-</div>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -159,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formEl = document.getElementById('form');
 
     /* ---------- BACK HOME ---------- */
-    document.getElementById('backHome').addEventListener('click', () => {
+    document.getElementById('backHomePet').addEventListener('click', () => {
         document.getElementById('home-screen').style.display = 'block';
         document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
     });
