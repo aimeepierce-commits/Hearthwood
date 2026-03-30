@@ -98,4 +98,248 @@
         <div class="nav-card" onclick="showPage('p12')"><img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span></div>
         <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
     </div>
+<!-- PET HEALTH PAGE -->
+<div id="p12" class="page">
+    <div class="back-btn" id="backHome">← BACK HOME</div>
+
+    <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
+
+    <h2 class="section-title">Pet Health</h2>
+
+    <!-- Pet summary -->
+    <div class="daily-briefing">
+        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Labrador</h3>
+        <p>Age: 3</p>
+        <p id="nextReminder">No reminders yet</p>
+    </div>
+
+    <!-- Buttons to open forms -->
+    <div style="display:grid; gap:10px; margin-bottom:20px;" id="formButtons">
+        <button data-form="treatment">Add Treatment</button>
+        <button data-form="health">Health Records</button>
+        <button data-form="log">Health Log</button>
+        <button data-form="grooming">Grooming</button>
+        <button data-form="emergency">Emergency Info</button>
+    </div>
+
+    <!-- Pet data outputs -->
+    <div id="pet-output" style="font-size:12px;"></div>
+
+    <!-- Full reminders list -->
+    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
 </div>
+
+<!-- POPUP FORM -->
+<div class="form-popup" id="popupForm">
+    <h3 id="formTitle">Add Entry</h3>
+    <form id="form">
+        <div id="formFields"></div>
+        <button type="submit">Save</button>
+        <button type="button" id="cancelForm">Cancel</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ---------- DATA ---------- */
+    let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
+    let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
+    let healthLog = JSON.parse(localStorage.getItem('healthLog')) || [];
+    let groomingLog = JSON.parse(localStorage.getItem('groomingLog')) || [];
+    let emergencyInfo = JSON.parse(localStorage.getItem('emergencyInfo')) || {};
+    let currentForm = '';
+
+    const petNameEl = document.getElementById('petName');
+    const petOutput = document.getElementById('pet-output');
+    const remindersDiv = document.getElementById('reminders');
+    const popupForm = document.getElementById('popupForm');
+    const formFields = document.getElementById('formFields');
+    const formTitle = document.getElementById('formTitle');
+    const formEl = document.getElementById('form');
+
+    /* ---------- BACK HOME ---------- */
+    document.getElementById('backHome').addEventListener('click', () => {
+        document.getElementById('home-screen').style.display = 'block';
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+    });
+
+    /* ---------- FORM BUTTONS ---------- */
+    document.querySelectorAll('#formButtons button').forEach(btn => {
+        btn.addEventListener('click', () => openForm(btn.dataset.form));
+    });
+
+    document.getElementById('cancelForm').addEventListener('click', () => popupForm.style.display = 'none');
+
+    /* ---------- OPEN FORM ---------- */
+    function openForm(type) {
+        currentForm = type;
+        formFields.innerHTML = '';
+        if(type === 'treatment'){
+            formTitle.innerText = 'Add Treatment';
+            formFields.innerHTML = `
+                <input type="date" name="date" required>
+                <input type="text" name="name" placeholder="Treatment" required>
+                <input type="text" name="product" placeholder="Product">
+                <input type="date" name="nextDue">
+            `;
+        } else if(type === 'health'){
+            formTitle.innerText = 'Update Health Records';
+            formFields.innerHTML = `
+                <input type="text" name="weight" placeholder="Weight History">
+                <input type="text" name="allergies" placeholder="Allergies">
+                <input type="text" name="conditions" placeholder="Conditions">
+                <input type="date" name="vetNext">
+            `;
+        } else if(type === 'log'){
+            formTitle.innerText = 'Health Log Entry';
+            formFields.innerHTML = `<textarea name="entry" placeholder="Write note..." required></textarea>`;
+        } else if(type === 'grooming'){
+            formTitle.innerText = 'Grooming Log';
+            formFields.innerHTML = `<textarea name="grooming" placeholder="Grooming update..." required></textarea>`;
+        } else if(type === 'emergency'){
+            formTitle.innerText = 'Emergency Info';
+            formFields.innerHTML = `
+                <input type="text" name="vet" placeholder="Primary Vet">
+                <input type="text" name="emergencyVet" placeholder="Emergency Vet">
+                <input type="text" name="poison" placeholder="Poison Helpline">
+            `;
+        }
+        popupForm.style.display = 'block';
+    }
+
+    /* ---------- FORM SUBMIT ---------- */
+    formEl.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(formEl);
+
+        if(currentForm === 'treatment'){
+            treatments.push({
+                date: data.get('date'),
+                name: data.get('name'),
+                product: data.get('product'),
+                nextDue: data.get('nextDue')
+            });
+            localStorage.setItem('treatments', JSON.stringify(treatments));
+        } else if(currentForm === 'health'){
+            healthRecords = {
+                weight: data.get('weight'),
+                allergies: data.get('allergies'),
+                conditions: data.get('conditions'),
+                vetNext: data.get('vetNext')
+            };
+            localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
+        } else if(currentForm === 'log'){
+            healthLog.push(data.get('entry'));
+            localStorage.setItem('healthLog', JSON.stringify(healthLog));
+        } else if(currentForm === 'grooming'){
+            groomingLog.push(data.get('grooming'));
+            localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
+        } else if(currentForm === 'emergency'){
+            emergencyInfo = {
+                vet: data.get('vet'),
+                emergencyVet: data.get('emergencyVet'),
+                poison: data.get('poison')
+            };
+            localStorage.setItem('emergencyInfo', JSON.stringify(emergencyInfo));
+        }
+
+        formEl.reset();
+        popupForm.style.display = 'none';
+        renderPetData();
+    });
+
+    /* ---------- RENDER PET DATA ---------- */
+    function renderPetData() {
+        const petName = localStorage.getItem('petName') || 'Labrador';
+        petNameEl.innerText = petName;
+
+        let html = '';
+
+        // Treatments
+        html += '<h4 style="color:var(--gold)">Treatments</h4>';
+        if(treatments.length){
+            html += '<ul>';
+            treatments.forEach((t,i) => {
+                const overdue = t.nextDue && new Date(t.nextDue) < new Date() ? 'color:red;' : '';
+                html += `<li style="${overdue}">${t.date || 'N/A'} - ${t.name || 'N/A'} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}
+                         <button data-index="${i}" class="deleteTreatment" style="margin-left:8px;color:red;">❌</button></li>`;
+            });
+            html += '</ul>';
+        } else html += '<p style="opacity:0.6;">No treatments recorded yet.</p>';
+
+        // Health Records
+        html += '<h4 style="color:var(--gold)">Health Records</h4>';
+        if(Object.keys(healthRecords).length){
+            for(const k in healthRecords){
+                if(healthRecords[k]) html += `<p>${k}: ${healthRecords[k]}</p>`;
+            }
+        } else html += '<p style="opacity:0.6;">No health records yet.</p>';
+
+        // Health Log
+        html += '<h4 style="color:var(--gold)">Health Log</h4>';
+        if(healthLog.length){
+            html += '<ul>';
+            healthLog.forEach((e,i)=> html += `<li>${e} <button data-index="${i}" class="deleteHealthLog" style="margin-left:8px;color:red;">❌</button></li>`);
+            html += '</ul>';
+        } else html += '<p style="opacity:0.6;">No health log entries yet.</p>';
+
+        // Grooming Log
+        html += '<h4 style="color:var(--gold)">Grooming</h4>';
+        if(groomingLog.length){
+            html += '<ul>';
+            groomingLog.forEach((e,i)=> html += `<li>${e} <button data-index="${i}" class="deleteGrooming" style="margin-left:8px;color:red;">❌</button></li>`);
+            html += '</ul>';
+        } else html += '<p style="opacity:0.6;">No grooming entries yet.</p>';
+
+        // Emergency Info
+        html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+        if(Object.keys(emergencyInfo).length){
+            for(const k in emergencyInfo){
+                if(emergencyInfo[k]) html += `<p>${k}: ${emergencyInfo[k]}</p>`;
+            }
+        } else html += '<p style="opacity:0.6;">No emergency info provided yet.</p>';
+
+        petOutput.innerHTML = html;
+
+        // Next treatment reminder
+        const upcoming = treatments.filter(t=>t.nextDue).sort((a,b)=>new Date(a.nextDue)-new Date(b.nextDue));
+        const next = upcoming[0];
+        document.getElementById('nextReminder').innerText = next ? `Next: ${next.name} on ${next.nextDue}` : 'No reminders yet';
+
+        // Reminders list
+        if(upcoming.length){
+            let remindersHTML = '<h4 style="color:var(--gold)">Upcoming Treatments</h4><ul>';
+            upcoming.forEach((t,i)=>{
+                const overdue = t.nextDue && new Date(t.nextDue) < new Date() ? 'color:red;' : '';
+                remindersHTML += `<li style="${overdue}">${t.name} – Due ${t.nextDue} <button data-index="${i}" class="deleteTreatment" style="margin-left:8px;color:red;">❌</button></li>`;
+            });
+            remindersHTML += '</ul>';
+            remindersDiv.innerHTML = remindersHTML;
+        } else remindersDiv.innerHTML = '<p style="opacity:0.6;">No upcoming treatments.</p>';
+
+        // Attach delete button listeners
+        document.querySelectorAll('.deleteTreatment').forEach(btn=> btn.addEventListener('click', ()=> {
+            const idx = btn.dataset.index;
+            treatments.splice(idx,1);
+            localStorage.setItem('treatments', JSON.stringify(treatments));
+            renderPetData();
+        }));
+        document.querySelectorAll('.deleteHealthLog').forEach(btn=> btn.addEventListener('click', ()=>{
+            const idx = btn.dataset.index;
+            healthLog.splice(idx,1);
+            localStorage.setItem('healthLog', JSON.stringify(healthLog));
+            renderPetData();
+        }));
+        document.querySelectorAll('.deleteGrooming').forEach(btn=> btn.addEventListener('click', ()=>{
+            const idx = btn.dataset.index;
+            groomingLog.splice(idx,1);
+            localStorage.setItem('groomingLog', JSON.stringify(groomingLog));
+            renderPetData();
+        }));
+    }
+
+    renderPetData();
+
+});
+</script>
