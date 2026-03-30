@@ -124,8 +124,133 @@
 
     <div id="pet-output" style="margin-top:20px; font-size:12px;"></div>
 </div>
+<div class="container">
 
+  <!-- DOG PROFILE DASHBOARD -->
+  <div class="profile-card">
+    <img src="dog-photo.jpg" alt="Dog Photo">
+    <h2 id="dogName">Luna</h2>
+    <p id="dogBreedAge">Border Collie | Age 3</p>
+    <div class="reminders" id="reminders">
+      <!-- Upcoming reminders will appear here -->
+    </div>
+  </div>
+
+  <!-- GRID SECTIONS -->
+  <div class="grid">
+
+    <!-- Treatments / Medical History -->
+    <div class="card full-width">
+      <h2>Treatments & Medical History</h2>
+      <table id="treatmentsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Treatment</th>
+            <th>Product</th>
+            <th>Next Due</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button onclick="openForm('treatment')">Add Treatment</button>
+    </div>
+
+    <!-- Health Records -->
+    <div class="card">
+      <h2>Health Records</h2>
+      <div id="healthRecords"></div>
+      <button onclick="openForm('health')">Update</button>
+    </div>
+
+    <!-- Health Log -->
+    <div class="card">
+      <h2>Health Log</h2>
+      <div id="healthLog"></div>
+      <button onclick="openForm('log')">Add Entry</button>
+    </div>
+
+    <!-- Grooming & Care -->
+    <div class="card">
+      <h2>Grooming & Care</h2>
+      <div id="groomingLog"></div>
+      <button onclick="openForm('grooming')">Update</button>
+    </div>
+
+    <!-- Emergency Info -->
+    <div class="card">
+      <h2>Emergency Info</h2>
+      <div id="emergencyInfo"></div>
+      <button onclick="openForm('emergency')">Edit</button>
+    </div>
+
+  </div>
+</div>
 <!-- POPUP FORM -->
+    function renderReminders() {
+  const remindersDiv = document.getElementById('reminders');
+  remindersDiv.innerHTML = '';
+  let upcoming = [];
+
+  treatments.forEach(t => {
+    if(t.nextDue) upcoming.push(`Vaccination/Flea – Due ${t.nextDue}`);
+  });
+  if(healthRecords.vetNext) upcoming.push(`Next Vet: ${healthRecords.vetNext}`);
+
+  upcoming.forEach(r => {
+    let div = document.createElement('div');
+    div.className = 'reminder-card';
+    div.innerText = r;
+    remindersDiv.appendChild(div);
+  });
+}
+
+function renderTreatments() {
+  const tbody = document.querySelector('#treatmentsTable tbody');
+  tbody.innerHTML = '';
+  treatments.forEach((t, i) => {
+    let row = document.createElement('tr');
+    row.innerHTML = `<td>${t.date}</td><td>${t.name}</td><td>${t.product}</td><td>${t.nextDue}</td><td><button onclick="deleteTreatment(${i})">Delete</button></td>`;
+    tbody.appendChild(row);
+  });
+  renderReminders();
+}
+
+function renderHealthRecords() {
+  document.getElementById('healthRecords').innerHTML = `
+    <p><strong>Weight:</strong> ${healthRecords.weight || ''}</p>
+    <p><strong>Allergies:</strong> ${healthRecords.allergies || ''}</p>
+    <p><strong>Conditions:</strong> ${healthRecords.conditions || ''}</p>`;
+}
+
+function renderHealthLog() {
+  document.getElementById('healthLog').innerHTML = healthLog.map(e=>`<p>${e}</p>`).join('');
+}
+
+function renderGroomingLog() {
+  document.getElementById('groomingLog').innerHTML = groomingLog.map(e=>`<p>${e}</p>`).join('');
+}
+
+function renderEmergencyInfo() {
+  document.getElementById('emergencyInfo').innerHTML = `
+    <p><strong>Primary Vet:</strong> ${emergencyInfo.vet || ''}</p>
+    <p><strong>Emergency Vet:</strong> ${emergencyInfo.emergencyVet || ''}</p>
+    <p><strong>Poison Helpline:</strong> ${emergencyInfo.poison || ''}</p>`;
+}
+
+function deleteTreatment(index) {
+  treatments.splice(index,1);
+  localStorage.setItem('treatments', JSON.stringify(treatments));
+  renderTreatments();
+}
+
+// Initial render when page loads
+renderTreatments();
+renderHealthRecords();
+renderHealthLog();
+renderGroomingLog();
+renderEmergencyInfo();
 <div class="form-popup" id="popupForm">
   <h3 id="formTitle">Add Entry</h3>
   <form id="form">
