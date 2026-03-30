@@ -99,13 +99,54 @@
         <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
     </div>
 
-    <!-- PET HEALTH PAGE -->
+ <!-- PET HEALTH PAGE (move OUTSIDE home-screen) -->
 <div id="p12" class="page">
-    <div class="back-btn" id="backHomePet">← BACK HOME</div>
+     <div class="back-btn" onclick="showHome()">← BACK HOME</div>
 
     <img class="hero-img" src="images/pet-health.jpg" alt="Pet Health">
 
     <h2 class="section-title">Pet Health</h2>
+
+    <div class="daily-briefing">
+        <h3 style="color:var(--gold); font-family:Cinzel;" id="petName">Labrador</h3>
+        <p>Age: 3</p>
+        <p id="nextReminder">No reminders yet</p>
+    </div>
+
+    <div style="display:grid; gap:10px; margin-bottom:20px;" id="formButtons">
+        <button data-form="treatment">Add Treatment</button>
+        <button data-form="health">Health Records</button>
+        <button data-form="log">Health Log</button>
+        <button data-form="grooming">Grooming</button>
+        <button data-form="emergency">Emergency Info</button>
+    </div>
+
+    <div id="pet-output" style="font-size:12px;"></div>
+    <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
+</div>
+
+<!-- FORM POPUP -->
+<div class="form-popup" id="popupForm">
+    <h3 id="formTitle">Form</h3>
+    <form id="form">
+        <div id="formFields"></div>
+        <button type="submit">Save</button>
+        <button type="button" id="cancelForm">Cancel</button>
+    </form>
+</div>
+
+<script>
+function showHome() {
+    document.getElementById('home-screen').style.display = 'block';
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+}
+
+function showPage(id) {
+    document.getElementById('home-screen').style.display = 'none';
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+}
+</script>
 
     <!-- Pet summary -->
     <div class="daily-briefing">
