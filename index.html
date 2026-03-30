@@ -302,6 +302,93 @@ function closeForm() {
   document.getElementById('popupForm').style.display = 'none';
   document.getElementById('form').reset();
 }
+    <div id="p12" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+
+    <img class="hero-img" src="images/pet-health.jpg">
+
+    <h2 class="section-title">Pet Health</h2>
+
+    <!-- PROFILE -->
+    <div class="daily-briefing">
+        <h3 style="color:var(--gold); font-family:Cinzel;">Labrador</h3>
+        <p>Age: 3</p>
+        <p id="nextReminder">No reminders yet</p>
+    </div>
+
+    <!-- BUTTONS -->
+    <div style="display:grid; gap:10px;">
+        <button onclick="openForm('treatment')">Add Treatment</button>
+        <button onclick="openForm('health')">Health Records</button>
+        <button onclick="openForm('log')">Health Log</button>
+        <button onclick="openForm('grooming')">Grooming</button>
+        <button onclick="openForm('emergency')">Emergency Info</button>
+    </div>
+
+    <!-- OUTPUT -->
+    <div id="pet-output" style="margin-top:20px; font-size:12px;"></div>
+</div>
+    function renderPetData() {
+  let output = "";
+
+  // Treatments
+  if (treatments.length) {
+    output += "<h3>Treatments</h3>";
+    treatments.forEach(t => {
+      output += `<p>${t.name} (${t.date}) → Next: ${t.nextDue || "N/A"}</p>`;
+    });
+  }
+
+  // Health records
+  if (healthRecords.weight || healthRecords.vetNext) {
+    output += "<h3>Health Records</h3>";
+    output += `<p>Weight: ${healthRecords.weight || "-"}</p>`;
+    output += `<p>Vet: ${healthRecords.vetNext || "-"}</p>`;
+  }
+
+  // Logs
+  if (healthLog.length) {
+    output += "<h3>Health Log</h3>";
+    healthLog.forEach(l => output += `<p>${l}</p>`);
+  }
+
+  // Grooming
+  if (groomingLog.length) {
+    output += "<h3>Grooming</h3>";
+    groomingLog.forEach(g => output += `<p>${g}</p>`);
+  }
+
+  // Emergency
+  if (emergencyInfo.vet) {
+    output += "<h3>Emergency</h3>";
+    output += `<p>Vet: ${emergencyInfo.vet}</p>`;
+    output += `<p>Emergency Vet: ${emergencyInfo.emergencyVet}</p>`;
+  }
+
+  document.getElementById("pet-output").innerHTML = output;
+
+  updateNextReminder();
+}
+
+function updateNextReminder() {
+  let dates = [];
+
+  treatments.forEach(t => {
+    if (t.nextDue) dates.push({name: t.name, date: t.nextDue});
+  });
+
+  if (healthRecords.vetNext) {
+    dates.push({name: "Vet Visit", date: healthRecords.vetNext});
+  }
+
+  if (dates.length === 0) return;
+
+  dates.sort((a,b) => new Date(a.date) - new Date(b.date));
+
+  const next = dates[0];
+  document.getElementById("nextReminder").innerText =
+    `Next: ${next.name} on ${next.date}`;
+}
 </script>
 </body>
 </html>
