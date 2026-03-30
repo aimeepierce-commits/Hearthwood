@@ -98,7 +98,8 @@
         <div class="nav-card" onclick="showPage('p12')"><img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span></div>
         <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
     </div>
-<!-- PET HEALTH PAGE -->
+
+    <!-- PET HEALTH PAGE -->
 <div id="p12" class="page">
     <div class="back-btn" id="backHomePet">← BACK HOME</div>
 
@@ -129,6 +130,16 @@
     <div id="reminders" style="margin-top:15px; font-size:12px;"></div>
 </div>
 
+<!-- FORM POPUP (shared by all pages) -->
+<div class="form-popup" id="popupForm">
+    <h3 id="formTitle">Form</h3>
+    <form id="form">
+        <div id="formFields"></div>
+        <button type="submit">Save</button>
+        <button type="button" id="cancelForm">Cancel</button>
+    </form>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -150,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ---------- BACK HOME ---------- */
     document.getElementById('backHomePet').addEventListener('click', () => {
-        document.getElementById('home-screen').style.display = 'block';
         document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        document.getElementById('home-screen').style.display = 'block';
     });
 
     /* ---------- FORM BUTTONS ---------- */
