@@ -19,7 +19,6 @@
 
         #home-screen { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
 
-        /* Small Calendar box */
         .calendar-box { margin-bottom: 20px; }
         .calendar-box a { 
             display:block; 
@@ -54,77 +53,79 @@
         .done .checkbox::after { content: '✓'; color: #000; position: absolute; left: 5px; top: 0; font-weight: bold; font-size: 14px; }
         .done span { opacity: 0.3; text-decoration: line-through; }
         .list-text { font-size: 16px; font-weight: 300; color: rgba(232, 220, 200, 0.9); }
+
+        /* FORM STYLING */
+        .form-popup { display:none; position:fixed; bottom:20px; right:20px; width:300px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; z-index:999; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
+        .form-popup h3 { font-family:'Cinzel'; color:var(--gold); font-size:12px; letter-spacing:2px; margin-bottom:10px; }
+        .form-popup input, .form-popup textarea { width:100%; margin:6px 0; padding:8px; background:#0c0f0c; border:1px solid var(--border); border-radius:6px; color:var(--text); }
+        .form-popup button { margin-top:8px; width:100%; padding:8px; background:var(--gold); color:#000; border:none; border-radius:6px; cursor:pointer; font-family:'Cinzel'; font-size:10px; }
+        .form-popup button:last-child { background:transparent; color:var(--gold); border:1px solid var(--border); }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="app-title" onclick="showHome()">HEARTHWOOD</div>
-        <div class="medallion-row">
-            <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 5v10m0 70v10M5 50h10m70 0h10" stroke="currentColor"/></svg><span class="sign">GEMINI</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="currentColor"/></svg><span class="sign">CANCER</span></div>
-            <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30" stroke="currentColor"/></svg><span class="sign">AQUARIUS</span></div>
-        </div>
+<div class="header">
+    <div class="app-title" onclick="showHome()">HEARTHWOOD</div>
+    <div class="medallion-row">
+        <div class="medallion"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="15"/><path d="M50 5v10m0 70v10M5 50h10m70 0h10" stroke="currentColor"/></svg><span class="sign">GEMINI</span></div>
+        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M30 50 Q50 20 70 50 Q50 80 30 50" stroke="currentColor"/></svg><span class="sign">CANCER</span></div>
+        <div class="medallion"><svg viewBox="0 0 100 100"><path d="M70 30 A25 25 0 1 0 70 70 A20 20 0 1 1 70 30" stroke="currentColor"/></svg><span class="sign">AQUARIUS</span></div>
+    </div>
+</div>
+
+<div id="home-screen">
+    <div class="calendar-box">
+        <a href="https://calendar.google.com" target="_blank">OPEN CALENDAR</a>
     </div>
 
-    <div id="home-screen">
-        <!-- Small Calendar Link -->
-        <div class="calendar-box">
-            <a href="https://calendar.google.com" target="_blank">OPEN CALENDAR</a>
-        </div>
-
-        <div class="daily-briefing" id="daily-feed">
-            <div class="briefing-title" id="shift-label">CURRENT SHIFT</div>
-            <div id="active-tasks"></div>
-        </div>
-
-        <div class="nav-grid">
-            <!-- First 6 sections -->
-            <div class="nav-card" onclick="showPage('p1')"><img src="images/cleaning.jpg" alt="Cleaning"><span>Cleaning</span></div>
-            <div class="nav-card" onclick="showPage('p2')"><img src="images/maintenance.jpg" alt="Maintenance"><span>Maintenance</span></div>
-            <div class="nav-card" onclick="showPage('p3')"><img src="images/gardening.jpg" alt="Gardening"><span>Gardening</span></div>
-            <div class="nav-card" onclick="showPage('p4')"><img src="images/meal-planning.jpg" alt="Meal Planning"><span>Meal Planning</span></div>
-            <div class="nav-card" onclick="showPage('p5')"><img src="images/spirituality.jpg" alt="Spirituality"><span>Spirituality</span></div>
-            <div class="nav-card" onclick="showPage('p6')"><img src="images/finance.jpg" alt="Finance"><span>Finance</span></div>
-
-            <!-- Last 6 sections -->
-            <div class="nav-card" onclick="showPage('p8')"><img src="images/personal-reset.jpg" alt="Personal Reset"><span>Personal Reset</span></div>
-            <div class="nav-card" onclick="showPage('p9')"><img src="images/social.jpg" alt="Social"><span>Social</span></div>
-            <div class="nav-card" onclick="showPage('p10')"><img src="images/family-flow.jpg" alt="Family Flow"><span>Family Flow</span></div>
-            <div class="nav-card" onclick="showPage('p11')"><img src="images/learning.jpg" alt="Learning"><span>Learning</span></div>
-            <div class="nav-card" onclick="showPage('p12')"><img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span></div>
-            <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
-        </div>
+    <div class="daily-briefing" id="daily-feed">
+        <div class="briefing-title" id="shift-label">CURRENT SHIFT</div>
+        <div id="active-tasks"></div>
     </div>
 
-    <script>
-        function showHome() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('home-screen').style.display = 'block';
-            updateBriefing();
-        }
+    <div class="nav-grid">
+        <div class="nav-card" onclick="showPage('p1')"><img src="images/cleaning.jpg" alt="Cleaning"><span>Cleaning</span></div>
+        <div class="nav-card" onclick="showPage('p2')"><img src="images/maintenance.jpg" alt="Maintenance"><span>Maintenance</span></div>
+        <div class="nav-card" onclick="showPage('p3')"><img src="images/gardening.jpg" alt="Gardening"><span>Gardening</span></div>
+        <div class="nav-card" onclick="showPage('p4')"><img src="images/meal-planning.jpg" alt="Meal Planning"><span>Meal Planning</span></div>
+        <div class="nav-card" onclick="showPage('p5')"><img src="images/spirituality.jpg" alt="Spirituality"><span>Spirituality</span></div>
+        <div class="nav-card" onclick="showPage('p6')"><img src="images/finance.jpg" alt="Finance"><span>Finance</span></div>
 
-        function showPage(id) {
-            document.getElementById('home-screen').style.display = 'none';
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(id);
-            if(target) target.classList.add('active');
-            window.scrollTo(0,0);
-        }
+        <div class="nav-card" onclick="showPage('p8')"><img src="images/personal-reset.jpg" alt="Personal Reset"><span>Personal Reset</span></div>
+        <div class="nav-card" onclick="showPage('p9')"><img src="images/social.jpg" alt="Social"><span>Social</span></div>
+        <div class="nav-card" onclick="showPage('p10')"><img src="images/family-flow.jpg" alt="Family Flow"><span>Family Flow</span></div>
+        <div class="nav-card" onclick="showPage('p11')"><img src="images/learning.jpg" alt="Learning"><span>Learning</span></div>
+        <div class="nav-card" onclick="showPage('p12')"><img src="images/pet-health.jpg" alt="Pet Health"><span>Pet Health</span></div>
+        <div class="nav-card" onclick="showPage('p13')"><img src="images/gifting.jpg" alt="Gifting"><span>Gifting</span></div>
+    </div>
+</div>
 
-        function updateBriefing() {
-            const h = new Date().getHours();
-            let shift = "Night";
-            if (h < 9) shift = "Morning";
-            else if (h < 13) shift = "After Breakfast";
-            else if (h < 17) shift = "Midday";
-            document.getElementById('shift-label').innerText = `CURRENT SHIFT: ${shift.toUpperCase()}`;
-            document.getElementById('active-tasks').innerHTML = '<p style="padding:10px; opacity:0.6; font-size:12px;">Tasks sync in progress...</p>';
-        }
+<!-- PET HEALTH PAGE -->
+<div id="p12" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
 
-        showHome();
-    </script>
-    <!-- POPUP FORM -->
+    <img class="hero-img" src="images/pet-health.jpg">
+
+    <h2 class="section-title">Pet Health</h2>
+
+    <div class="daily-briefing">
+        <h3 style="color:var(--gold); font-family:Cinzel;">Labrador</h3>
+        <p>Age: 3</p>
+        <p id="nextReminder">No reminders yet</p>
+    </div>
+
+    <div style="display:grid; gap:10px;">
+        <button onclick="openForm('treatment')">Add Treatment</button>
+        <button onclick="openForm('health')">Health Records</button>
+        <button onclick="openForm('log')">Health Log</button>
+        <button onclick="openForm('grooming')">Grooming</button>
+        <button onclick="openForm('emergency')">Emergency Info</button>
+    </div>
+
+    <div id="pet-output" style="margin-top:20px; font-size:12px;"></div>
+</div>
+
+<!-- POPUP FORM -->
 <div class="form-popup" id="popupForm">
   <h3 id="formTitle">Add Entry</h3>
   <form id="form">
@@ -134,72 +135,44 @@
   </form>
 </div>
 
-<style>
-/* FORM STYLING - MATCHES YOUR SITE */
-.form-popup {
-  display:none;
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:300px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:20px;
-  z-index:999;
-  box-shadow:0 10px 30px rgba(0,0,0,0.8);
-}
-
-.form-popup h3 {
-  font-family:'Cinzel';
-  color:var(--gold);
-  font-size:12px;
-  letter-spacing:2px;
-  margin-bottom:10px;
-}
-
-.form-popup input,
-.form-popup textarea {
-  width:100%;
-  margin:6px 0;
-  padding:8px;
-  background:#0c0f0c;
-  border:1px solid var(--border);
-  border-radius:6px;
-  color:var(--text);
-}
-
-.form-popup button {
-  margin-top:8px;
-  width:100%;
-  padding:8px;
-  background:var(--gold);
-  color:#000;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  font-family:'Cinzel';
-  font-size:10px;
-}
-
-.form-popup button:last-child {
-  background:transparent;
-  color:var(--gold);
-  border:1px solid var(--border);
-}
-</style>
-
 <script>
 /* ---------------- DATA ---------------- */
 let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
 let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
 let healthLog = JSON.parse(localStorage.getItem('healthLog')) || [];
 let groomingLog = JSON.parse(localStorage.getItem('groomingLog')) || [];
-let emergencyInfo = JSON.parse(localStorage.getItem('emergencyInfo')) || {};
+let emergencyInfo = JSON.parse(localStorage.getItem('emergencyInfo')) || [];
 
 let currentForm = '';
 
-/* ---------------- OPEN FORM ---------------- */
+function showHome() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('home-screen').style.display = 'block';
+    updateBriefing();
+}
+
+function showPage(id) {
+    document.getElementById('home-screen').style.display = 'none';
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active');
+    window.scrollTo(0,0);
+    if(id === 'p12') renderPetData();
+}
+
+function updateBriefing() {
+    const h = new Date().getHours();
+    let shift = "Night";
+    if (h < 9) shift = "Morning";
+    else if (h < 13) shift = "After Breakfast";
+    else if (h < 17) shift = "Midday";
+    document.getElementById('shift-label').innerText = `CURRENT SHIFT: ${shift.toUpperCase()}`;
+    document.getElementById('active-tasks').innerHTML = '<p style="padding:10px; opacity:0.6; font-size:12px;">Tasks sync in progress...</p>';
+}
+
+showHome();
+
+/* ---------------- FORMS ---------------- */
 function openForm(type) {
   currentForm = type;
   const popup = document.getElementById('popupForm');
@@ -250,7 +223,6 @@ function openForm(type) {
   popup.style.display = 'block';
 }
 
-/* ---------------- SAVE FORM ---------------- */
 document.getElementById('form').addEventListener('submit', function(e){
   e.preventDefault();
   const data = new FormData(this);
@@ -295,100 +267,63 @@ document.getElementById('form').addEventListener('submit', function(e){
   }
 
   closeForm();
+  renderPetData();
 });
 
-/* ---------------- CLOSE ---------------- */
 function closeForm() {
   document.getElementById('popupForm').style.display = 'none';
-  document.getElementById('form').reset();
 }
-    <div id="p12" class="page">
-    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
 
-    <img class="hero-img" src="images/pet-health.jpg">
+/* ---------------- RENDER PET DATA ---------------- */
+function renderPetData() {
+  const output = document.getElementById('pet-output');
+  if(!output) return;
 
-    <h2 class="section-title">Pet Health</h2>
+  let html = '';
 
-    <!-- PROFILE -->
-    <div class="daily-briefing">
-        <h3 style="color:var(--gold); font-family:Cinzel;">Labrador</h3>
-        <p>Age: 3</p>
-        <p id="nextReminder">No reminders yet</p>
-    </div>
-
-    <!-- BUTTONS -->
-    <div style="display:grid; gap:10px;">
-        <button onclick="openForm('treatment')">Add Treatment</button>
-        <button onclick="openForm('health')">Health Records</button>
-        <button onclick="openForm('log')">Health Log</button>
-        <button onclick="openForm('grooming')">Grooming</button>
-        <button onclick="openForm('emergency')">Emergency Info</button>
-    </div>
-
-    <!-- OUTPUT -->
-    <div id="pet-output" style="margin-top:20px; font-size:12px;"></div>
-</div>
-    function renderPetData() {
-  let output = "";
-
-  // Treatments
-  if (treatments.length) {
-    output += "<h3>Treatments</h3>";
+  if(treatments.length) {
+    html += '<h4 style="color:var(--gold)">Treatments</h4><ul>';
     treatments.forEach(t => {
-      output += `<p>${t.name} (${t.date}) → Next: ${t.nextDue || "N/A"}</p>`;
+      html += `<li>${t.date} - ${t.name} (${t.product}) Next: ${t.nextDue || 'N/A'}</li>`;
     });
+    html += '</ul>';
   }
 
-  // Health records
-  if (healthRecords.weight || healthRecords.vetNext) {
-    output += "<h3>Health Records</h3>";
-    output += `<p>Weight: ${healthRecords.weight || "-"}</p>`;
-    output += `<p>Vet: ${healthRecords.vetNext || "-"}</p>`;
+  if(Object.keys(healthRecords).length) {
+    html += '<h4 style="color:var(--gold)">Health Records</h4>';
+    for(const key in healthRecords) {
+      if(healthRecords[key]) html += `<p>${key}: ${healthRecords[key]}</p>`;
+    }
   }
 
-  // Logs
-  if (healthLog.length) {
-    output += "<h3>Health Log</h3>";
-    healthLog.forEach(l => output += `<p>${l}</p>`);
+  if(healthLog.length) {
+    html += '<h4 style="color:var(--gold)">Health Log</h4><ul>';
+    healthLog.forEach(e => html += `<li>${e}</li>`);
+    html += '</ul>';
   }
 
-  // Grooming
-  if (groomingLog.length) {
-    output += "<h3>Grooming</h3>";
-    groomingLog.forEach(g => output += `<p>${g}</p>`);
+  if(groomingLog.length) {
+    html += '<h4 style="color:var(--gold)">Grooming</h4><ul>';
+    groomingLog.forEach(e => html += `<li>${e}</li>`);
+    html += '</ul>';
   }
 
-  // Emergency
-  if (emergencyInfo.vet) {
-    output += "<h3>Emergency</h3>";
-    output += `<p>Vet: ${emergencyInfo.vet}</p>`;
-    output += `<p>Emergency Vet: ${emergencyInfo.emergencyVet}</p>`;
+  if(Object.keys(emergencyInfo).length) {
+    html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+    for(const key in emergencyInfo) {
+      if(emergencyInfo[key]) html += `<p>${key}: ${emergencyInfo[key]}</p>`;
+    }
   }
 
-  document.getElementById("pet-output").innerHTML = output;
+  output.innerHTML = html;
 
-  updateNextReminder();
+  // Update next reminder
+  let next = treatments.filter(t => t.nextDue).sort((a,b)=> new Date(a.nextDue) - new Date(b.nextDue))[0];
+  document.getElementById('nextReminder').innerText = next ? `Next: ${next.name} on ${next.nextDue}` : 'No reminders yet';
 }
 
-function updateNextReminder() {
-  let dates = [];
-
-  treatments.forEach(t => {
-    if (t.nextDue) dates.push({name: t.name, date: t.nextDue});
-  });
-
-  if (healthRecords.vetNext) {
-    dates.push({name: "Vet Visit", date: healthRecords.vetNext});
-  }
-
-  if (dates.length === 0) return;
-
-  dates.sort((a,b) => new Date(a.date) - new Date(b.date));
-
-  const next = dates[0];
-  document.getElementById("nextReminder").innerText =
-    `Next: ${next.name} on ${next.date}`;
-}
+renderPetData();
 </script>
+
 </body>
 </html>
