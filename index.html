@@ -283,6 +283,96 @@ function renderPetData() {
     const remindersDiv = document.getElementById('reminders');
     if(!output || !remindersDiv) return;
 
+    // --- PET SUMMARY ---
+    const petName = localStorage.getItem('petName') || 'Labrador';
+    document.getElementById('petName').innerText = petName;
+
+    // --- FULL DATA HTML ---
+    let html = '';
+
+    // --- Treatments ---
+    html += '<h4 style="color:var(--gold)">Treatments</h4>';
+    if(treatments.length){
+        html += '<ul>';
+        treatments.forEach(t => {
+            html += `<li>${t.date || 'N/A'} - ${t.name || 'N/A'} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}</li>`;
+        });
+        html += '</ul>';
+    } else {
+        html += '<p style="opacity:0.6;">No treatments recorded yet.</p>';
+    }
+
+    // --- Health Records ---
+    html += '<h4 style="color:var(--gold)">Health Records</h4>';
+    if(Object.keys(healthRecords).length){
+        for(const key in healthRecords){
+            if(healthRecords[key]) html += `<p>${key}: ${healthRecords[key]}</p>`;
+        }
+    } else {
+        html += '<p style="opacity:0.6;">No health records yet.</p>';
+    }
+
+    // --- Health Log ---
+    html += '<h4 style="color:var(--gold)">Health Log</h4>';
+    if(healthLog.length){
+        html += '<ul>';
+        healthLog.forEach(e => html += `<li>${e}</li>`);
+        html += '</ul>';
+    } else {
+        html += '<p style="opacity:0.6;">No health log entries yet.</p>';
+    }
+
+    // --- Grooming Log ---
+    html += '<h4 style="color:var(--gold)">Grooming</h4>';
+    if(groomingLog.length){
+        html += '<ul>';
+        groomingLog.forEach(e => html += `<li>${e}</li>`);
+        html += '</ul>';
+    } else {
+        html += '<p style="opacity:0.6;">No grooming entries yet.</p>';
+    }
+
+    // --- Emergency Info ---
+    html += '<h4 style="color:var(--gold)">Emergency Info</h4>';
+    if(Object.keys(emergencyInfo).length){
+        for(const key in emergencyInfo){
+            if(emergencyInfo[key]) html += `<p>${key}: ${emergencyInfo[key]}</p>`;
+        }
+    } else {
+        html += '<p style="opacity:0.6;">No emergency info provided yet.</p>';
+    }
+
+    // --- Update Pet Data Output ---
+    output.innerHTML = html;
+
+    // --- NEXT UPCOMING TREATMENT ---
+    let next = treatments
+        .filter(t => t.nextDue)
+        .sort((a,b) => new Date(a.nextDue) - new Date(b.nextDue))[0];
+    document.getElementById('nextReminder').innerText = next ? `Next: ${next.name} on ${next.nextDue}` : 'No reminders yet';
+
+    // --- FULL UPCOMING TREATMENTS LIST ---
+    const upcoming = treatments
+        .filter(t => t.nextDue)
+        .sort((a,b) => new Date(a.nextDue) - new Date(b.nextDue));
+
+    remindersDiv.innerHTML = '';
+    if(upcoming.length){
+        let remindersHTML = '<h4 style="color:var(--gold)">Upcoming Treatments</h4><ul>';
+        upcoming.forEach(t => {
+            remindersHTML += `<li class="reminder-card">${t.name} – Due ${t.nextDue}</li>`;
+        });
+        remindersHTML += '</ul>';
+        remindersDiv.innerHTML = remindersHTML;
+    } else {
+        remindersDiv.innerHTML = '<p style="opacity:0.6;">No upcoming treatments.</p>';
+    }
+}
+    function renderPetData() {
+    const output = document.getElementById('pet-output');
+    const remindersDiv = document.getElementById('reminders');
+    if(!output || !remindersDiv) return;
+
     let html = '';
 
     // Treatments
