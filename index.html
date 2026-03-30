@@ -110,7 +110,7 @@
             border: 1px solid var(--gold);
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 22px;
             border-left-width: 4px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.8);
         }
@@ -261,6 +261,7 @@
             bottom: 20px;
             right: 20px;
             width: 300px;
+            max-width: calc(100vw - 40px);
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -288,17 +289,19 @@
             color: var(--text);
         }
 
-        .form-popup button {
+        .form-popup button,
+        #formButtons button {
             margin-top: 8px;
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             background: var(--gold);
             color: #000;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-family: 'Cinzel';
             font-size: 10px;
+            letter-spacing: 1px;
         }
 
         .form-popup button:last-child {
@@ -314,10 +317,6 @@
 
         .season-box {
             background: linear-gradient(180deg, rgba(201,169,110,0.06), rgba(77,90,61,0.08));
-        }
-
-        .overdue-list p {
-            margin-bottom: 8px;
         }
 
         .progress-wrap {
@@ -372,6 +371,197 @@
             color: var(--gold);
             margin: 18px 0 10px;
         }
+
+        /* CLEANING REWORK */
+
+        .cleaning-hero {
+            position: relative;
+            min-height: 300px;
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 22px;
+            border: 1px solid var(--border);
+            background:
+                radial-gradient(circle at 50% 20%, rgba(214,165,93,0.12), transparent 32%),
+                linear-gradient(180deg, rgba(9,10,9,0.18), rgba(9,10,9,0.82)),
+                url('images/cleaning.jpg') center/cover no-repeat;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+        }
+
+        .cleaning-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.5)),
+                radial-gradient(circle at 80% 20%, rgba(201,169,110,0.08), transparent 25%);
+        }
+
+        .cleaning-hero-content {
+            position: relative;
+            z-index: 2;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 28px 22px;
+        }
+
+        .cleaning-kicker,
+        .cleaning-card-kicker {
+            font-family: 'Cinzel';
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(232,220,200,0.78);
+        }
+
+        .cleaning-title {
+            margin: 10px 0 12px;
+            border-bottom: none;
+            padding-bottom: 0;
+            font-size: 22px;
+            letter-spacing: 4px;
+        }
+
+        .cleaning-intro {
+            max-width: 430px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: rgba(232,220,200,0.88);
+        }
+
+        .cleaning-section-grid {
+            display: grid;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .cleaning-section-card {
+            position: relative;
+            min-height: 138px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            background-color: #131713;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+        }
+
+        .cleaning-section-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.42;
+            transform: scale(1.02);
+            filter: brightness(0.62) contrast(1.08) saturate(0.75);
+        }
+
+        .cleaning-section-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.72)),
+                linear-gradient(90deg, rgba(10,12,10,0.9), rgba(10,12,10,0.3));
+        }
+
+        .daily-card::before {
+            background-image: url('images/cleaning.jpg');
+            background-position: center 20%;
+        }
+
+        .weekly-card::before {
+            background-image: url('images/cleaning.jpg');
+            background-position: center 40%;
+        }
+
+        .monthly-card::before {
+            background-image: url('images/cleaning.jpg');
+            background-position: center 60%;
+        }
+
+        .seasonal-card::before {
+            background-image: url('images/cleaning.jpg');
+            background-position: center 75%;
+        }
+
+        .annual-card::before {
+            background-image: url('images/cleaning.jpg');
+            background-position: center bottom;
+        }
+
+        .cleaning-card-inner {
+            position: relative;
+            z-index: 2;
+            padding: 18px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .cleaning-card-inner h3 {
+            font-family: 'Cinzel';
+            font-size: 16px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin: 8px 0 6px;
+        }
+
+        .cleaning-card-inner p {
+            font-size: 14px;
+            line-height: 1.55;
+            color: rgba(232,220,200,0.82);
+            max-width: 290px;
+        }
+
+        .cleaning-detail-view {
+            margin-top: 20px;
+        }
+
+        .cleaning-list-group {
+            margin-bottom: 22px;
+        }
+
+        .cleaning-list-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .cleaning-list-group .subheading {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .plain-list {
+            padding-left: 18px;
+        }
+
+        .plain-list li {
+            margin-bottom: 8px;
+            color: rgba(232,220,200,0.86);
+        }
+
+        .muted-copy {
+            color: rgba(232,220,200,0.72);
+            font-size: 13px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (min-width: 700px) {
+            .cleaning-section-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .cleaning-section-card:last-child {
+                grid-column: span 2;
+            }
+        }
     </style>
 </head>
 <body>
@@ -415,47 +605,141 @@
 <div id="p1" class="page">
     <div class="back-btn" onclick="showHome()">← BACK HOME</div>
 
-    <img class="hero-img" src="images/cleaning.jpg" alt="Cleaning">
+    <div id="cleaningLanding">
+        <div class="cleaning-hero">
+            <div class="cleaning-hero-content">
+                <div class="cleaning-kicker">HOUSEHOLD RITUALS</div>
+                <h2 class="section-title cleaning-title">Cleaning</h2>
+                <p class="cleaning-intro">
+                    Care of the home in a folklore world.
+                    Quiet tending, seasonal rhythms, and the keeping of hearth and threshold.
+                </p>
+            </div>
+        </div>
 
-    <h2 class="section-title">Cleaning</h2>
+        <div class="daily-briefing season-box">
+            <h3 class="briefing-title">CURRENT SEASON</h3>
+            <div id="seasonalCleaningMessage" class="mini-note"></div>
+        </div>
 
-    <div class="daily-briefing season-box">
-        <h3 class="briefing-title">SEASONAL KEEPING</h3>
-        <div id="seasonalCleaningMessage" class="mini-note"></div>
+        <div class="cleaning-section-grid">
+            <div class="cleaning-section-card daily-card" onclick="showCleaningView('daily')">
+                <div class="cleaning-card-inner">
+                    <span class="cleaning-card-kicker">Quiet upkeep</span>
+                    <h3>Daily</h3>
+                    <p>Small resets that keep the house steady.</p>
+                </div>
+            </div>
+
+            <div class="cleaning-section-card weekly-card" onclick="showCleaningView('weekly')">
+                <div class="cleaning-card-inner">
+                    <span class="cleaning-card-kicker">House rhythm</span>
+                    <h3>Weekly</h3>
+                    <p>The regular rounds of each room.</p>
+                </div>
+            </div>
+
+            <div class="cleaning-section-card monthly-card" onclick="showCleaningView('monthly')">
+                <div class="cleaning-card-inner">
+                    <span class="cleaning-card-kicker">Deep care</span>
+                    <h3>Monthly</h3>
+                    <p>Restoration, polishing, clearing, resetting.</p>
+                </div>
+            </div>
+
+            <div class="cleaning-section-card seasonal-card" onclick="showCleaningView('seasonal')">
+                <div class="cleaning-card-inner">
+                    <span class="cleaning-card-kicker">Turning of the year</span>
+                    <h3>Seasonal</h3>
+                    <p>Tasks shaped by the season and sabbat.</p>
+                </div>
+            </div>
+
+            <div class="cleaning-section-card annual-card" onclick="showCleaningView('annual')">
+                <div class="cleaning-card-inner">
+                    <span class="cleaning-card-kicker">Great renewal</span>
+                    <h3>Annual</h3>
+                    <p>The deeper clearing of the whole home.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="daily-briefing">
-        <h3 class="briefing-title">TODAY’S HEARTH</h3>
+    <div id="cleaningDetailView" class="daily-briefing cleaning-detail-view hidden">
+        <div class="back-btn" onclick="closeCleaningView()">← BACK TO CLEANING</div>
+        <h3 class="briefing-title" id="cleaningDetailTitle">DAILY</h3>
 
-        <div class="progress-wrap">
+        <div class="progress-wrap hidden" id="cleaningDetailProgressWrap">
             <div class="progress-label" id="cleaningProgressText">HEARTH TENDING</div>
             <div class="progress-outer">
                 <div class="progress-inner" id="cleaningProgressBar"></div>
             </div>
         </div>
 
-        <div id="todayCleaning"></div>
+        <div id="cleaningDetailIntro" class="muted-copy" style="margin-bottom: 12px;"></div>
+        <div id="cleaningDetailList"></div>
     </div>
+</div>
 
-    <div class="daily-briefing">
-        <h3 class="briefing-title">OVERDUE</h3>
-        <div id="overdueCleaningTasks" class="overdue-list"></div>
-    </div>
+<!-- PLACEHOLDER PAGES -->
+<div id="p2" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Maintenance</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
 
-    <div class="daily-briefing">
-        <h3 class="briefing-title">ROOM STATUS</h3>
-        <div id="roomStatus"></div>
-    </div>
+<div id="p3" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Gardening</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
 
-    <div class="daily-briefing">
-        <h3 class="briefing-title">ROOM TASK BANK</h3>
-        <div id="roomCleaning"></div>
-    </div>
+<div id="p4" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Meal Planning</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
 
-    <div class="daily-briefing">
-        <h3 class="briefing-title">MONTHLY & SEASONAL DEEP CLEAN</h3>
-        <div id="deepCleaning"></div>
-    </div>
+<div id="p5" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Spirituality</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
+
+<div id="p6" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Finance</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
+
+<div id="p8" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Personal Reset</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
+
+<div id="p9" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Social</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
+
+<div id="p10" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Family Flow</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
+
+<div id="p11" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Learning</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+</div>
+
+<div id="p13" class="page">
+    <div class="back-btn" onclick="showHome()">← BACK HOME</div>
+    <h2 class="section-title">Gifting</h2>
+    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
 </div>
 
 <!-- PET HEALTH PAGE -->
@@ -512,6 +796,7 @@
 function showHome() {
     document.getElementById('home-screen').style.display = 'block';
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+    closeCleaningView();
 }
 
 function showPage(id) {
@@ -519,9 +804,11 @@ function showPage(id) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     const target = document.getElementById(id);
     if (target) target.classList.add('active');
+    if (id === 'p1') closeCleaningView();
 }
 
 /* ---------------- CLEANING DATA ---------------- */
+
 const cleaningDailyTasks = [
     "Make beds",
     "Start laundry",
@@ -537,7 +824,7 @@ const cleaningDailyTasks = [
 ];
 
 const cleaningWeeklyTasks = {
-    1: [
+    "Kitchen": [
         "Clean sink",
         "Clean stovetop",
         "Wipe cabinet fronts",
@@ -546,22 +833,24 @@ const cleaningWeeklyTasks = {
         "Sweep and mop kitchen floor",
         "Wipe dining table and chairs"
     ],
-    2: [
+    "Living Spaces": [
         "Vacuum lounge",
         "Dust lounge surfaces",
         "Wipe TV and remotes",
         "Dust library shelves",
         "Straighten books",
-        "Vacuum library corners"
+        "Vacuum library corners",
+        "Sort toys",
+        "Wipe playroom shelves"
     ],
-    3: [
+    "Bedrooms": [
         "Vacuum all bedrooms",
         "Dust bedside tables",
         "Empty bedroom bins",
         "Tidy bedroom floors",
         "Change sheets"
     ],
-    4: [
+    "Bathrooms": [
         "Clean main bathroom toilet",
         "Clean ensuite toilet",
         "Clean sinks and taps",
@@ -569,45 +858,70 @@ const cleaningWeeklyTasks = {
         "Scrub showers",
         "Replace towels"
     ],
-    5: [
-        "Sort toys",
-        "Wipe playroom shelves",
-        "Vacuum playroom",
-        "Declutter main areas",
-        "Empty bins"
-    ],
-    6: [
-        "Quick tidy only"
-    ],
-    0: [
+    "Laundry + Catch Up": [
+        "Wipe machines",
+        "Clean lint filter",
+        "Clear laundry baskets",
         "Catch up missed cleaning",
-        "Vacuum main areas"
+        "Empty bins"
     ]
 };
 
-const cleaningRooms = {
-    "Kitchen": ["Clean sink", "Clean stovetop", "Wipe cabinet fronts", "Clean microwave", "Wipe fridge exterior", "Sweep and mop floor"],
-    "Dining": ["Wipe table", "Wipe chairs", "Vacuum floor"],
-    "Library": ["Dust shelves", "Straighten books", "Vacuum corners"],
-    "Lounge Room": ["Vacuum floor", "Vacuum cushions", "Dust surfaces", "Wipe electronics"],
-    "Playroom": ["Sort toys", "Wipe shelves", "Vacuum floor"],
-    "Laundry": ["Start load", "Fold washing", "Clean lint filter", "Wipe machines"],
-    "Master Bedroom": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
-    "Layla’s Room": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
-    "Christian’s Room": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
-    "Ashley’s Room": ["Change sheets", "Vacuum", "Dust surfaces", "Tidy floor"],
-    "Main Bathroom": ["Clean toilet", "Clean sink", "Clean mirror", "Scrub shower"],
-    "Ensuite": ["Clean toilet", "Clean sink", "Clean mirror", "Scrub shower"]
+const monthlyDeepTasks = {
+    "Kitchen + Storage": [
+        "Clean oven inside",
+        "Deep clean fridge shelves and drawers",
+        "Wash bins",
+        "Clean inside cupboards",
+        "Deep clean pantry shelves",
+        "Check expiry dates",
+        "Clean kitchen drawers"
+    ],
+    "Bedrooms + Soft Furnishings": [
+        "Vacuum under beds",
+        "Wash bath mats",
+        "Wash pillow covers",
+        "Wash blankets",
+        "Wash curtains"
+    ],
+    "Whole Home": [
+        "Wipe skirting boards",
+        "Clean behind furniture",
+        "Clean tops of cupboards",
+        "Wash light switches",
+        "Clean door handles",
+        "Clean under furniture"
+    ]
 };
 
-const monthlyDeepTasks = [
-    "Clean oven inside",
-    "Deep clean fridge shelves and drawers",
-    "Wash bins",
-    "Clean inside cupboards",
-    "Vacuum under beds",
-    "Wash bath mats"
-];
+const annualCleaningTasks = {
+    "Whole House": [
+        "Deep vacuum carpets and rugs",
+        "Move and clean behind large furniture",
+        "Wash all windows inside and out",
+        "Wash walls in high-touch areas",
+        "Declutter every room fully",
+        "Sort donation and rubbish piles"
+    ],
+    "Kitchen": [
+        "Pull out and clean behind appliances",
+        "Deep clean pantry completely",
+        "Wash and reorganise all cupboards",
+        "Detail clean fridge seals and trays"
+    ],
+    "Bedrooms + Linen": [
+        "Rotate mattresses",
+        "Refresh wardrobe storage",
+        "Sort linen cupboard",
+        "Wash or replace pillows if needed"
+    ],
+    "Bathrooms": [
+        "Deep clean grout",
+        "Descale shower heads",
+        "Sort bathroom storage",
+        "Check and replace old products"
+    ]
+};
 
 function getSeasonalBlock() {
     const now = new Date();
@@ -707,34 +1021,116 @@ function getSeasonalBlock() {
 
 function getTodayCleaningTasks() {
     const day = new Date().getDay();
-    return [...cleaningDailyTasks, ...(cleaningWeeklyTasks[day] || [])];
+    const daily = [...cleaningDailyTasks];
+
+    if (day === 1) daily.push(...cleaningWeeklyTasks["Kitchen"]);
+    if (day === 2) daily.push(...cleaningWeeklyTasks["Living Spaces"]);
+    if (day === 3) daily.push(...cleaningWeeklyTasks["Bedrooms"]);
+    if (day === 4) daily.push(...cleaningWeeklyTasks["Bathrooms"]);
+    if (day === 5) daily.push(...cleaningWeeklyTasks["Laundry + Catch Up"]);
+    if (day === 0) daily.push("Catch up missed cleaning", "Vacuum main areas");
+
+    return daily;
 }
 
-function getTaskKey(taskName) {
-    const today = new Date().toISOString().slice(0, 10);
-    return `cleaning-${today}-${taskName}`;
+function getTaskKey(viewName, taskName) {
+    return `cleaning-${viewName}-${taskName}`;
 }
 
-function isTaskDone(taskName) {
-    return JSON.parse(localStorage.getItem(getTaskKey(taskName))) || false;
+function isTaskDone(viewName, taskName) {
+    return JSON.parse(localStorage.getItem(getTaskKey(viewName, taskName))) || false;
 }
 
-function setTaskDone(taskName, value) {
-    localStorage.setItem(getTaskKey(taskName), JSON.stringify(value));
+function setTaskDone(viewName, taskName, value) {
+    localStorage.setItem(getTaskKey(viewName, taskName), JSON.stringify(value));
 }
 
-function toggleTask(taskName) {
-    setTaskDone(taskName, !isTaskDone(taskName));
+function toggleTask(viewName, taskName) {
+    setTaskDone(viewName, taskName, !isTaskDone(viewName, taskName));
 }
 
 function getCleaningProgress() {
     const tasks = getTodayCleaningTasks();
-    const done = tasks.filter(task => isTaskDone(task)).length;
+    const done = tasks.filter(task => isTaskDone('daily', task)).length;
     return {
         total: tasks.length,
         done,
         percent: tasks.length ? Math.round((done / tasks.length) * 100) : 0
     };
+}
+
+function renderTaskRows(container, tasks, viewName) {
+    container.innerHTML = '';
+
+    tasks.forEach(task => {
+        const done = isTaskDone(viewName, task);
+        const row = document.createElement('div');
+        row.className = 'row';
+        if (done) row.classList.add('done');
+
+        row.innerHTML = `
+            <div class="checkbox"></div>
+            <span class="list-text">${task}</span>
+        `;
+
+        row.addEventListener('click', () => {
+            toggleTask(viewName, task);
+            renderCurrentCleaningView();
+            renderHomeTasks();
+        });
+
+        container.appendChild(row);
+    });
+}
+
+function renderGroupedTaskRows(container, groups, viewName) {
+    container.innerHTML = '';
+
+    Object.keys(groups).forEach(groupName => {
+        const wrap = document.createElement('div');
+        wrap.className = 'cleaning-list-group';
+
+        const heading = document.createElement('div');
+        heading.className = 'subheading';
+        heading.textContent = groupName;
+        wrap.appendChild(heading);
+
+        groups[groupName].forEach(task => {
+            const done = isTaskDone(viewName, task);
+            const row = document.createElement('div');
+            row.className = 'row';
+            if (done) row.classList.add('done');
+
+            row.innerHTML = `
+                <div class="checkbox"></div>
+                <span class="list-text">${task}</span>
+            `;
+
+            row.addEventListener('click', () => {
+                toggleTask(viewName, task);
+                renderCurrentCleaningView();
+                renderHomeTasks();
+            });
+
+            wrap.appendChild(row);
+        });
+
+        container.appendChild(wrap);
+    });
+}
+
+function renderSeasonalMessage() {
+    const target = document.getElementById('seasonalCleaningMessage');
+    if (!target) return;
+
+    const seasonal = getSeasonalBlock();
+    let html = `<p style="margin-bottom:10px;"><strong>${seasonal.sabbat}</strong></p>`;
+    html += '<ul class="plain-list">';
+    seasonal.tasks.forEach(task => {
+        html += `<li>${task}</li>`;
+    });
+    html += '</ul>';
+    target.innerHTML = html;
 }
 
 function renderHomeTasks() {
@@ -750,7 +1146,7 @@ function renderHomeTasks() {
     }
 
     tasks.forEach(task => {
-        const done = isTaskDone(task);
+        const done = isTaskDone('daily', task);
         const row = document.createElement('div');
         row.className = 'row';
         if (done) row.classList.add('done');
@@ -761,147 +1157,117 @@ function renderHomeTasks() {
         `;
 
         row.addEventListener('click', () => {
-            toggleTask(task);
+            toggleTask('daily', task);
             renderHomeTasks();
-            renderCleaningToday();
+            if (currentCleaningView === 'daily') renderCurrentCleaningView();
         });
 
         container.appendChild(row);
     });
 }
 
-function renderCleaningToday() {
-    const container = document.getElementById('todayCleaning');
+let currentCleaningView = null;
+
+function showCleaningView(viewName) {
+    currentCleaningView = viewName;
+    document.getElementById('cleaningLanding').classList.add('hidden');
+    document.getElementById('cleaningDetailView').classList.remove('hidden');
+    renderCurrentCleaningView();
+}
+
+function closeCleaningView() {
+    currentCleaningView = null;
+    document.getElementById('cleaningLanding').classList.remove('hidden');
+    document.getElementById('cleaningDetailView').classList.add('hidden');
+}
+
+function renderCurrentCleaningView() {
+    if (!currentCleaningView) return;
+
+    const title = document.getElementById('cleaningDetailTitle');
+    const intro = document.getElementById('cleaningDetailIntro');
+    const list = document.getElementById('cleaningDetailList');
+    const progressWrap = document.getElementById('cleaningDetailProgressWrap');
     const progressText = document.getElementById('cleaningProgressText');
     const progressBar = document.getElementById('cleaningProgressBar');
 
-    if (!container || !progressText || !progressBar) return;
+    list.innerHTML = '';
+    intro.textContent = '';
+    progressWrap.classList.add('hidden');
 
-    const tasks = getTodayCleaningTasks();
-    container.innerHTML = '';
+    if (currentCleaningView === 'daily') {
+        title.textContent = 'DAILY';
+        intro.textContent = 'Small acts of tending to keep the home calm, held, and gently reset.';
+        progressWrap.classList.remove('hidden');
 
-    tasks.forEach(task => {
-        const done = isTaskDone(task);
-        const row = document.createElement('div');
-        row.className = 'row';
-        if (done) row.classList.add('done');
+        const tasks = getTodayCleaningTasks();
+        renderTaskRows(list, tasks, 'daily');
 
-        row.innerHTML = `
-            <div class="checkbox"></div>
-            <span class="list-text">${task}</span>
-        `;
-
-        row.addEventListener('click', () => {
-            toggleTask(task);
-            renderCleaningToday();
-            renderHomeTasks();
-        });
-
-        container.appendChild(row);
-    });
-
-    const progress = getCleaningProgress();
-    progressText.innerText = `HEARTH TENDING: ${progress.done} / ${progress.total} TASKS`;
-    progressBar.style.width = `${progress.percent}%`;
-}
-
-function renderSeasonalMessage() {
-    const target = document.getElementById('seasonalCleaningMessage');
-    if (!target) return;
-
-    const seasonal = getSeasonalBlock();
-    let html = `<p style="margin-bottom:10px;"><strong>${seasonal.sabbat}</strong></p>`;
-    html += '<ul>';
-    seasonal.tasks.forEach(task => {
-        html += `<li>${task}</li>`;
-    });
-    html += '</ul>';
-    target.innerHTML = html;
-}
-
-function getOverdueCleaningTasks() {
-    const overdue = [];
-    const day = new Date().getDay();
-
-    Object.keys(cleaningWeeklyTasks).forEach(key => {
-        if (Number(key) < day) {
-            cleaningWeeklyTasks[key].forEach(task => {
-                const completedToday = isTaskDone(task);
-                if (!completedToday) overdue.push(task);
-            });
-        }
-    });
-
-    return overdue.slice(0, 8);
-}
-
-function renderOverdueCleaning() {
-    const target = document.getElementById('overdueCleaningTasks');
-    if (!target) return;
-
-    const overdue = getOverdueCleaningTasks();
-
-    if (!overdue.length) {
-        target.innerHTML = '<p class="mini-note">Nothing overdue right now.</p>';
+        const progress = getCleaningProgress();
+        progressText.textContent = `HEARTH TENDING: ${progress.done} / ${progress.total} TASKS`;
+        progressBar.style.width = `${progress.percent}%`;
         return;
     }
 
-    let html = '';
-    overdue.forEach(task => {
-        html += `<p>⚠️ ${task}</p>`;
-    });
-    target.innerHTML = html;
-}
+    if (currentCleaningView === 'weekly') {
+        title.textContent = 'WEEKLY';
+        intro.textContent = 'The house rhythm — each area receiving its regular round of care.';
+        renderGroupedTaskRows(list, cleaningWeeklyTasks, 'weekly');
+        return;
+    }
 
-function renderRoomStatus() {
-    const target = document.getElementById('roomStatus');
-    if (!target) return;
+    if (currentCleaningView === 'monthly') {
+        title.textContent = 'MONTHLY';
+        intro.textContent = 'Deep care, restoring what is missed in the daily and weekly flow.';
+        renderGroupedTaskRows(list, monthlyDeepTasks, 'monthly');
+        return;
+    }
 
-    let html = '';
-    Object.keys(cleaningRooms).forEach(room => {
-        html += `<span class="status-chip">${room} — Due</span>`;
-    });
-    target.innerHTML = html;
-}
+    if (currentCleaningView === 'seasonal') {
+        const seasonal = getSeasonalBlock();
+        title.textContent = 'SEASONAL';
+        intro.textContent = `The current seasonal turning is ${seasonal.sabbat}.`;
 
-function renderRoomCleaning() {
-    const target = document.getElementById('roomCleaning');
-    if (!target) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'cleaning-list-group';
 
-    let html = '';
-    Object.keys(cleaningRooms).forEach(room => {
-        html += `<div class="subheading">${room}</div><ul>`;
-        cleaningRooms[room].forEach(task => {
-            html += `<li>${task}</li>`;
+        const sub = document.createElement('div');
+        sub.className = 'subheading';
+        sub.textContent = seasonal.sabbat;
+        wrap.appendChild(sub);
+
+        seasonal.tasks.forEach(task => {
+            const done = isTaskDone('seasonal', task);
+            const row = document.createElement('div');
+            row.className = 'row';
+            if (done) row.classList.add('done');
+
+            row.innerHTML = `
+                <div class="checkbox"></div>
+                <span class="list-text">${task}</span>
+            `;
+
+            row.addEventListener('click', () => {
+                toggleTask('seasonal', task);
+                renderCurrentCleaningView();
+            });
+
+            wrap.appendChild(row);
         });
-        html += `</ul>`;
-    });
 
-    target.innerHTML = html;
+        list.appendChild(wrap);
+        return;
+    }
+
+    if (currentCleaningView === 'annual') {
+        title.textContent = 'ANNUAL';
+        intro.textContent = 'The great renewal — the slow, fuller clearing of the whole home.';
+        renderGroupedTaskRows(list, annualCleaningTasks, 'annual');
+    }
 }
 
-function renderDeepCleaning() {
-    const target = document.getElementById('deepCleaning');
-    if (!target) return;
+/* ---------------- PET HEALTH ---------------- */
 
-    const seasonal = getSeasonalBlock();
-
-    let html = '<div class="subheading">Monthly</div><ul>';
-    monthlyDeepTasks.forEach(task => {
-        html += `<li>${task}</li>`;
-    });
-    html += '</ul>';
-
-    html += `<div class="subheading">${seasonal.sabbat}</div><ul>`;
-    seasonal.tasks.forEach(task => {
-        html += `<li>${task}</li>`;
-    });
-    html += '</ul>';
-
-    target.innerHTML = html;
-}
-
-/* ---------------- PAGE LOGIC ---------------- */
 document.addEventListener('DOMContentLoaded', () => {
     let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
     let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
@@ -1027,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         html += '<h4 style="color:var(--gold)">Treatments</h4>';
         if (treatments.length) {
-            html += '<ul>';
+            html += '<ul class="plain-list">';
             treatments.forEach(t => {
                 html += `<li>${t.date || 'N/A'} - ${t.name || 'N/A'} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'}</li>`;
             });
@@ -1047,7 +1413,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         html += '<h4 style="color:var(--gold)">Health Log</h4>';
         if (healthLog.length) {
-            html += '<ul>';
+            html += '<ul class="plain-list">';
             healthLog.forEach(entry => {
                 html += `<li>${entry}</li>`;
             });
@@ -1058,7 +1424,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         html += '<h4 style="color:var(--gold)">Grooming</h4>';
         if (groomingLog.length) {
-            html += '<ul>';
+            html += '<ul class="plain-list">';
             groomingLog.forEach(entry => {
                 html += `<li>${entry}</li>`;
             });
@@ -1089,12 +1455,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderPetData();
     renderHomeTasks();
-    renderCleaningToday();
     renderSeasonalMessage();
-    renderOverdueCleaning();
-    renderRoomStatus();
-    renderRoomCleaning();
-    renderDeepCleaning();
 });
 </script>
 
