@@ -293,7 +293,18 @@ function renderPetData() {
         });
         html += '</ul>';
     }
+// In renderPetData() inside Treatments section
+treatments.forEach((t, index) => {
+    html += `<li>${t.date} - ${t.name} (${t.product || 'N/A'}) Next: ${t.nextDue || 'N/A'} 
+             <button onclick="deleteTreatment(${index})" style="margin-left:8px;color:red;">❌</button></li>`;
+});
 
+// Add function
+function deleteTreatment(index) {
+    treatments.splice(index, 1);
+    localStorage.setItem('treatments', JSON.stringify(treatments));
+    renderPetData();
+}
     // Health Records
     if(Object.keys(healthRecords).length) {
         html += '<h4 style="color:var(--gold)">Health Records</h4>';
@@ -333,5 +344,9 @@ function renderPetData() {
     // Full reminders list
     remindersDiv.innerHTML = '';
     if(next) remindersDiv.innerHTML = `<div class="reminder-card">${next.name} – Due ${next.nextDue}</div>`;
+}
+    if(next) {
+    remindersDiv.innerHTML = `<div class="reminder-card">${next.name} – Due ${next.nextDue}</div>`;
+    remindersDiv.scrollTop = 0;
 }
 </script>
