@@ -420,11 +420,14 @@
 
         /* CLEANING REWORK */
 
-        #p1 {
+    #p1 {
     background:
-        radial-gradient(circle at 20% 20%, rgba(201,169,110,0.05), transparent 25%),
-        radial-gradient(circle at 80% 80%, rgba(201,169,110,0.04), transparent 25%),
+        url('images/texture-noise.png'),
+        radial-gradient(circle at 20% 20%, rgba(201,169,110,0.06), transparent 25%),
+        radial-gradient(circle at 80% 80%, rgba(201,169,110,0.05), transparent 25%),
         linear-gradient(#080a08, #0b0e0b);
+
+    background-blend-mode: overlay;
 }
         .cleaning-hero {
             position: relative;
@@ -609,8 +612,7 @@
     grid-column: span 2;
 }
 }
-
-/* 🔥 HEARTH EMBERS */
+/* 🍂🍁 SEASONAL ATMOSPHERE */
 
 #embers {
     position: fixed;
@@ -619,6 +621,30 @@
     z-index: 5;
 }
 
+/* 🍂 AUTUMN LEAVES */
+.particle.leaf {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #d6a55d, #8b5a2b);
+    border-radius: 30% 70% 70% 30%;
+    opacity: 0.7;
+    animation: leafFall linear infinite;
+}
+
+@keyframes leafFall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 🔥 WINTER EMBERS */
 .particle.ember {
     position: absolute;
     width: 7px;
@@ -1448,15 +1474,31 @@ function createEmbers() {
     const container = document.getElementById('embers');
     if (!container) return;
 
-    for (let i = 0; i < 30; i++) {
-        const ember = document.createElement('div');
-        ember.classList.add('particle', 'ember');
+    container.innerHTML = '';
 
-        ember.style.left = Math.random() * 100 + '%';
-        ember.style.animationDuration = (10 + Math.random() * 10) + 's';
-        ember.style.animationDelay = Math.random() * 5 + 's';
+    const season = getSeasonalBlock().sabbat;
 
-        container.appendChild(ember);
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement('div');
+
+        // 🍂 AUTUMN (YOU ARE HERE NOW)
+        if (season === "Mabon") {
+            particle.classList.add('particle', 'leaf');
+        } 
+        // 🔥 WINTER
+        else if (season === "Yule") {
+            particle.classList.add('particle', 'ember');
+        } 
+        // fallback
+        else {
+            particle.classList.add('particle', 'leaf');
+        }
+
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (8 + Math.random() * 6) + 's';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+
+        container.appendChild(particle);
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
