@@ -423,7 +423,7 @@
 
     background-blend-mode: overlay;
 }
-       .cleaning-hero {
+.cleaning-hero {
     position: relative;
     min-height: 300px;
     border-radius: 18px;
@@ -435,8 +435,14 @@
         linear-gradient(180deg, rgba(9,10,9,0.05), rgba(9,10,9,0.28)),
         url('images/cleaning.jpg') center/cover no-repeat;
     box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.cleaning-hero:hover {
+    transform: scale(1.01);
+    box-shadow: 0 22px 50px rgba(0,0,0,0.45);
+}
        .cleaning-hero::after {
     content: "";
     position: absolute;
@@ -789,7 +795,7 @@ body {
     <div class="back-btn" onclick="showHome()">← BACK HOME</div>
 
     <div id="cleaningLanding">
-        <div class="cleaning-hero">
+        <div class="cleaning-hero" onclick="showCleaningRitualPage()">
             <div class="cleaning-hero-content">
                 <div class="cleaning-kicker">HOUSEHOLD RITUALS</div>
                 <h2 class="section-title cleaning-title">Cleaning</h2>
@@ -931,6 +937,44 @@ body {
     <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
 </div>
         
+<div id="p14" class="page">
+    <div class="back-btn" onclick="showPage('p1')">← BACK TO CLEANING</div>
+    <h2 class="section-title">Household Rituals</h2>
+
+    <div class="daily-briefing">
+        <p class="mini-note">
+            The quiet magic of tending a home — cleansing, protection, and intention woven into everyday care.
+        </p>
+    </div>
+
+    <div class="daily-briefing">
+        <div class="subheading">Cleansing an Area</div>
+        <ul class="plain-list">
+            <li>Open windows to move stale energy out</li>
+            <li>Light incense or herbs for a smoke cleanse</li>
+            <li>Ring a bell or clap into corners</li>
+            <li>Sprinkle salt at thresholds if desired</li>
+        </ul>
+    </div>
+
+    <div class="daily-briefing">
+        <div class="subheading">Home Blessing</div>
+        <ul class="plain-list">
+            <li>Light a candle in the kitchen or hearth space</li>
+            <li>Speak an intention for peace, protection, and warmth</li>
+            <li>Walk the rooms slowly and reset the mood</li>
+        </ul>
+    </div>
+
+    <div class="daily-briefing">
+        <div class="subheading">Threshold Magic</div>
+        <ul class="plain-list">
+            <li>Clean the front door mindfully</li>
+            <li>Place protective herbs or charms nearby</li>
+            <li>Set the tone of the house before the day begins</li>
+        </ul>
+    </div>
+</div>
 
 <!-- PET HEALTH PAGE -->
 <div id="p12" class="page">
@@ -1018,6 +1062,11 @@ function showPage(id) {
         if (id === 'p1') closeCleaningView();
     }, 200);
 }
+
+function showCleaningRitualPage() {
+    showPage('p14');
+}
+
 /* ---------------- CLEANING DATA ---------------- */
 
 const cleaningDailyTasks = [
