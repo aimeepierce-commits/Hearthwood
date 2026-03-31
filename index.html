@@ -618,8 +618,28 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 5;
+    z-index: 0; /* or even -1 */
 }
+.page,
+#home-screen,
+.header {
+    position: relative;
+    z-index: 10;
+}
+
+.daily-briefing,
+.nav-card,
+.cleaning-section-card,
+.garden-card,
+.hero-img {
+    position: relative;
+    z-index: 11;
+}
+body {
+    position: relative;
+    isolation: isolate;
+}
+
 
 /* 🍂 AUTUMN LEAVES */
 .particle.leaf {
