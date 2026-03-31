@@ -215,15 +215,21 @@
             padding-bottom: 12px;
         }
 
-        .row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            cursor: pointer;
-            transition: opacity 0.28s ease, transform 0.28s ease;
-        }
+      .row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    cursor: pointer;
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.row.clicked {
+    box-shadow: 0 0 12px rgba(201,169,110,0.4);
+    background: rgba(201,169,110,0.06);
+    transition: all 0.3s ease;
+}
 
         .row.fade-out {
             opacity: 0;
@@ -599,14 +605,41 @@
                 grid-template-columns: 1fr 1fr;
             }
 
-            .cleaning-section-card:last-child {
-                grid-column: span 2;
-            }
-        }
+           .cleaning-section-card:last-child {
+    grid-column: span 2;
+}
+}
+
+/* 🔥 HEARTH EMBERS */
+
+#embers {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.particle.ember {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: radial-gradient(circle, #ffcc80, #d6a55d, transparent);
+    border-radius: 50%;
+    box-shadow:
+        0 0 6px rgba(255,180,80,0.6),
+        0 0 14px rgba(255,140,50,0.4);
+    animation: emberFloat linear infinite;
+}
+
+@keyframes emberFloat {
+    from { transform: translateY(110vh); opacity: 0; }
+    20% { opacity: 1; }
+    to { transform: translateY(-10vh); opacity: 0; }
+}
     </style>
 </head>
 <body>
-
+<div id="embers"></div>
 <div class="header">
     <div class="app-title" onclick="showHome()">HEARTHWOOD</div>
     <div class="medallion-row">
@@ -1198,25 +1231,30 @@ function renderHomeTasks() {
     }
 
     tasks.forEach(task => {
-        const row = document.createElement('div');
-        row.className = 'row';
+    const row = document.createElement('div');
+    row.className = 'row';
 
-        row.innerHTML = `
-            <div class="checkbox"></div>
-            <span class="list-text">${task}</span>
-        `;
+    row.innerHTML = `
+        <div class="checkbox"></div>
+        <span class="list-text">${task}</span>
+    `;
 
-        row.addEventListener('click', () => {
+    row.addEventListener('click', () => {
+        row.classList.add('clicked');
+
+        setTimeout(() => {
             row.classList.add('fade-out');
-            setTimeout(() => {
-                setTaskDone('daily', task, true);
-                renderHomeTasks();
-                if (currentCleaningView === 'daily') renderCurrentCleaningView();
-            }, 220);
-        });
+        }, 120);
 
-        container.appendChild(row);
+        setTimeout(() => {
+            setTaskDone('daily', task, true);
+            renderHomeTasks();
+            if (currentCleaningView === 'daily') renderCurrentCleaningView();
+        }, 250);
     });
+
+    container.appendChild(row);
+});
 }
 
 /* ---------------- CLEANING RENDERS ---------------- */
@@ -1262,14 +1300,6 @@ function renderGroupedTaskRows(container, groups, viewName) {
             const row = document.createElement('div');
 row.className = 'row';
 
-row.style.opacity = '0';
-row.style.transform = 'translateY(6px)';
-
-setTimeout(() => {
-    row.style.transition = 'all 0.3s ease';
-    row.style.opacity = '1';
-    row.style.transform = 'translateY(0)';
-}, 50);
 
 row.style.opacity = '0';
 row.style.transform = 'translateY(6px)';
@@ -1414,7 +1444,21 @@ function renderCurrentCleaningView() {
 }
 
 /* ---------------- PET HEALTH ---------------- */
+function createEmbers() {
+    const container = document.getElementById('embers');
+    if (!container) return;
 
+    for (let i = 0; i < 30; i++) {
+        const ember = document.createElement('div');
+        ember.classList.add('particle', 'ember');
+
+        ember.style.left = Math.random() * 100 + '%';
+        ember.style.animationDuration = (10 + Math.random() * 10) + 's';
+        ember.style.animationDelay = Math.random() * 5 + 's';
+
+        container.appendChild(ember);
+    }
+}
 document.addEventListener('DOMContentLoaded', () => {
     let treatments = JSON.parse(localStorage.getItem('treatments')) || [];
     let healthRecords = JSON.parse(localStorage.getItem('healthRecords')) || {};
@@ -1604,7 +1648,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHomeTasks();
     renderSeasonalMessage();
     setSeasonalCardImage();
-applySeasonTheme();
+applySeasonTheme();createEmbers();
 });
 </script>
 
