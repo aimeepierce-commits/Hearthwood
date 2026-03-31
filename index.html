@@ -1269,26 +1269,6 @@ function applySeasonTheme() {
     }
 }
 
-    if (season === "Mabon") {
-        root.style.setProperty('--gold', '#c9a96e');
-        root.style.setProperty('--border', 'rgba(201,169,110,0.25)');
-    }
-
-    if (season === "Yule") {
-        root.style.setProperty('--gold', '#b7a98a');
-        root.style.setProperty('--border', 'rgba(183,169,138,0.25)');
-    }
-
-    if (season === "Ostara") {
-        root.style.setProperty('--gold', '#d8c48a');
-        root.style.setProperty('--border', 'rgba(216,196,138,0.25)');
-    }
-
-    if (season === "Litha") {
-        root.style.setProperty('--gold', '#e0b96a');
-        root.style.setProperty('--border', 'rgba(224,185,106,0.25)');
-    }
-}
 function setSeasonalCardImage() {
     const seasonal = getSeasonalBlock();
     const seasonalCard = document.querySelector('.seasonal-card');
@@ -1790,9 +1770,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderPetData();
-    renderHomeTasks();
-    setSeasonalCardImage();
-applySeasonTheme();createEmbers();
+renderHomeTasks();
+setSeasonalCardImage();
+applySeasonTheme();
+createEmbers();
 });
 </script>
 
