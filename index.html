@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;0,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #080a08;
-            --card: #101410;
+            --bg: #0b0e0b;
+            --card: #141a14;
             --gold: #c9a96e;
-            --text: #e8dcc8;
+            --text: #efe5d4;
             --border: rgba(201, 169, 110, 0.2);
             --moss: #4d5a3d;
             --ember: #d6a55d;
@@ -151,9 +151,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.7;
+            opacity: 0.82;
             z-index: 1;
-            filter: brightness(0.75) contrast(1.2);
+            filter: brightness(0.95) contrast(1.08);
         }
 
         .nav-card span {
@@ -403,7 +403,7 @@
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(rgba(8,10,8,0.42), rgba(8,10,8,0.78)),
+                linear-gradient(rgba(8,10,8,0.38), rgba(8,10,8,0.78)),
                 radial-gradient(circle at 80% 20%, rgba(201,169,110,0.08), transparent 28%);
             z-index: -1;
         }
@@ -618,11 +618,12 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 0; /* or even -1 */
+    z-index: 0;
 }
-.page,
+
+.header,
 #home-screen,
-.header {
+.page {
     position: relative;
     z-index: 10;
 }
@@ -635,6 +636,7 @@
     position: relative;
     z-index: 11;
 }
+
 body {
     position: relative;
     isolation: isolate;
@@ -685,26 +687,47 @@ body {
 
 /* 🌿 Gardening Section */
 #p3 {
+    position: relative;
     background:
-        linear-gradient(rgba(8,10,8,0.72), rgba(8,10,8,0.9)),
+        linear-gradient(rgba(8,10,8,0.55), rgba(8,10,8,0.75)),
         url('images/gardening-background.JPG') center/cover no-repeat;
     background-attachment: fixed;
+    overflow: hidden;
+}
+
+#p3::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('images/gardening-background.JPG') center/cover no-repeat;
+    filter: brightness(1.2) contrast(1.1) saturate(1.1);
+    z-index: 0;
+}
+
+#p3::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 20%, rgba(201,169,110,0.12), transparent 40%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .gardening-container {
+    position: relative;
+    z-index: 2;
     display: grid;
     gap: 16px;
 }
 
 .garden-card {
-    background: rgba(16, 20, 16, 0.78);
+    background: rgba(20, 26, 20, 0.65);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 20px;
     backdrop-filter: blur(6px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
-
 .garden-card h2,
 .garden-card h3 {
     font-family: 'Cinzel';
