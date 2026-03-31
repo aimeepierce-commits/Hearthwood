@@ -662,6 +662,45 @@
     20% { opacity: 1; }
     to { transform: translateY(-10vh); opacity: 0; }
 }
+
+/* 🌿 Gardening Section */
+#p3 {
+    background:
+        linear-gradient(rgba(8,10,8,0.72), rgba(8,10,8,0.9)),
+        url('images/gardening.jpg') center/cover no-repeat;
+    background-attachment: fixed;
+}
+
+.gardening-container {
+    display: grid;
+    gap: 16px;
+}
+
+.garden-card {
+    background: rgba(16, 20, 16, 0.78);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.garden-card h2,
+.garden-card h3 {
+    font-family: 'Cinzel';
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.garden-card ul {
+    padding-left: 18px;
+}
+
+.garden-card li {
+    margin-bottom: 8px;
+    color: rgba(232,220,200,0.9);
+}
     </style>
 </head>
 <body>
@@ -787,7 +826,18 @@
 <div id="p3" class="page">
     <div class="back-btn" onclick="showHome()">← BACK HOME</div>
     <h2 class="section-title">Gardening</h2>
-    <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
+
+    <div class="gardening-container">
+        
+        <div class="garden-card">
+            <h3>Current Tasks</h3>
+            <ul>
+                <li>Plant snapdragons</li>
+                <li>Prepare soil bed</li>
+                <li>Water bromeliads</li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div id="p4" class="page">
@@ -837,6 +887,7 @@
     <h2 class="section-title">Gifting</h2>
     <div class="daily-briefing"><p class="mini-note">This section is waiting to be shaped.</p></div>
 </div>
+        
 
 <!-- PET HEALTH PAGE -->
 <div id="p12" class="page">
