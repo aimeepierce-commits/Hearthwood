@@ -639,22 +639,27 @@ body {
 /* 🍂 AUTUMN LEAVES */
 .particle.leaf {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background: radial-gradient(circle, #d6a55d, #8b5a2b);
-    border-radius: 30% 70% 70% 30%;
-    opacity: 0.35;
+    width: 14px;
+    height: 10px;
+    background: linear-gradient(135deg, #c98a3d, #8b5a2b);
+    border-radius: 70% 30% 70% 30%;
+    opacity: 0.45;
     animation: leafFall linear infinite;
 }
 
 @keyframes leafFall {
     0% {
-        transform: translateY(-10vh) rotate(0deg);
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
         opacity: 0;
     }
-    10% { opacity: 1; }
+    10% {
+        opacity: 0.45;
+    }
+    50% {
+        transform: translateY(45vh) translateX(18px) rotate(120deg);
+    }
     100% {
-        transform: translateY(110vh) rotate(360deg);
+        transform: translateY(110vh) translateX(-18px) rotate(260deg);
         opacity: 0;
     }
 }
@@ -1240,7 +1245,29 @@ function getSeasonalBlock() {
 
 function applySeasonTheme() {
     const season = getSeasonalBlock().sabbat;
+    console.log("Current season:", season);
     const root = document.documentElement;
+
+    if (season === "Mabon") {
+        root.style.setProperty('--gold', '#c9a96e');
+        root.style.setProperty('--border', 'rgba(201,169,110,0.25)');
+    }
+
+    if (season === "Yule") {
+        root.style.setProperty('--gold', '#b7a98a');
+        root.style.setProperty('--border', 'rgba(183,169,138,0.25)');
+    }
+
+    if (season === "Ostara") {
+        root.style.setProperty('--gold', '#d8c48a');
+        root.style.setProperty('--border', 'rgba(216,196,138,0.25)');
+    }
+
+    if (season === "Litha") {
+        root.style.setProperty('--gold', '#e0b96a');
+        root.style.setProperty('--border', 'rgba(224,185,106,0.25)');
+    }
+}
 
     if (season === "Mabon") {
         root.style.setProperty('--gold', '#c9a96e');
@@ -1564,16 +1591,9 @@ function createEmbers() {
     for (let i = 0; i < 25; i++) {
         const particle = document.createElement('div');
 
-        // 🍂 AUTUMN (YOU ARE HERE NOW)
-        if (season === "Mabon") {
-            particle.classList.add('particle', 'leaf');
-        } 
-        // 🔥 WINTER
-        else if (season === "Yule") {
+        if (season === "Yule") {
             particle.classList.add('particle', 'ember');
-        } 
-        // fallback
-        else {
+        } else {
             particle.classList.add('particle', 'leaf');
         }
 
