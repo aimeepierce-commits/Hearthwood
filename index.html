@@ -169,18 +169,22 @@
             font-weight: 500;
         }
 
-        .page {
-            display: none;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            padding-bottom: 100px;
-        }
+       .page {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
 
-        .page.active {
-            display: block;
-        }
-
+.page.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
         .back-btn {
             color: var(--gold);
             font-family: 'Cinzel';
@@ -410,6 +414,12 @@
 
         /* CLEANING REWORK */
 
+        #p1 {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(201,169,110,0.05), transparent 25%),
+        radial-gradient(circle at 80% 80%, rgba(201,169,110,0.04), transparent 25%),
+        linear-gradient(#080a08, #0b0e0b);
+}
         .cleaning-hero {
             position: relative;
             min-height: 300px;
@@ -825,20 +835,41 @@
 </div>
 
 <script>
+
 function showHome() {
-    document.getElementById('home-screen').style.display = 'block';
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+    const home = document.getElementById('home-screen');
+    const pages = document.querySelectorAll('.page');
+
+    pages.forEach(page => page.classList.remove('active'));
+
+    home.style.display = 'block';
+    home.style.opacity = '0';
+
+    setTimeout(() => {
+        home.style.transition = 'opacity 0.4s ease';
+        home.style.opacity = '1';
+    }, 50);
+
     closeCleaningView();
 }
 
 function showPage(id) {
-    document.getElementById('home-screen').style.display = 'none';
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    const target = document.getElementById(id);
-    if (target) target.classList.add('active');
-    if (id === 'p1') closeCleaningView();
-}
+    const home = document.getElementById('home-screen');
+    const pages = document.querySelectorAll('.page');
 
+    home.style.opacity = '0';
+
+    setTimeout(() => {
+        home.style.display = 'none';
+
+        pages.forEach(page => page.classList.remove('active'));
+
+        const target = document.getElementById(id);
+        if (target) target.classList.add('active');
+
+        if (id === 'p1') closeCleaningView();
+    }, 200);
+}
 /* ---------------- CLEANING DATA ---------------- */
 
 const cleaningDailyTasks = [
@@ -1065,6 +1096,30 @@ function getSeasonalBlock() {
     };
 }
 
+function applySeasonTheme() {
+    const season = getSeasonalBlock().sabbat;
+    const root = document.documentElement;
+
+    if (season === "Mabon") {
+        root.style.setProperty('--gold', '#c9a96e');
+        root.style.setProperty('--border', 'rgba(201,169,110,0.25)');
+    }
+
+    if (season === "Yule") {
+        root.style.setProperty('--gold', '#b7a98a');
+        root.style.setProperty('--border', 'rgba(183,169,138,0.25)');
+    }
+
+    if (season === "Ostara") {
+        root.style.setProperty('--gold', '#d8c48a');
+        root.style.setProperty('--border', 'rgba(216,196,138,0.25)');
+    }
+
+    if (season === "Litha") {
+        root.style.setProperty('--gold', '#e0b96a');
+        root.style.setProperty('--border', 'rgba(224,185,106,0.25)');
+    }
+}
 function setSeasonalCardImage() {
     const seasonal = getSeasonalBlock();
     const seasonalCard = document.querySelector('.seasonal-card');
@@ -1205,7 +1260,25 @@ function renderGroupedTaskRows(container, groups, viewName) {
         groups[groupName].forEach(task => {
             const done = isTaskDone(viewName, task);
             const row = document.createElement('div');
-            row.className = 'row';
+row.className = 'row';
+
+row.style.opacity = '0';
+row.style.transform = 'translateY(6px)';
+
+setTimeout(() => {
+    row.style.transition = 'all 0.3s ease';
+    row.style.opacity = '1';
+    row.style.transform = 'translateY(0)';
+}, 50);
+
+row.style.opacity = '0';
+row.style.transform = 'translateY(6px)';
+
+setTimeout(() => {
+    row.style.transition = 'all 0.3s ease';
+    row.style.opacity = '1';
+    row.style.transform = 'translateY(0)';
+}, 50);
             if (done) row.classList.add('done');
 
             row.innerHTML = `
@@ -1531,6 +1604,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHomeTasks();
     renderSeasonalMessage();
     setSeasonalCardImage();
+applySeasonTheme();
 });
 </script>
 
